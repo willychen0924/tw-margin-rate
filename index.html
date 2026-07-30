@@ -7,7 +7,7 @@
 <meta name="description" content="2017 年起的台股上市與櫃買融資維持率估算及市場指數。">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>台股上市櫃融資維持率</title>
-<style>:root{color-scheme:light;background:#faf6ef}html,body{margin:0}body{box-sizing:border-box;padding:.75rem;background:#faf6ef}iframe{display:block;width:100%;height:calc(100vh - 1.5rem);margin:0 auto;border:0}</style>
+<style>:root{color-scheme:light;background:#faf6ef}html,body{margin:0}body{box-sizing:border-box;padding:0;background:#faf6ef}iframe{display:block;width:100%;height:100vh;margin:0 auto;border:0;background:#faf6ef}</style>
 </head>
 <body>
 <iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="台股上市櫃融資維持率" srcdoc="&lt;!doctype html&gt;
@@ -981,6 +981,8 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;/div&gt;
 
 &lt;style&gt;
+  :root { color-scheme: light; background: #faf6ef !important; }
+  html &gt; body { background: #faf6ef !important; }
   #margin-maintenance-history {
     --mmc-page: #faf6ef;
     --mmc-surface: #fffdfa;
@@ -997,7 +999,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     --mmc-orange: #eb6834;
     --mmc-critical: #d03b3b;
     width: 100%; max-width: 1080px; margin: 0 auto; padding: 40px 24px 64px;
-    color: var(--mmc-ink); background: var(--mmc-page); border-radius: 18px;
+    color: var(--mmc-ink); background: var(--mmc-page); border-radius: 0;
     font-family: system-ui, -apple-system, &quot;PingFang TC&quot;, &quot;Segoe UI&quot;, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -1048,7 +1050,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history .mmc-maint { background: var(--mmc-blue); }
   #margin-maintenance-history .mmc-index { background: var(--mmc-orange); }
   #margin-maintenance-history .mmc-alert { width: 14px; height: 0; border-top: 2px dashed var(--mmc-critical); border-radius: 0; }
-  #margin-maintenance-history .mmc-plot { position: relative; width: 100%; padding-bottom: 78px; }
+  #margin-maintenance-history .mmc-plot { position: relative; width: 100%; }
   #margin-maintenance-history .mmc-chart { display: block; width: 100%; height: auto; overflow: visible; }
   #margin-maintenance-history .mmc-grid-line { stroke: var(--mmc-grid); stroke-width: 1; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-axis-label { fill: var(--mmc-muted); font-size: 11px; font-weight: 400; font-variant-numeric: tabular-nums; }
@@ -1067,9 +1069,9 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history .mmc-crosshair { stroke: var(--mmc-ink-2); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; }
   #margin-maintenance-history .mmc-hit { fill: transparent; cursor: crosshair; }
   #margin-maintenance-history .mmc-tooltip {
-    position: absolute; left: 0; bottom: 4px; z-index: 5; min-width: 10rem; padding: 8px 10px; visibility: hidden;
-    border-radius: 8px; background: var(--mmc-ink); color: #fff; box-shadow: 0 8px 20px rgba(0,0,0,.18);
-    font-size: 12px; line-height: 1.55; font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
+    position: absolute; left: 0; bottom: 2px; z-index: 5; min-width: 8rem; padding: 6px 8px; visibility: hidden;
+    border-radius: 7px; background: var(--mmc-ink); color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.16);
+    font-size: 11px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
   }
   #margin-maintenance-history .mmc-tooltip strong { font-size: 11px; color: rgba(255,255,255,.72); }
   #margin-maintenance-history footer { margin-top: 8px; color: var(--mmc-muted); font-size: 11px; text-align: center; }
