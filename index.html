@@ -1054,7 +1054,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history .mmc-axis-label { fill: var(--mmc-muted); font-size: 11px; font-weight: 400; font-variant-numeric: tabular-nums; }
   #margin-maintenance-history .mmc-axis-title { fill: var(--mmc-ink-2); font-size: 11px; font-weight: 500; }
   #margin-maintenance-history .mmc-axis-title-maint { writing-mode: vertical-rl; text-orientation: upright; }
-  #margin-maintenance-history .mmc-axis-title-index { writing-mode: vertical-rl; text-orientation: mixed; }
+  #margin-maintenance-history .mmc-axis-title-index { writing-mode: vertical-rl; text-orientation: upright; }
   #margin-maintenance-history .mmc-line { fill: none; stroke-width: 1.35; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-line-maint { stroke: var(--mmc-blue); }
   #margin-maintenance-history .mmc-line-index { stroke: var(--mmc-orange); }
@@ -1189,7 +1189,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       chart.axes.appendChild(node(&#x27;text&#x27;, { x, y: bounds.bottom + 24, &#x27;text-anchor&#x27;: i === 0 ? &#x27;start&#x27; : i === xTicks ? &#x27;end&#x27; : &#x27;middle&#x27;, class: &#x27;mmc-axis-label&#x27; }, tickLabel));
     }
     chart.axes.appendChild(node(&#x27;text&#x27;, { x: 16, y: (bounds.top + bounds.bottom) / 2, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, &#x27;dominant-baseline&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-maint&#x27; }, &#x27;維持率&#x27;));
-    chart.axes.appendChild(node(&#x27;text&#x27;, { x: 748, y: (bounds.top + bounds.bottom) / 2, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, &#x27;dominant-baseline&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-index&#x27; }, `${chart.config.indexLabel}${scaleMode === &#x27;log&#x27; ? &#x27;（對數）&#x27; : &#x27;&#x27;}`));
+    chart.axes.appendChild(node(&#x27;text&#x27;, { x: 748, y: (bounds.top + bounds.bottom) / 2, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, &#x27;dominant-baseline&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-index&#x27; }, `${chart.config.indexLabel}${scaleMode === &#x27;log&#x27; ? &#x27;︵對數︶&#x27; : &#x27;&#x27;}`));
     const alertY = yFor(130, maintDomain);
     chart.riskZone.setAttribute(&#x27;x&#x27;, bounds.left); chart.riskZone.setAttribute(&#x27;y&#x27;, Math.max(bounds.top, alertY));
     chart.riskZone.setAttribute(&#x27;width&#x27;, bounds.right - bounds.left); chart.riskZone.setAttribute(&#x27;height&#x27;, Math.max(0, bounds.bottom - alertY));
