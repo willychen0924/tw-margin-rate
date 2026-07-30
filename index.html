@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="2017 年起的台股上市與櫃買融資維持率自建估算及市場指數。">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="2017 年起的台股上市與櫃買融資維持率自建估算及市場指數。">
 <title>台股上市櫃融資維持率</title>
 <style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
 </head>
@@ -876,6 +876,7 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div id=&quot;margin-maintenance-history&quot;&gt;
+  &lt;h2&gt;台股上市櫃融資維持率&lt;/h2&gt;
   &lt;div class=&quot;viz-controls&quot; aria-label=&quot;圖表選項&quot;&gt;
     &lt;div class=&quot;viz-row&quot; role=&quot;group&quot; aria-label=&quot;市場&quot;&gt;
       &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-market=&quot;twse&quot; aria-pressed=&quot;true&quot;&gt;上市&lt;/button&gt;
@@ -890,11 +891,16 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-range=&quot;3y&quot; aria-pressed=&quot;false&quot;&gt;3y&lt;/button&gt;
       &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-range=&quot;5y&quot; aria-pressed=&quot;false&quot;&gt;5y&lt;/button&gt;
     &lt;/div&gt;
+    &lt;div class=&quot;viz-row&quot; role=&quot;group&quot; aria-label=&quot;指數刻度&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-scale=&quot;linear&quot; aria-pressed=&quot;true&quot;&gt;線性&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-scale=&quot;log&quot; aria-pressed=&quot;false&quot;&gt;對數&lt;/button&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;div class=&quot;mmc-legend text-small&quot; aria-label=&quot;圖例&quot;&gt;
-    &lt;span&gt;&lt;i class=&quot;mmc-swatch mmc-maint&quot;&gt;&lt;/i&gt;&lt;span id=&quot;mmc-maint-label&quot;&gt;上市融資維持率（自建估算）&lt;/span&gt;&lt;/span&gt;
-    &lt;span&gt;&lt;i class=&quot;mmc-swatch mmc-index&quot;&gt;&lt;/i&gt;&lt;span id=&quot;mmc-index-label&quot;&gt;加權指數&lt;/span&gt;&lt;/span&gt;
+  &lt;div class=&quot;mmc-summary text-small&quot; aria-label=&quot;圖例與目前數值&quot; aria-live=&quot;polite&quot;&gt;
+    &lt;span id=&quot;mmc-detail-date&quot; class=&quot;mmc-date&quot;&gt;2026/07/29&lt;/span&gt;
+    &lt;span&gt;&lt;i class=&quot;mmc-swatch mmc-maint&quot;&gt;&lt;/i&gt;&lt;span id=&quot;mmc-maint-label&quot;&gt;上市融資維持率&lt;/span&gt;&lt;strong id=&quot;mmc-detail-maint&quot;&gt;133.9%&lt;/strong&gt;&lt;/span&gt;
+    &lt;span&gt;&lt;i class=&quot;mmc-swatch mmc-index&quot;&gt;&lt;/i&gt;&lt;span id=&quot;mmc-index-label&quot;&gt;加權指數&lt;/span&gt;&lt;strong id=&quot;mmc-detail-index&quot;&gt;40,039&lt;/strong&gt;&lt;/span&gt;
     &lt;span&gt;&lt;i class=&quot;mmc-swatch mmc-alert&quot;&gt;&lt;/i&gt;130%警戒線&lt;/span&gt;
   &lt;/div&gt;
 
@@ -911,45 +917,37 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;text id=&quot;mmc-method-label&quot; class=&quot;mmc-axis-label&quot;&gt;逐股估算起點&lt;/text&gt;
       &lt;path id=&quot;mmc-maint-path&quot; class=&quot;mmc-line mmc-line-maint&quot;&gt;&lt;/path&gt;
       &lt;path id=&quot;mmc-index-path&quot; class=&quot;mmc-line mmc-line-index&quot;&gt;&lt;/path&gt;
-      &lt;circle id=&quot;mmc-maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
-      &lt;circle id=&quot;mmc-index-dot&quot; class=&quot;mmc-dot mmc-dot-index&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
+      &lt;circle id=&quot;mmc-maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;3.5&quot;&gt;&lt;/circle&gt;
+      &lt;circle id=&quot;mmc-index-dot&quot; class=&quot;mmc-dot mmc-dot-index&quot; r=&quot;3.5&quot;&gt;&lt;/circle&gt;
       &lt;line id=&quot;mmc-crosshair&quot; class=&quot;mmc-crosshair&quot;&gt;&lt;/line&gt;
       &lt;rect id=&quot;mmc-hit&quot; class=&quot;mmc-hit&quot; x=&quot;58&quot; y=&quot;18&quot; width=&quot;644&quot; height=&quot;318&quot;&gt;&lt;/rect&gt;
     &lt;/svg&gt;
     &lt;div id=&quot;mmc-tooltip&quot; class=&quot;tooltip mmc-tooltip&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
-  &lt;/div&gt;
-
-  &lt;div class=&quot;mmc-detail&quot; aria-live=&quot;polite&quot;&gt;
-    &lt;span id=&quot;mmc-detail-date&quot;&gt;2026/07/29&lt;/span&gt;
-    &lt;span&gt;&lt;i class=&quot;mmc-swatch mmc-maint&quot;&gt;&lt;/i&gt;&lt;strong id=&quot;mmc-detail-maint&quot;&gt;133.9%&lt;/strong&gt;&lt;/span&gt;
-    &lt;span&gt;&lt;i class=&quot;mmc-swatch mmc-index&quot;&gt;&lt;/i&gt;&lt;strong id=&quot;mmc-detail-index&quot;&gt;40,039&lt;/strong&gt;&lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;style&gt;
   #margin-maintenance-history { color: var(--foreground); width: 100%; }
   #margin-maintenance-history .viz-controls { justify-content: space-between; margin-bottom: 0.7rem; }
-  #margin-maintenance-history .mmc-legend,
-  #margin-maintenance-history .mmc-detail { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.1rem; }
-  #margin-maintenance-history .mmc-legend { color: var(--muted-foreground); margin-bottom: 0.35rem; }
-  #margin-maintenance-history .mmc-detail { justify-content: center; margin-top: 0.3rem; font-variant-numeric: tabular-nums; }
-  #margin-maintenance-history .mmc-detail span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  #margin-maintenance-history .mmc-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.1rem; margin-bottom: 0.35rem; font-variant-numeric: tabular-nums; }
+  #margin-maintenance-history .mmc-summary span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  #margin-maintenance-history .mmc-summary .mmc-date { color: var(--muted-foreground); }
   #margin-maintenance-history .mmc-swatch { display: inline-block; width: 1rem; height: 0.18rem; margin-right: 0.35rem; vertical-align: middle; background: var(--border); }
   #margin-maintenance-history .mmc-maint { background: var(--viz-series-1); }
   #margin-maintenance-history .mmc-index { background: var(--viz-series-2); }
   #margin-maintenance-history .mmc-alert { background: var(--destructive); }
   #margin-maintenance-history .mmc-plot { position: relative; width: 100%; }
   #margin-maintenance-history svg { display: block; width: 100%; height: auto; overflow: visible; }
-  #margin-maintenance-history .mmc-grid-line { stroke: var(--border); stroke-width: 1; }
+  #margin-maintenance-history .mmc-grid-line { stroke: var(--border); stroke-width: 0.75; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-axis-label { fill: var(--muted-foreground); font-size: calc(var(--font-size-base) * 0.75); font-weight: 400; }
   #margin-maintenance-history .mmc-axis-title { fill: var(--foreground); font-size: calc(var(--font-size-base) * 0.75); font-weight: 500; }
-  #margin-maintenance-history .mmc-line { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  #margin-maintenance-history .mmc-line { fill: none; stroke-width: 1.25; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-line-maint { stroke: var(--viz-series-1); }
   #margin-maintenance-history .mmc-line-index { stroke: var(--viz-series-2); }
   #margin-maintenance-history .mmc-risk-zone { fill: color-mix(in srgb, var(--destructive) 7%, transparent); }
-  #margin-maintenance-history .mmc-alert-line { stroke: var(--destructive); stroke-width: 1.5; stroke-dasharray: 5 4; }
-  #margin-maintenance-history .mmc-method-line { stroke: var(--muted-foreground); stroke-width: 1; stroke-dasharray: 3 4; }
-  #margin-maintenance-history .mmc-dot { stroke: var(--background); stroke-width: 2; }
+  #margin-maintenance-history .mmc-alert-line { stroke: var(--destructive); stroke-width: 0.9; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-method-line { stroke: var(--muted-foreground); stroke-width: 0.8; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-dot { stroke: var(--background); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-dot-maint { fill: var(--viz-series-1); }
   #margin-maintenance-history .mmc-dot-index { fill: var(--viz-series-2); }
   #margin-maintenance-history .mmc-crosshair { stroke: var(--muted-foreground); stroke-width: 1; opacity: 0; }
@@ -958,7 +956,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history strong { font-weight: 500; }
   @media (max-width: 520px) {
     #margin-maintenance-history .viz-controls { justify-content: flex-start; }
-    #margin-maintenance-history .mmc-legend { gap: 0.45rem 0.8rem; }
+    #margin-maintenance-history .mmc-summary { gap: 0.4rem 0.8rem; }
   }
 &lt;/style&gt;
 
@@ -986,9 +984,10 @@ html&gt;body{padding:0}&lt;/style&gt;
   const bounds = { left: 58, right: 702, top: 18, bottom: 336 };
   let market = &#x27;twse&#x27;;
   let range = &#x27;all&#x27;;
+  let scaleMode = &#x27;linear&#x27;;
   let shown = null;
 
-  const keyFor = () =&gt; market === &#x27;twse&#x27; ? { maint: &#x27;tw&#x27;, index: &#x27;ti&#x27;, maintLabel: &#x27;上市融資維持率（自建估算）&#x27;, indexLabel: &#x27;加權指數&#x27; } : { maint: &#x27;ot&#x27;, index: &#x27;oi&#x27;, maintLabel: &#x27;櫃買融資維持率（自建估算）&#x27;, indexLabel: &#x27;櫃買指數&#x27; };
+  const keyFor = () =&gt; market === &#x27;twse&#x27; ? { maint: &#x27;tw&#x27;, index: &#x27;ti&#x27;, maintLabel: &#x27;上市融資維持率&#x27;, indexLabel: &#x27;加權指數&#x27; } : { maint: &#x27;ot&#x27;, index: &#x27;oi&#x27;, maintLabel: &#x27;櫃買融資維持率&#x27;, indexLabel: &#x27;櫃買指數&#x27; };
   const parseDate = value =&gt; new Date(`${value}T00:00:00`);
   const fullDate = value =&gt; {
     const date = parseDate(value);
@@ -1015,6 +1014,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   };
   const xFor = (i, n) =&gt; bounds.left + (n &lt;= 1 ? 0 : i / (n - 1)) * (bounds.right - bounds.left);
   const yFor = (v, domain) =&gt; bounds.bottom - (v - domain[0]) / (domain[1] - domain[0]) * (bounds.bottom - bounds.top);
+  const indexFor = value =&gt; scaleMode === &#x27;log&#x27; ? Math.log10(value) : value;
   const pathFor = (values, domain) =&gt; values.map((v, i) =&gt; `${i ? &#x27;L&#x27; : &#x27;M&#x27;}${xFor(i, values.length).toFixed(1)},${yFor(v, domain).toFixed(1)}`).join(&#x27; &#x27;);
   const fmtIndex = (value) =&gt; market === &#x27;twse&#x27; ? Math.round(value).toLocaleString(&#x27;zh-TW&#x27;) : Number(value).toFixed(2);
   const node = (name, attrs, text) =&gt; {
@@ -1040,7 +1040,8 @@ html&gt;body{padding:0}&lt;/style&gt;
     for (let i = 0; i &lt;= ticks; i++) {
       const y = bounds.top + i / ticks * (bounds.bottom - bounds.top);
       const mv = maintDomain[1] - i / ticks * (maintDomain[1] - maintDomain[0]);
-      const iv = indexDomain[1] - i / ticks * (indexDomain[1] - indexDomain[0]);
+      const indexTick = indexDomain[1] - i / ticks * (indexDomain[1] - indexDomain[0]);
+      const iv = scaleMode === &#x27;log&#x27; ? 10 ** indexTick : indexTick;
       grid.appendChild(node(&#x27;line&#x27;, { x1: bounds.left, x2: bounds.right, y1: y, y2: y, class: &#x27;mmc-grid-line&#x27; }));
       axes.appendChild(node(&#x27;text&#x27;, { x: bounds.left - 9, y: y + 4, &#x27;text-anchor&#x27;: &#x27;end&#x27;, class: &#x27;mmc-axis-label&#x27; }, Math.round(mv)));
       axes.appendChild(node(&#x27;text&#x27;, { x: bounds.right + 9, y: y + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, class: &#x27;mmc-axis-label&#x27; }, fmtIndex(iv)));
@@ -1053,7 +1054,8 @@ html&gt;body{padding:0}&lt;/style&gt;
       axes.appendChild(node(&#x27;text&#x27;, { x, y: bounds.bottom + 24, &#x27;text-anchor&#x27;: i === 0 ? &#x27;start&#x27; : i === xTicks ? &#x27;end&#x27; : &#x27;middle&#x27;, class: &#x27;mmc-axis-label&#x27; }, tickLabel));
     }
     axes.appendChild(node(&#x27;text&#x27;, { x: 15, y: (bounds.top + bounds.bottom) / 2, transform: `rotate(-90 15 ${(bounds.top + bounds.bottom) / 2})`, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title&#x27; }, &#x27;維持率（%）&#x27;));
-    axes.appendChild(node(&#x27;text&#x27;, { x: 746, y: (bounds.top + bounds.bottom) / 2, transform: `rotate(90 746 ${(bounds.top + bounds.bottom) / 2})`, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title&#x27; }, market === &#x27;twse&#x27; ? &#x27;加權指數&#x27; : &#x27;櫃買指數&#x27;));
+    const indexTitle = market === &#x27;twse&#x27; ? &#x27;加權指數&#x27; : &#x27;櫃買指數&#x27;;
+    axes.appendChild(node(&#x27;text&#x27;, { x: 746, y: (bounds.top + bounds.bottom) / 2, transform: `rotate(90 746 ${(bounds.top + bounds.bottom) / 2})`, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title&#x27; }, `${indexTitle}${scaleMode === &#x27;log&#x27; ? &#x27;（對數）&#x27; : &#x27;&#x27;}`));
     const alertY = yFor(130, maintDomain);
     riskZone.setAttribute(&#x27;x&#x27;, bounds.left); riskZone.setAttribute(&#x27;y&#x27;, Math.max(bounds.top, alertY));
     riskZone.setAttribute(&#x27;width&#x27;, bounds.right - bounds.left); riskZone.setAttribute(&#x27;height&#x27;, Math.max(0, bounds.bottom - alertY));
@@ -1082,9 +1084,10 @@ html&gt;body{padding:0}&lt;/style&gt;
     const keys = keyFor();
     const maint = rows.map(d =&gt; d[keys.maint]);
     const index = rows.map(d =&gt; d[keys.index]);
+    const indexPlot = index.map(indexFor);
     const maintDomain = niceBounds(maint, 10, 130);
-    const indexStep = market === &#x27;twse&#x27; ? 5000 : 25;
-    const indexDomain = niceBounds(index, indexStep, Math.min(...index));
+    const indexStep = scaleMode === &#x27;log&#x27; ? 0.1 : market === &#x27;twse&#x27; ? 5000 : 25;
+    const indexDomain = niceBounds(indexPlot, indexStep, Math.min(...indexPlot));
     drawAxes(rows, maintDomain, indexDomain);
     root.querySelector(&#x27;#mmc-maint-label&#x27;).textContent = keys.maintLabel;
     root.querySelector(&#x27;#mmc-index-label&#x27;).textContent = keys.indexLabel;
@@ -1093,7 +1096,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     const reduced = window.matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;).matches;
     if (!animate || reduced || !shown) {
       maintPath.setAttribute(&#x27;d&#x27;, pathFor(maint, maintDomain));
-      indexPath.setAttribute(&#x27;d&#x27;, pathFor(index, indexDomain));
+      indexPath.setAttribute(&#x27;d&#x27;, pathFor(indexPlot, indexDomain));
     } else {
       const oldMaint = resample(shown.maint, maint.length);
       const oldIndex = resample(shown.index, index.length);
@@ -1103,7 +1106,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         const t = Math.min(1, (now - start) / duration);
         const ease = 1 - Math.pow(1 - t, 3);
         const m = maint.map((v, i) =&gt; oldMaint[i] + (v - oldMaint[i]) * ease);
-        const ix = index.map((v, i) =&gt; oldIndex[i] + (v - oldIndex[i]) * ease);
+        const ix = index.map((v, i) =&gt; indexFor(oldIndex[i] + (v - oldIndex[i]) * ease));
         maintPath.setAttribute(&#x27;d&#x27;, pathFor(m, maintDomain));
         indexPath.setAttribute(&#x27;d&#x27;, pathFor(ix, indexDomain));
         if (t &lt; 1) requestAnimationFrame(frame);
@@ -1114,7 +1117,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     const last = rows.at(-1);
     const lx = xFor(rows.length - 1, rows.length);
     maintDot.setAttribute(&#x27;cx&#x27;, lx); maintDot.setAttribute(&#x27;cy&#x27;, yFor(last[keys.maint], maintDomain));
-    indexDot.setAttribute(&#x27;cx&#x27;, lx); indexDot.setAttribute(&#x27;cy&#x27;, yFor(last[keys.index], indexDomain));
+    indexDot.setAttribute(&#x27;cx&#x27;, lx); indexDot.setAttribute(&#x27;cy&#x27;, yFor(indexFor(last[keys.index]), indexDomain));
     updateDetail(last);
     tooltip.style.visibility = &#x27;hidden&#x27;; crosshair.style.opacity = 0;
   }
@@ -1132,6 +1135,9 @@ html&gt;body{padding:0}&lt;/style&gt;
   root.querySelectorAll(&#x27;[data-range]&#x27;).forEach(btn =&gt; btn.addEventListener(&#x27;click&#x27;, () =&gt; {
     range = btn.dataset.range; activate(&#x27;range&#x27;, range, &#x27;data-range&#x27;); render(true);
   }));
+  root.querySelectorAll(&#x27;[data-scale]&#x27;).forEach(btn =&gt; btn.addEventListener(&#x27;click&#x27;, () =&gt; {
+    scaleMode = btn.dataset.scale; activate(&#x27;scale&#x27;, scaleMode, &#x27;data-scale&#x27;); render(true);
+  }));
 
   hit.addEventListener(&#x27;pointermove&#x27;, event =&gt; {
     if (!shown) return;
@@ -1141,7 +1147,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     const row = shown.rows[idx], keys = keyFor(), x = xFor(idx, shown.rows.length);
     crosshair.setAttribute(&#x27;x1&#x27;, x); crosshair.setAttribute(&#x27;x2&#x27;, x); crosshair.setAttribute(&#x27;y1&#x27;, bounds.top); crosshair.setAttribute(&#x27;y2&#x27;, bounds.bottom); crosshair.style.opacity = 1;
     maintDot.setAttribute(&#x27;cx&#x27;, x); maintDot.setAttribute(&#x27;cy&#x27;, yFor(row[keys.maint], shown.maintDomain));
-    indexDot.setAttribute(&#x27;cx&#x27;, x); indexDot.setAttribute(&#x27;cy&#x27;, yFor(row[keys.index], shown.indexDomain));
+    indexDot.setAttribute(&#x27;cx&#x27;, x); indexDot.setAttribute(&#x27;cy&#x27;, yFor(indexFor(row[keys.index]), shown.indexDomain));
     updateDetail(row);
     const method = row.m === &#x27;s&#x27; ? &#x27;逐股估算&#x27; : &#x27;長期校準&#x27;;
     tooltip.innerHTML = `&lt;strong&gt;${fullDate(row.d)}&lt;/strong&gt;&lt;br&gt;${keys.maintLabel}：${row[keys.maint].toFixed(1)}%&lt;br&gt;${keys.indexLabel}：${fmtIndex(row[keys.index])}&lt;br&gt;計算：${method}`;
@@ -1157,7 +1163,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     if (shown) {
       const last = shown.rows.at(-1), keys = keyFor(), x = xFor(shown.rows.length - 1, shown.rows.length);
       maintDot.setAttribute(&#x27;cx&#x27;, x); maintDot.setAttribute(&#x27;cy&#x27;, yFor(last[keys.maint], shown.maintDomain));
-      indexDot.setAttribute(&#x27;cx&#x27;, x); indexDot.setAttribute(&#x27;cy&#x27;, yFor(last[keys.index], shown.indexDomain));
+      indexDot.setAttribute(&#x27;cx&#x27;, x); indexDot.setAttribute(&#x27;cy&#x27;, yFor(indexFor(last[keys.index]), shown.indexDomain));
       updateDetail(last);
     }
   });
