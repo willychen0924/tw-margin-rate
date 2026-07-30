@@ -916,8 +916,6 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;rect data-role=&quot;risk-zone&quot; class=&quot;mmc-risk-zone&quot;&gt;&lt;/rect&gt;
         &lt;line data-role=&quot;alert-line&quot; class=&quot;mmc-alert-line&quot;&gt;&lt;/line&gt;
         &lt;text data-role=&quot;alert-label&quot; class=&quot;mmc-axis-label&quot;&gt;130%&lt;/text&gt;
-        &lt;line data-role=&quot;method-line&quot; class=&quot;mmc-method-line&quot;&gt;&lt;/line&gt;
-        &lt;text data-role=&quot;method-label&quot; class=&quot;mmc-axis-label&quot;&gt;逐股估算起點&lt;/text&gt;
         &lt;path data-role=&quot;maint-path&quot; class=&quot;mmc-line mmc-line-maint&quot;&gt;&lt;/path&gt;
         &lt;path data-role=&quot;index-path&quot; class=&quot;mmc-line mmc-line-index&quot;&gt;&lt;/path&gt;
         &lt;circle data-role=&quot;maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;3.5&quot;&gt;&lt;/circle&gt;
@@ -947,8 +945,6 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;rect data-role=&quot;risk-zone&quot; class=&quot;mmc-risk-zone&quot;&gt;&lt;/rect&gt;
         &lt;line data-role=&quot;alert-line&quot; class=&quot;mmc-alert-line&quot;&gt;&lt;/line&gt;
         &lt;text data-role=&quot;alert-label&quot; class=&quot;mmc-axis-label&quot;&gt;130%&lt;/text&gt;
-        &lt;line data-role=&quot;method-line&quot; class=&quot;mmc-method-line&quot;&gt;&lt;/line&gt;
-        &lt;text data-role=&quot;method-label&quot; class=&quot;mmc-axis-label&quot;&gt;逐股估算起點&lt;/text&gt;
         &lt;path data-role=&quot;maint-path&quot; class=&quot;mmc-line mmc-line-maint&quot;&gt;&lt;/path&gt;
         &lt;path data-role=&quot;index-path&quot; class=&quot;mmc-line mmc-line-index&quot;&gt;&lt;/path&gt;
         &lt;circle data-role=&quot;maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;3.5&quot;&gt;&lt;/circle&gt;
@@ -987,7 +983,6 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history .mmc-line-index { stroke: var(--viz-series-2); }
   #margin-maintenance-history .mmc-risk-zone { fill: color-mix(in srgb, var(--destructive) 7%, transparent); }
   #margin-maintenance-history .mmc-alert-line { stroke: var(--destructive); stroke-width: 0.9; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; }
-  #margin-maintenance-history .mmc-method-line { stroke: var(--muted-foreground); stroke-width: 0.8; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-dot { stroke: var(--background); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-dot-maint { fill: var(--viz-series-1); }
   #margin-maintenance-history .mmc-dot-index { fill: var(--viz-series-2); }
@@ -1028,8 +1023,6 @@ html&gt;body{padding:0}&lt;/style&gt;
       riskZone: query(&#x27;risk-zone&#x27;),
       alertLine: query(&#x27;alert-line&#x27;),
       alertLabel: query(&#x27;alert-label&#x27;),
-      methodLine: query(&#x27;method-line&#x27;),
-      methodLabel: query(&#x27;method-label&#x27;),
       maintPath: query(&#x27;maint-path&#x27;),
       indexPath: query(&#x27;index-path&#x27;),
       maintDot: query(&#x27;maint-dot&#x27;),
@@ -1116,15 +1109,6 @@ html&gt;body{padding:0}&lt;/style&gt;
     chart.riskZone.setAttribute(&#x27;width&#x27;, bounds.right - bounds.left); chart.riskZone.setAttribute(&#x27;height&#x27;, Math.max(0, bounds.bottom - alertY));
     chart.alertLine.setAttribute(&#x27;x1&#x27;, bounds.left); chart.alertLine.setAttribute(&#x27;x2&#x27;, bounds.right); chart.alertLine.setAttribute(&#x27;y1&#x27;, alertY); chart.alertLine.setAttribute(&#x27;y2&#x27;, alertY);
     chart.alertLabel.setAttribute(&#x27;x&#x27;, bounds.left + 5); chart.alertLabel.setAttribute(&#x27;y&#x27;, alertY - 6);
-    const methodIndex = rows.findIndex(row =&gt; row.m === &#x27;s&#x27;);
-    const showMethod = methodIndex &gt;= 0;
-    chart.methodLine.style.display = showMethod ? &#x27;&#x27; : &#x27;none&#x27;;
-    chart.methodLabel.style.display = showMethod ? &#x27;&#x27; : &#x27;none&#x27;;
-    if (showMethod) {
-      const methodX = xFor(methodIndex, rows.length);
-      chart.methodLine.setAttribute(&#x27;x1&#x27;, methodX); chart.methodLine.setAttribute(&#x27;x2&#x27;, methodX); chart.methodLine.setAttribute(&#x27;y1&#x27;, bounds.top); chart.methodLine.setAttribute(&#x27;y2&#x27;, bounds.bottom);
-      chart.methodLabel.setAttribute(&#x27;x&#x27;, Math.min(bounds.right - 78, methodX + 4)); chart.methodLabel.setAttribute(&#x27;y&#x27;, bounds.top + 13);
-    }
   }
 
   function updateDetail(chart, row) {
