@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -15,8 +16,18 @@ from validate_margin_outputs import expect_baseline, validate_history, validate_
 class OutputTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.history_path = ROOT / "data/processed/margin-maintenance-history.json"
-        cls.html_path = ROOT / "docs/index.html"
+        cls.history_path = Path(
+            os.environ.get(
+                "TW_MARGIN_HISTORY_PATH",
+                ROOT / "data/processed/margin-maintenance-history.json",
+            )
+        )
+        cls.html_path = Path(
+            os.environ.get("TW_MARGIN_HTML_PATH", ROOT / "docs/index.html")
+        )
+        cls.root_html_path = Path(
+            os.environ.get("TW_MARGIN_ROOT_HTML_PATH", ROOT / "index.html")
+        )
         cls.payload = json.loads(cls.history_path.read_text(encoding="utf-8"))
 
     def test_published_baseline_numbers(self) -> None:
@@ -27,12 +38,18 @@ class OutputTests(unittest.TestCase):
 
     def test_html_matches_processed_history(self) -> None:
         validate_html(self.payload, self.html_path)
+        validate_html(self.payload, self.root_html_path)
+
+    def test_root_html_is_exact_docs_mirror(self) -> None:
+        self.assertEqual(self.root_html_path.read_bytes(), self.html_path.read_bytes())
 
     def test_baseline_has_expected_row_count(self) -> None:
-        self.assertEqual(len(self.payload["markets"]["twse"]), 2207)
-        self.assertEqual(len(self.payload["markets"]["tpex"]), 2207)
+        self.assertGreaterEqual(len(self.payload["markets"]["twse"]), 2207)
+        self.assertEqual(
+            len(self.payload["markets"]["twse"]),
+            len(self.payload["markets"]["tpex"]),
+        )
 
 
 if __name__ == "__main__":
     unittest.main()
-

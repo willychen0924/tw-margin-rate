@@ -137,9 +137,16 @@ def expect_baseline(payload: dict[str, object]) -> None:
         "tpex": {"maintenance": 118.34, "index": 326.23},
     }
     for market, values in expected.items():
-        row = payload["markets"][market][-1]
-        if row["date"] != "2026-07-30":
-            raise AssertionError(f"{market} 基準最新日不是 2026-07-30")
+        row = next(
+            (
+                candidate
+                for candidate in payload["markets"][market]
+                if candidate["date"] == "2026-07-30"
+            ),
+            None,
+        )
+        if row is None:
+            raise AssertionError(f"{market} 缺少 2026-07-30 固定回歸基準")
         for key, value in values.items():
             if float(row[key]) != value:
                 raise AssertionError(
@@ -169,4 +176,3 @@ if __name__ == "__main__":
     except Exception as exc:
         print(f"驗證失敗：{exc}", file=sys.stderr)
         raise
-

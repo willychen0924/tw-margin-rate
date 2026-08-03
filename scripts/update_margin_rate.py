@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -35,9 +36,9 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def run(command: list[str]) -> None:
+def run(command: list[str], *, env: dict[str, str] | None = None) -> None:
     print("+", " ".join(command), flush=True)
-    subprocess.run(command, cwd=PROJECT_ROOT, check=True)
+    subprocess.run(command, cwd=PROJECT_ROOT, check=True, env=env)
 
 
 def publish(latest_day: str) -> None:
@@ -53,10 +54,15 @@ def publish(latest_day: str) -> None:
     allowed = {
         "data/processed/margin-maintenance-history.json",
         "docs/index.html",
+        "index.html",
         "data/reference/twse-company-info.latest.json",
         "data/reference/twse-delisted.latest.html",
         "data/reference/latest-manifest.json",
     }
+    cache_path = re.compile(
+        r"data/cache/(?:TaiwanStockPrice|TaiwanStockMarginPurchaseShortSale)/"
+        r"\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}_market_[0-9a-f]{12}\.json\.gz"
+    )
     status = subprocess.run(
         ["git", "status", "--porcelain"],
         cwd=PROJECT_ROOT,
@@ -65,13 +71,16 @@ def publish(latest_day: str) -> None:
         text=True,
     ).stdout.splitlines()
     unexpected = []
+    changed = []
     for line in status:
         path = line[3:]
-        if path not in allowed:
+        if path not in allowed and not cache_path.fullmatch(path):
             unexpected.append(line)
+        else:
+            changed.append(path)
     if unexpected:
         raise RuntimeError(f"有更新流程以外的未提交變更，停止發布：{unexpected}")
-    changed = sorted(allowed & {line[3:] for line in status})
+    changed = sorted(set(changed))
     if not changed:
         print("沒有需要發布的新變更")
         return
@@ -104,6 +113,7 @@ def main() -> None:
 
     history = PROJECT_ROOT / "data/processed/margin-maintenance-history.json"
     html = PROJECT_ROOT / "docs/index.html"
+    root_html = PROJECT_ROOT / "index.html"
     previous = json.loads(history.read_text(encoding="utf-8"))
     previous_end = previous["metadata"]["end"]
     temp_parent = PROJECT_ROOT / "data/tmp"
@@ -112,6 +122,7 @@ def main() -> None:
         temp_root = Path(temp)
         candidate_history = temp_root / "history.json"
         candidate_html = temp_root / "index.html"
+        candidate_root_html = temp_root / "root-index.html"
         shutil.copy2(html, candidate_html)
         command = [
             sys.executable,
@@ -144,6 +155,7 @@ def main() -> None:
                 str(candidate_html),
             ]
         )
+        shutil.copy2(candidate_html, candidate_root_html)
         validate = [
             sys.executable,
             "scripts/validate_margin_outputs.py",
@@ -159,9 +171,31 @@ def main() -> None:
         if args.end == "2026-07-30":
             validate.append("--expect-baseline")
         run(validate)
-        run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"])
+        run(
+            [
+                sys.executable,
+                "scripts/validate_margin_outputs.py",
+                "--history",
+                str(candidate_history),
+                "--html",
+                str(candidate_root_html),
+            ]
+        )
+        test_env = os.environ.copy()
+        test_env.update(
+            {
+                "TW_MARGIN_HISTORY_PATH": str(candidate_history),
+                "TW_MARGIN_HTML_PATH": str(candidate_html),
+                "TW_MARGIN_ROOT_HTML_PATH": str(candidate_root_html),
+            }
+        )
+        run(
+            [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"],
+            env=test_env,
+        )
         os.replace(candidate_history, history)
         os.replace(candidate_html, html)
+        os.replace(candidate_root_html, root_html)
 
     run(
         [
@@ -173,6 +207,17 @@ def main() -> None:
             str(html),
         ]
     )
+    run(
+        [
+            sys.executable,
+            "scripts/validate_margin_outputs.py",
+            "--history",
+            str(history),
+            "--html",
+            str(root_html),
+        ]
+    )
+    run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"])
     payload = json.loads(history.read_text(encoding="utf-8"))
     latest_day = payload["metadata"]["end"]
     print(f"本地更新與驗證完成：{latest_day}")
