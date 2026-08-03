@@ -6,6 +6,14 @@
 
 原始 archive 不放進專案。程式會依序使用 `--stock-data`、`STOCK_DATA_ROOT`，或自動尋找本專案同層的 `stock_data`。
 
+FinMind token 必須放在每台 Mac 的本機設定檔，不放進 iCloud 專案：
+
+```text
+~/Library/Application Support/tw-margin-rate/.env
+```
+
+內容格式可參考專案內的 `.env.example`。
+
 ## 日常更新
 
 Finder 雙擊 `更新融資維持率.command`，或在終端機執行：

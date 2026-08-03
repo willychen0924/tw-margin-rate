@@ -14,6 +14,12 @@ DEFAULT_ICLOUD_ROOT = (
     / "Mobile Documents"
     / "com~apple~CloudDocs"
 )
+LOCAL_SETTINGS_ROOT = Path.home() / "Library" / "Application Support" / "tw-margin-rate"
+
+
+def local_env_path() -> Path:
+    """Return the per-Mac secret location outside the iCloud project."""
+    return LOCAL_SETTINGS_ROOT / ".env"
 
 
 def discover_stock_data(explicit: Path | None = None) -> Path:

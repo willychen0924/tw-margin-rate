@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.finmind import load_dotenv
-from tw_margin_rate.paths import assert_archive_ready, discover_stock_data
+from tw_margin_rate.paths import assert_archive_ready, discover_stock_data, local_env_path
 
 
 def parse_args() -> argparse.Namespace:
@@ -97,7 +97,7 @@ def main() -> None:
     latest = assert_archive_ready(stock_data, args.warmup_start)
     print(f"iCloud archive ready: {latest}")
 
-    load_dotenv(PROJECT_ROOT / ".env")
+    load_dotenv(local_env_path())
     has_token = bool(os.environ.get("FINMIND_TOKEN"))
     if args.refresh_reference:
         run([sys.executable, "scripts/fetch_market_reference.py"])

@@ -11,7 +11,7 @@
 3. 不得使用或重新引入 calibrated/proxy 長歷史估算。`build_margin_maintenance_proxy_history.py` 只能作歷史稽核參考，不能產生正式結果。
 4. 日常更新與歷史資料必須使用同一套逐股融資平均成本算法。不可把早期 proxy 與近期逐股值拼接。
 5. 未完成資料、計算、測試、本地瀏覽器與公開頁面驗證前，不得發布。
-6. `FINMIND_TOKEN`、Cookie、GitHub 憑證與其他密鑰不得寫入 Git、一般文件、測試快照、日誌或輸出檔。只可使用環境變數或未追蹤的 `.env`。
+6. `FINMIND_TOKEN`、Cookie、GitHub 憑證與其他密鑰不得寫入 iCloud 專案、Git、一般文件、測試快照、日誌或輸出檔。只可使用程序環境變數，或每台 Mac 各自的 `Path.home() / "Library/Application Support/tw-margin-rate/.env"`。
 7. 不得在程式或設定中硬寫任何特定使用者的絕對家目錄。專案內路徑由 `Path(__file__)` 推導；家目錄由 `Path.home()` 推導；需要覆寫時使用 CLI 參數或非敏感環境變數。
 8. 兩台 Mac 不得同時更新或發布。開始前確認另一台沒有執行抓取、計算或 Git 操作，並等待 iCloud 與 Git 同步完成。
 9. 保留現行網站的配色、字體與已驗證版面。除非使用者另有指示，不做視覺重設。

@@ -33,7 +33,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.calculation import market_for_stock
 from tw_margin_rate.finmind import FinMindClient, load_dotenv
-from tw_margin_rate.paths import discover_stock_data
+from tw_margin_rate.paths import discover_stock_data, local_env_path
 
 
 MARGIN_COLUMNS = [
@@ -148,7 +148,7 @@ def latest_icloud_margin_date(stock_data: Path) -> str:
 
 def ensure_finmind_cache(workspace: Path, first_day: str, end: str) -> None:
     """Fetch one market day at a time to avoid FinMind's market-query row cap."""
-    load_dotenv(workspace / ".env")
+    load_dotenv(local_env_path())
     import os
 
     token = os.environ.get("FINMIND_TOKEN", "")
