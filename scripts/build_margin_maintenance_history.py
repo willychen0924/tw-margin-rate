@@ -128,10 +128,29 @@ def load_cache(path: Path, columns: list[str]) -> pd.DataFrame:
     with gzip.open(path, "rt", encoding="utf-8") as handle:
         payload = json.load(handle)
     frame = pd.DataFrame(payload.get("data", []))
+    if frame.empty:
+        return pd.DataFrame(columns=columns)
     missing = [column for column in columns if column not in frame.columns]
     if missing:
         raise ValueError(f"{path} is missing columns: {missing}")
     return frame[columns]
+
+
+def load_cache_day(
+    margin_path: Path, price_path: Path
+) -> tuple[pd.DataFrame, pd.DataFrame] | None:
+    """Load one cached day, ignoring only a matched pair of empty API responses."""
+    margin = load_cache(margin_path, MARGIN_COLUMNS)
+    prices = load_cache(price_path, PRICE_COLUMNS)
+    if margin.empty and prices.empty:
+        return None
+    if margin.empty or prices.empty:
+        raise ValueError(
+            "FinMind cache is incomplete for one day: "
+            f"margin_rows={len(margin)}, price_rows={len(prices)}, "
+            f"margin={margin_path}, prices={price_path}"
+        )
+    return margin, prices
 
 
 def cache_file_for_date(cache_root: Path, dataset: str, day: str) -> Path | None:
@@ -408,8 +427,11 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
             process_day(str(day), margin)
 
     for day, margin_path, price_path in cache_sources:
-        margin = load_cache(margin_path, MARGIN_COLUMNS)
-        prices = load_cache(price_path, PRICE_COLUMNS)
+        cached_day = load_cache_day(margin_path, price_path)
+        if cached_day is None:
+            print(f"skipped empty FinMind cache for {day}", flush=True)
+            continue
+        margin, prices = cached_day
         margin["stock_id"] = margin["stock_id"].astype(str)
         margin = margin[ordinary_share_mask(margin["stock_id"])].copy()
         prices["stock_id"] = prices["stock_id"].astype(str)

@@ -63,7 +63,10 @@ class FinMindClient:
         cache_file = self._cache_path(dataset, params)
         if not force and self._cache_valid(cache_file, max_age_hours):
             with gzip.open(cache_file, "rt", encoding="utf-8") as handle:
-                return json.load(handle)["data"]
+                cached_rows = json.load(handle).get("data")
+            if isinstance(cached_rows, list) and cached_rows:
+                return cached_rows
+            print(f"[FinMind] 空快取將重新下載：{dataset}", flush=True)
 
         label = dataset
         if start_date:
