@@ -1,0 +1,15 @@
+{
+  "baseline_date": "2026-07-30",
+  "files": {
+    "twse-company-info.2026-07-30.json": {
+      "sha256": "3111c446e93fb47f8d2daeb09946943738b1564ef4c2769d7accf020841a4ba2",
+      "source": "https://openapi.twse.com.tw/v1/opendata/t187ap03_L"
+    },
+    "twse-delisted.2026-07-30.html": {
+      "sha256": "2c69aef721451d12ba332ec1dd193187c5289e693e0a0e3b0fb15c5d4448b1e7",
+      "source": "https://www.twse.com.tw/company/suspendListingCsvAndHtml?lang=zh&startYear=&type=html"
+    }
+  },
+  "notes": "Exact market-reference inputs used for the published 2026-07-30 baseline. The .latest files initially match these pinned files."
+}
+
