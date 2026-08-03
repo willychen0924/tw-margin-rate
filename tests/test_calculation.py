@@ -97,6 +97,18 @@ class CalculationTests(unittest.TestCase):
         )
         self.assertEqual(market, "twse")
 
+    def test_official_listing_survives_temporary_stock_info_absence(self) -> None:
+        for stock_id, listing_date in (("1459", "1994-10-26"), ("1589", "2012-04-27")):
+            with self.subTest(stock_id=stock_id):
+                market = market_for_stock(
+                    stock_id,
+                    "2017-07-03",
+                    {},
+                    {stock_id: listing_date},
+                    set(),
+                )
+                self.assertEqual(market, "twse")
+
     def test_delisted_fallback(self) -> None:
         self.assertEqual(market_for_stock("1234", "2020-01-01", {}, {}, {"1234"}), "twse")
         self.assertEqual(market_for_stock("5678", "2020-01-01", {}, {}, set()), "tpex")
@@ -104,4 +116,3 @@ class CalculationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

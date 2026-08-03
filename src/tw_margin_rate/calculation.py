@@ -63,14 +63,14 @@ def market_for_stock(
     twse_listing_dates: dict[str, str],
     twse_delisted_codes: set[str],
 ) -> str:
-    """Reproduce the validated listing/transfer fallback used for the baseline."""
+    """Resolve historical market, preferring the dated official TWSE reference."""
+    listing_date = twse_listing_dates.get(stock_id)
+    if listing_date:
+        return "tpex" if day < listing_date else "twse"
+
     market = current_market.get(stock_id)
     if market == "twse":
-        listing_date = twse_listing_dates.get(stock_id)
-        if listing_date and day < listing_date:
-            return "tpex"
         return "twse"
     if market == "tpex":
         return "tpex"
     return "twse" if stock_id in twse_delisted_codes else "tpex"
-

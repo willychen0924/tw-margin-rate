@@ -133,8 +133,8 @@ def validate_html(payload: dict[str, object], path: Path) -> None:
 
 def expect_baseline(payload: dict[str, object]) -> None:
     expected = {
-        "twse": {"maintenance": 132.49, "index": 39933.30},
-        "tpex": {"maintenance": 118.34, "index": 326.23},
+        "twse": {"maintenance": 132.50, "index": 39933.30},
+        "tpex": {"maintenance": 118.32, "index": 326.23},
     }
     for market, values in expected.items():
         row = next(

@@ -32,6 +32,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--display-start", default=config["display_start"])
     parser.add_argument("--no-finmind-fetch", action="store_true")
     parser.add_argument("--refresh-reference", action="store_true")
+    parser.add_argument(
+        "--allow-history-rewrite",
+        action="store_true",
+        help="Skip the previous-history equality check after an approved correction.",
+    )
     parser.add_argument("--publish", action="store_true")
     return parser.parse_args()
 
@@ -163,11 +168,16 @@ def main() -> None:
             str(candidate_history),
             "--html",
             str(candidate_html),
-            "--reference",
-            str(history),
-            "--through",
-            previous_end,
         ]
+        if args.allow_history_rewrite:
+            print(
+                "已啟用經核准的歷史更正；跳過舊版逐列相等檢查。",
+                flush=True,
+            )
+        else:
+            validate.extend(
+                ["--reference", str(history), "--through", previous_end]
+            )
         if args.end == "2026-07-30":
             validate.append("--expect-baseline")
         run(validate)

@@ -34,6 +34,9 @@ Finder 雙擊 `更新融資維持率.command`，或在終端機執行：
 ./更新融資維持率.command --refresh-reference
 ```
 
+已保存歷史 diff 並取得使用者明確同意的資料更正，才可額外加上
+`--allow-history-rewrite`。日常更新不得使用這個開關。
+
 發布必須明確加上 `--publish`；程式會先完成重算、歷史不變性、兩份 Pages HTML 同步及專用測試，再允許提交與推送。`docs/index.html` 與根目錄 `index.html` 是由同一資料產生的完全相同鏡像，不可分開手動修改。推送後仍須人工開啟公開頁面核對。
 
 完整規則見 `AGENTS.md`，公式見 `計算方式.md`，兩台 Mac 操作見 `更新說明.md`。

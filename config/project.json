@@ -3,11 +3,10 @@
   "display_start": "2017-07-03",
   "baseline_date": "2026-07-30",
   "baseline": {
-    "twse_maintenance": 132.49,
+    "twse_maintenance": 132.50,
     "twse_index": 39933.30,
-    "tpex_maintenance": 118.34,
+    "tpex_maintenance": 118.32,
     "tpex_index": 326.23
   },
   "warning": "The warmup start remains 2001-01-05 because the A/B migration check must preserve every published history row. Do not change without a new full-history comparison and user approval."
 }
-
