@@ -165,6 +165,11 @@ def latest_icloud_margin_date(stock_data: Path) -> str:
     return files[-1].stem
 
 
+def local_margin_cache_boundary(stock_data: Path, end: str) -> str:
+    """Return the last day covered by local margin rows, not later price rows."""
+    return min(latest_icloud_margin_date(stock_data), end)
+
+
 def ensure_finmind_cache(workspace: Path, first_day: str, end: str) -> None:
     """Fetch one market day at a time to avoid FinMind's market-query row cap."""
     load_dotenv(local_env_path())
@@ -283,7 +288,7 @@ def prepare_local_history(
     yearly_files = sorted(joined_root.glob("year=*/*.parquet"))
     if not yearly_files or not index_map:
         raise RuntimeError("The local parquet scan produced no usable data")
-    return yearly_files, index_map, max(index_map)
+    return yearly_files, index_map, local_margin_cache_boundary(stock_data, end)
 
 
 def collect_cache_sources(

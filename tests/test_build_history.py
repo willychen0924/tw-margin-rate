@@ -16,6 +16,7 @@ from build_margin_maintenance_history import (
     PRICE_COLUMNS,
     load_cache,
     load_cache_day,
+    local_margin_cache_boundary,
 )
 
 
@@ -48,6 +49,20 @@ class CacheDayTests(unittest.TestCase):
             prices = self.write_cache(root, "prices.json.gz", [price_row])
             with self.assertRaisesRegex(ValueError, "cache is incomplete"):
                 load_cache_day(margin, prices)
+
+    def test_cache_boundary_uses_margin_date_when_prices_are_newer(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            stock_data = Path(temp)
+            margin = stock_data / "raw/chips_margin/2026/2026-07-24.parquet"
+            prices = stock_data / "raw/prices/2026/2026-07-27.parquet"
+            margin.parent.mkdir(parents=True)
+            prices.parent.mkdir(parents=True)
+            margin.touch()
+            prices.touch()
+            self.assertEqual(
+                local_margin_cache_boundary(stock_data, "2026-08-03"),
+                "2026-07-24",
+            )
 
 
 if __name__ == "__main__":
