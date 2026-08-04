@@ -6,6 +6,8 @@
 
 原始 archive 不放進專案。程式會依序使用 `--stock-data`、`STOCK_DATA_ROOT`，或自動尋找本專案同層的 `stock_data`。
 
+不需要安裝或執行「FinMind抓取器.app」。`更新融資維持率.command` 會先讀取 iCloud `stock_data`，缺少最新交易日時才使用本機的 `FINMIND_TOKEN` 直接向 FinMind 補抓。
+
 FinMind token 必須放在每台 Mac 的本機設定檔，不放進 iCloud 專案：
 
 ```text

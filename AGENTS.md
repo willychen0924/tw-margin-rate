@@ -48,8 +48,9 @@ DEFAULT_STOCK_DATA = (
 - 股票基本與市場別：`raw/stock_info`，對應 `TaiwanStockInfo`。
 - `TaiwanStockPriceAdj` 可用於除權息研究或輔助檢查，但目前正式維持率成本更新使用當日未還原收盤價；不得靜默替換資料口徑。
 - 若 iCloud 缺少最新交易日，可用 `FINMIND_TOKEN` 補抓相同 FinMind dataset。補抓必須逐交易日並檢查回傳筆數，避免全市場查詢上限截斷。
+- 「FinMind抓取器.app」不是本專案依賴，不需安裝或執行；資料檢查與必要的 FinMind 補抓統一由 `更新融資維持率.command`／`scripts/update_margin_rate.py` 負責。
 
-來源程式目前另需「TWSE 上市日期」與「下市公司代號」兩份市場沿革資料，才能處理轉上市與已下市股票。這兩份輸入尚未成為本專案的可重現資產；完成資料取得、來源註記、快取與測試前，不得宣稱移轉完成。
+「TWSE 上市日期」與「下市公司代號」兩份市場沿革資料已納入 `data/reference/`，包含固定日期 snapshot、`.latest` 工作檔與來源 URL／SHA-256 manifest；`scripts/fetch_market_reference.py` 可由 TWSE 官方端點原子更新。更新參考資料後仍須通過市場沿革測試與完整歷史差異檢查，不能直接覆蓋回歸基準。
 
 ## 股票範圍與計算口徑
 
