@@ -19,6 +19,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.finmind import load_dotenv
 from tw_margin_rate.paths import assert_archive_ready, discover_stock_data, local_env_path
+from tw_margin_rate.publishing import assert_official_origin
 
 
 def parse_args() -> argparse.Namespace:
@@ -54,8 +55,7 @@ def publish(latest_day: str) -> None:
         capture_output=True,
         text=True,
     ).stdout.strip()
-    if "willychen0924/tw-margin-rate" not in remote:
-        raise RuntimeError(f"origin 不是指定公開儲存庫：{remote}")
+    assert_official_origin(remote)
     allowed = {
         "data/processed/margin-maintenance-history.json",
         "docs/index.html",

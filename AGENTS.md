@@ -151,6 +151,6 @@ DEFAULT_STOCK_DATA = (
 
 - 公開站：`https://willychen0924.github.io/tw-margin-rate/`。
 - 公開儲存庫：`willychen0924/tw-margin-rate`。
-- iCloud 正式專案的 `origin` 應為 `https://github.com/willychen0924/tw-margin-rate.git`；若不符即停止發布。
+- iCloud 正式專案的 `origin` 只可為 `https://github.com/willychen0924/tw-margin-rate.git` 或 `git@github.com:willychen0924/tw-margin-rate.git`；若不符即停止發布。SSH 金鑰只可放在各台 Mac 的 `~/.ssh`，不得放入 iCloud 或 Git。
 - 任何 GitHub 登入、Pages 設定或遠端變更都須在正確儲存庫確認後進行。
 - 發布後仍需以公開網址核對；推送成功不等於頁面已正確部署。
