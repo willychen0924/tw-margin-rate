@@ -43,6 +43,16 @@ class OutputTests(unittest.TestCase):
     def test_root_html_is_exact_docs_mirror(self) -> None:
         self.assertEqual(self.root_html_path.read_bytes(), self.html_path.read_bytes())
 
+    def test_contextual_calendar_axis_is_present(self) -> None:
+        source = self.html_path.read_text(encoding="utf-8")
+        self.assertIn("const fixedMonthTicks =", source)
+        self.assertIn("const fixedYearTicks =", source)
+        self.assertIn("fixedMonthTicks(rows, [0, 3, 6, 9])", source)
+        self.assertIn("fixedMonthTicks(rows, [0, 6])", source)
+        self.assertIn("const yearGuideIndexes =", source)
+        self.assertIn("mmc-year-line", source)
+        self.assertNotIn("rows[idx].d.slice(5)", source)
+
     def test_baseline_has_expected_row_count(self) -> None:
         self.assertGreaterEqual(len(self.payload["markets"]["twse"]), 2207)
         self.assertEqual(

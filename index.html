@@ -1051,6 +1051,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history .mmc-plot { position: relative; width: 100%; }
   #margin-maintenance-history .mmc-chart { display: block; width: 100%; height: auto; overflow: visible; }
   #margin-maintenance-history .mmc-grid-line { stroke: var(--mmc-grid); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-year-line { stroke: var(--mmc-muted); stroke-width: 1; stroke-dasharray: 2 5; opacity: .42; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-axis-label { fill: var(--mmc-muted); font-size: 11px; font-weight: 400; font-variant-numeric: tabular-nums; }
   #margin-maintenance-history .mmc-axis-title { fill: var(--mmc-ink-2); font-size: 11px; font-weight: 500; }
   #margin-maintenance-history .mmc-axis-title-maint { writing-mode: vertical-rl; text-orientation: upright; }
@@ -1081,6 +1082,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     #margin-maintenance-history .mmc-segmented button { padding: 6px 11px; }
     #margin-maintenance-history .mmc-market-section { padding: 16px 10px 10px; }
     #margin-maintenance-history .mmc-summary { justify-content: flex-start; }
+    #margin-maintenance-history .mmc-x-axis-label { font-size: 13px; }
   }
 &lt;/style&gt;
 
@@ -1129,6 +1131,66 @@ html&gt;body{padding:0}&lt;/style&gt;
     const date = parseDate(value);
     const weekday = [&#x27;日&#x27;, &#x27;一&#x27;, &#x27;二&#x27;, &#x27;三&#x27;, &#x27;四&#x27;, &#x27;五&#x27;, &#x27;六&#x27;][date.getDay()];
     return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}（${weekday}）`;
+  };
+  const pad2 = value =&gt; String(value).padStart(2, &#x27;0&#x27;);
+  const formatYearMonth = date =&gt; `${date.getFullYear()}/${pad2(date.getMonth() + 1)}`;
+  const firstIndexOnOrAfter = (rows, date) =&gt; {
+    const target = `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-01`;
+    let lo = 0, hi = rows.length;
+    while (lo &lt; hi) {
+      const mid = Math.floor((lo + hi) / 2);
+      if (rows[mid].d &lt; target) lo = mid + 1;
+      else hi = mid;
+    }
+    return Math.min(lo, rows.length - 1);
+  };
+  const pushTick = (ticks, idx, label) =&gt; {
+    if (idx &lt; 0 || ticks.some(tick =&gt; tick.idx === idx)) return;
+    ticks.push({ idx, label });
+  };
+  const fixedMonthTicks = (rows, months) =&gt; {
+    const first = parseDate(rows[0].d), last = parseDate(rows.at(-1).d);
+    const ticks = [];
+    for (let year = first.getFullYear(); year &lt;= last.getFullYear(); year++) {
+      for (const month of months) {
+        const date = new Date(year, month, 1);
+        const nextMonth = new Date(year, month + 1, 1);
+        if (nextMonth &lt;= first || date &gt; last) continue;
+        pushTick(ticks, firstIndexOnOrAfter(rows, date), formatYearMonth(date));
+      }
+    }
+    return ticks;
+  };
+  const fixedYearTicks = (rows, yearStep) =&gt; {
+    const first = parseDate(rows[0].d), last = parseDate(rows.at(-1).d);
+    const ticks = [];
+    for (let year = first.getFullYear(); year &lt;= last.getFullYear(); year++) {
+      if (year % yearStep !== 0) continue;
+      const date = new Date(year, 0, 1);
+      const startsInJanuary = year === first.getFullYear() &amp;&amp; first.getMonth() === 0;
+      if ((date &lt; first &amp;&amp; !startsInJanuary) || date &gt; last) continue;
+      pushTick(ticks, firstIndexOnOrAfter(rows, date), String(year));
+    }
+    return ticks;
+  };
+  const axisTicks = rows =&gt; {
+    if (rows.length &lt;= 1) return [{ idx: 0, label: rows[0]?.d ?? &#x27;&#x27; }];
+    if (range === &#x27;all&#x27;) return fixedYearTicks(rows, 2);
+    if (range === &#x27;5y&#x27;) return fixedYearTicks(rows, 1);
+    if (range === &#x27;3y&#x27; || range === &#x27;2y&#x27;) return fixedMonthTicks(rows, [0, 6]);
+    return fixedMonthTicks(rows, [0, 3, 6, 9]);
+  };
+  const yearGuideIndexes = rows =&gt; {
+    if (range === &#x27;all&#x27; || rows.length &lt;= 1) return [];
+    const first = parseDate(rows[0].d), last = parseDate(rows.at(-1).d);
+    const indexes = [];
+    for (let year = first.getFullYear() + 1; year &lt;= last.getFullYear(); year++) {
+      const date = new Date(year, 0, 1);
+      if (date &gt; last) break;
+      const idx = firstIndexOnOrAfter(rows, date);
+      if (idx &gt; 0 &amp;&amp; idx &lt; rows.length - 1) indexes.push(idx);
+    }
+    return indexes;
   };
   const subset = () =&gt; {
     if (range === &#x27;all&#x27;) return data;
@@ -1182,13 +1244,15 @@ html&gt;body{padding:0}&lt;/style&gt;
       chart.axes.appendChild(node(&#x27;text&#x27;, { x: bounds.left - 9, y: y + 4, &#x27;text-anchor&#x27;: &#x27;end&#x27;, class: &#x27;mmc-axis-label&#x27; }, Math.round(mv)));
       chart.axes.appendChild(node(&#x27;text&#x27;, { x: bounds.right + 9, y: y + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, class: &#x27;mmc-axis-label&#x27; }, fmtIndex(chart.market, iv)));
     }
-    const xTicks = Math.min(5, rows.length - 1);
-    for (let i = 0; i &lt;= xTicks; i++) {
-      const idx = Math.round(i / xTicks * (rows.length - 1));
+    yearGuideIndexes(rows).forEach(idx =&gt; {
       const x = xFor(idx, rows.length);
-      const tickLabel = range === &#x27;all&#x27; ? rows[idx].d.slice(0, 4) : rows[idx].d.slice(5).replace(&#x27;-&#x27;, &#x27;/&#x27;);
-      chart.axes.appendChild(node(&#x27;text&#x27;, { x, y: bounds.bottom + 24, &#x27;text-anchor&#x27;: i === 0 ? &#x27;start&#x27; : i === xTicks ? &#x27;end&#x27; : &#x27;middle&#x27;, class: &#x27;mmc-axis-label&#x27; }, tickLabel));
-    }
+      chart.grid.appendChild(node(&#x27;line&#x27;, { x1: x, x2: x, y1: bounds.top, y2: bounds.bottom, class: &#x27;mmc-year-line&#x27; }));
+    });
+    axisTicks(rows).forEach(tick =&gt; {
+      const x = xFor(tick.idx, rows.length);
+      const anchor = tick.idx === 0 ? &#x27;start&#x27; : tick.idx === rows.length - 1 ? &#x27;end&#x27; : &#x27;middle&#x27;;
+      chart.axes.appendChild(node(&#x27;text&#x27;, { x, y: bounds.bottom + 24, &#x27;text-anchor&#x27;: anchor, class: &#x27;mmc-axis-label mmc-x-axis-label&#x27; }, tick.label));
+    });
     chart.axes.appendChild(node(&#x27;text&#x27;, { x: 16, y: (bounds.top + bounds.bottom) / 2, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, &#x27;dominant-baseline&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-maint&#x27; }, &#x27;維持率&#x27;));
     chart.axes.appendChild(node(&#x27;text&#x27;, { x: 748, y: (bounds.top + bounds.bottom) / 2, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, &#x27;dominant-baseline&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-index&#x27; }, `${chart.config.indexLabel}${scaleMode === &#x27;log&#x27; ? &#x27;︵對數︶&#x27; : &#x27;&#x27;}`));
     const alertY = yFor(130, maintDomain);
