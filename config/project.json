@@ -1,6 +1,10 @@
 {
   "warmup_start": "2001-01-05",
   "display_start": "2017-07-03",
+  "market_cap_starts": {
+    "twse": "2017-07-03",
+    "tpex": "2017-07-03"
+  },
   "baseline_date": "2026-07-30",
   "baseline": {
     "twse_maintenance": 132.50,

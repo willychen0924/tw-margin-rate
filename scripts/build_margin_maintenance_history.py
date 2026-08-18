@@ -62,9 +62,24 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=PROJECT_ROOT / "data/reference/twse-delisted.latest.html",
     )
+    parser.add_argument(
+        "--twse-newlisting-json",
+        type=Path,
+        default=PROJECT_ROOT / "data/reference/twse-newlisting.latest.json",
+    )
     parser.add_argument("--warmup-start", default="2001-01-05")
     parser.add_argument("--display-start", default="2017-07-03")
     parser.add_argument("--end", default=date.today().isoformat())
+    parser.add_argument(
+        "--margin-money-history",
+        type=Path,
+        default=PROJECT_ROOT / "data/cache/market-margin-money-history.json",
+    )
+    parser.add_argument(
+        "--market-cap-history",
+        type=Path,
+        default=PROJECT_ROOT / "data/cache/market-cap-history.json",
+    )
     parser.add_argument(
         "--no-finmind-fetch",
         action="store_true",
@@ -85,12 +100,39 @@ def roc_or_iso_date(value: object) -> str | None:
     match = re.fullmatch(r"(\d{2,3})年(\d{2})月(\d{2})日", text)
     if match:
         return f"{int(match.group(1)) + 1911:04d}-{match.group(2)}-{match.group(3)}"
+    match = re.fullmatch(r"(\d{2,3})[./](\d{2})[./](\d{2})", text)
+    if match:
+        return f"{int(match.group(1)) + 1911:04d}-{match.group(2)}-{match.group(3)}"
     return None
 
 
+def merge_twse_listing_date(
+    listing_dates: dict[str, str],
+    stock_id: str,
+    listing_date: str,
+    *,
+    note: str = "",
+) -> None:
+    """Merge official listing history without replacing the actual TWSE start.
+
+    The current-company table's 上市日期 agrees with historical MI_INDEX for
+    ordinary listings and OTC-to-listed transfers.  Innovation Board companies
+    can later receive a newer regular-board date, so their earlier Innovation
+    Board trading date is the only historical row allowed to move the start
+    backward.  Missing companies (for example, a later-delisted listing) are
+    filled from the application history.
+    """
+    current = listing_dates.get(stock_id)
+    if current is None or ("創新板" in note and listing_date < current):
+        listing_dates[stock_id] = listing_date
+
+
 def load_market_reference(
-    stock_data: Path, twse_company_info: Path, twse_delisted_html: Path
-) -> tuple[dict[str, str], dict[str, str], set[str]]:
+    stock_data: Path,
+    twse_company_info: Path,
+    twse_delisted_html: Path,
+    twse_newlisting_json: Path,
+) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
     stock_info_files = sorted((stock_data / "raw/stock_info").glob("*/*.parquet"))
     if not stock_info_files:
         raise FileNotFoundError("No stock_info parquet files found")
@@ -112,16 +154,38 @@ def load_market_reference(
         if stock_id and listing_date:
             twse_listing_dates[stock_id] = listing_date
 
+    with twse_newlisting_json.open(encoding="utf-8") as handle:
+        newlisting = json.load(handle)
+    fields = newlisting.get("fields", [])
+    rows = newlisting.get("data", [])
+    try:
+        code_index = fields.index("公司代號")
+        date_index = fields.index("股票上市買賣日期")
+        note_index = fields.index("備註")
+    except ValueError as exc:
+        raise ValueError("TWSE 最近上市公司缺少必要欄位") from exc
+    for row in rows:
+        stock_id = str(row[code_index]).strip()
+        listing_date = roc_or_iso_date(row[date_index])
+        if stock_id and listing_date:
+            merge_twse_listing_date(
+                twse_listing_dates,
+                stock_id,
+                listing_date,
+                note=str(row[note_index]).strip(),
+            )
+
     tables = pd.read_html(twse_delisted_html)
     if not tables:
         raise ValueError("TWSE delisted-company table is empty")
     delisted_table = tables[0]
-    delisted_codes = {
-        str(value).strip()
-        for value in delisted_table.iloc[:, 2].tolist()
-        if re.fullmatch(r"\d{4}", str(value).strip())
-    }
-    return current_market, twse_listing_dates, delisted_codes
+    delisting_dates: dict[str, str] = {}
+    for row in delisted_table.itertuples(index=False, name=None):
+        stock_id = str(row[2]).strip()
+        delisting_date = roc_or_iso_date(row[0])
+        if re.fullmatch(r"\d{4}", stock_id) and delisting_date:
+            delisting_dates[stock_id] = delisting_date
+    return current_market, twse_listing_dates, delisting_dates
 
 
 def load_cache(path: Path, columns: list[str]) -> pd.DataFrame:
@@ -330,9 +394,58 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def load_margin_money_history(path: Path) -> dict[str, dict[str, float]]:
+    if not path.exists():
+        raise FileNotFoundError(f"Missing official margin-money history: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    result: dict[str, dict[str, float]] = {"twse": {}, "tpex": {}}
+    for market in result:
+        rows = payload.get("markets", {}).get(market)
+        if not isinstance(rows, list) or not rows:
+            raise ValueError(f"Margin-money history missing {market}")
+        result[market] = {
+            str(row["date"]): float(row["financed_amount"]) for row in rows
+        }
+    return result
+
+
+def load_market_cap_history(
+    path: Path,
+) -> tuple[dict[str, dict[str, float]], dict[str, object]]:
+    if not path.exists():
+        raise FileNotFoundError(f"Missing market-cap history: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    metadata = payload.get("metadata")
+    if not isinstance(metadata, dict) or not metadata.get("complete"):
+        raise ValueError("Market-cap history is not complete")
+    if not metadata.get("validation_passed"):
+        raise ValueError("Market-cap history failed official TWSE validation")
+    result: dict[str, dict[str, float]] = {"twse": {}, "tpex": {}}
+    for market in result:
+        rows = payload.get("markets", {}).get(market)
+        if not isinstance(rows, list) or not rows:
+            raise ValueError(f"Market-cap history missing {market}")
+        result[market] = {
+            str(row["date"]): float(row["market_cap"]) for row in rows
+        }
+    starts = metadata.get("market_cap_starts")
+    if not isinstance(starts, dict) or set(starts) != {"twse", "tpex"}:
+        legacy_start = metadata.get("start")
+        if not legacy_start:
+            raise ValueError("Market-cap history missing per-market starts")
+        metadata["market_cap_starts"] = {
+            "twse": str(legacy_start),
+            "tpex": str(legacy_start),
+        }
+    return result, metadata
+
+
 def build_history(args: argparse.Namespace) -> dict[str, object]:
-    current_market, listing_dates, delisted_codes = load_market_reference(
-        args.stock_data, args.twse_company_info, args.twse_delisted_html
+    current_market, listing_dates, delisting_dates = load_market_reference(
+        args.stock_data,
+        args.twse_company_info,
+        args.twse_delisted_html,
+        args.twse_newlisting_json,
     )
     archive_end = latest_icloud_margin_date(args.stock_data)
     if not args.no_finmind_fetch and archive_end < args.end:
@@ -346,6 +459,14 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
     cache_sources = collect_cache_sources(
         args.workspace, local_end, args.warmup_start, args.end
     )
+    margin_money = load_margin_money_history(args.margin_money_history)
+    market_cap, market_cap_metadata = load_market_cap_history(
+        args.market_cap_history
+    )
+    market_cap_starts = {
+        market: str(market_cap_metadata["market_cap_starts"][market])
+        for market in ("twse", "tpex")
+    }
 
     average_cost: dict[str, float] = {}
     last_close: dict[str, float] = {}
@@ -397,7 +518,7 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
             margin["average_cost"] = new_cost
             margin["market"] = [
                 market_for_stock(
-                    stock_id, day, current_market, listing_dates, delisted_codes
+                    stock_id, day, current_market, listing_dates, delisting_dates
                 )
                 for stock_id in stock_ids
             ]
@@ -409,12 +530,32 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
                 debt = float(group["estimated_debt"].sum())
                 market_value = float(group["market_value"].sum())
                 maintenance = market_value / debt * 100.0 if debt > 0 else math.nan
+                financed_amount = margin_money[market].get(day)
+                if financed_amount is None:
+                    raise RuntimeError(f"{market} {day} 缺少官方融資金額")
+                market_cap_value = market_cap[market].get(day)
+                if day >= market_cap_starts[market] and market_cap_value is None:
+                    raise RuntimeError(f"{market} {day} 缺少總市值")
+                ratio = (
+                    financed_amount / market_cap_value * 100.0
+                    if market_cap_value is not None and market_cap_value > 0
+                    else None
+                )
                 history[market].append(
                     {
                         "date": day,
                         "maintenance": round(maintenance, 2),
                         "index": round(last_index[market], 2),
                         "financed_balance": int(group["MarginPurchaseTodayBalance"].sum()),
+                        "financed_amount": round(financed_amount, 2),
+                        "market_cap": (
+                            round(market_cap_value, 2)
+                            if market_cap_value is not None
+                            else None
+                        ),
+                        "margin_market_cap_ratio": (
+                            round(ratio, 4) if ratio is not None else None
+                        ),
                         "stock_count": int((group["MarginPurchaseTodayBalance"] > 0).sum()),
                     }
                 )
@@ -466,6 +607,24 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
             "formula": "sum(close*balance) / sum(avg_cost*balance*0.60) * 100",
             "universe": "Four-digit ordinary shares; ETFs and TDRs excluded",
             "algorithm_version": "stock-level-moving-average-v1",
+            "financed_amount_unit": "TWD 100 million",
+            "financed_amount_sources": {
+                "twse": "FinMind TaiwanStockTotalMarginPurchaseShortSale / MarginPurchaseMoney",
+                "tpex": "TPEx /www/zh-tw/margin/balance / 融資金(仟元)",
+            },
+            "market_cap_unit": "TWD 100 million",
+            "market_cap_starts": market_cap_starts,
+            "market_cap_sources": {
+                "twse": market_cap_metadata["twse_source"],
+                "tpex": market_cap_metadata["tpex_source"],
+            },
+            "market_cap_scopes": {
+                "twse": market_cap_metadata["twse_scope"],
+                "tpex": "official TPEx daily individual market-value table",
+            },
+            "market_cap_validation_tolerance_pct": market_cap_metadata[
+                "validation_tolerance_pct"
+            ],
             "market_reference": {
                 "stock_info": "latest iCloud TaiwanStockInfo parquet",
                 "twse_company_info": {
@@ -475,6 +634,10 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
                 "twse_delisted": {
                     "file": args.twse_delisted_html.name,
                     "sha256": file_sha256(args.twse_delisted_html),
+                },
+                "twse_newlisting": {
+                    "file": args.twse_newlisting_json.name,
+                    "sha256": file_sha256(args.twse_newlisting_json),
                 },
             },
         },

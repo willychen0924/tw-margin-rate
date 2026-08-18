@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Atomically refresh the two official TWSE market-history references."""
+"""Atomically refresh the official TWSE market-history references."""
 
 from __future__ import annotations
 
@@ -22,6 +22,7 @@ DELISTED_URL = (
     "https://www.twse.com.tw/company/suspendListingCsvAndHtml"
     "?lang=zh&startYear=&type=html"
 )
+NEWLISTING_URL = "https://www.twse.com.tw/rwd/zh/company/newlisting?response=json"
 
 
 def parse_args() -> argparse.Namespace:
@@ -38,7 +39,11 @@ def download(url: str) -> bytes:
         return response.read()
 
 
-def validate(company_payload: bytes, delisted_payload: bytes) -> None:
+def validate(
+    company_payload: bytes,
+    delisted_payload: bytes,
+    newlisting_payload: bytes,
+) -> None:
     companies = json.loads(company_payload.decode("utf-8-sig"))
     if not isinstance(companies, list) or len(companies) < 500:
         raise RuntimeError("TWSE 公司基本資料筆數異常")
@@ -58,6 +63,18 @@ def validate(company_payload: bytes, delisted_payload: bytes) -> None:
         if temp_path is not None:
             temp_path.unlink(missing_ok=True)
 
+    newlisting = json.loads(newlisting_payload.decode("utf-8-sig"))
+    fields = newlisting.get("fields", [])
+    rows = newlisting.get("data", [])
+    required_listing = {"公司代號", "股票上市買賣日期"}
+    if (
+        not isinstance(fields, list)
+        or not required_listing.issubset(fields)
+        or not isinstance(rows, list)
+        or len(rows) < 500
+    ):
+        raise RuntimeError("TWSE 最近上市公司格式或筆數異常")
+
 
 def atomic_write(path: Path, payload: bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -70,10 +87,12 @@ def main() -> None:
     args = parse_args()
     company_payload = download(COMPANY_URL)
     delisted_payload = download(DELISTED_URL)
-    validate(company_payload, delisted_payload)
+    newlisting_payload = download(NEWLISTING_URL)
+    validate(company_payload, delisted_payload, newlisting_payload)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     atomic_write(args.output_dir / "twse-company-info.latest.json", company_payload)
     atomic_write(args.output_dir / "twse-delisted.latest.html", delisted_payload)
+    atomic_write(args.output_dir / "twse-newlisting.latest.json", newlisting_payload)
     manifest = {
         "fetched_at": datetime.now().astimezone().isoformat(),
         "files": {
@@ -86,6 +105,11 @@ def main() -> None:
                 "source": DELISTED_URL,
                 "sha256": hashlib.sha256(delisted_payload).hexdigest(),
                 "bytes": len(delisted_payload),
+            },
+            "twse-newlisting.latest.json": {
+                "source": NEWLISTING_URL,
+                "sha256": hashlib.sha256(newlisting_payload).hexdigest(),
+                "bytes": len(newlisting_payload),
             },
         },
     }
@@ -102,4 +126,3 @@ if __name__ == "__main__":
     except Exception as exc:
         print(f"市場沿革更新失敗：{exc}", file=sys.stderr)
         raise
-

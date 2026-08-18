@@ -87,13 +87,13 @@ class CalculationTests(unittest.TestCase):
 
     def test_transfer_is_tpex_before_twse_listing(self) -> None:
         market = market_for_stock(
-            "1234", "2020-01-01", {"1234": "twse"}, {"1234": "2021-01-01"}, set()
+            "1234", "2020-01-01", {"1234": "twse"}, {"1234": "2021-01-01"}, {}
         )
         self.assertEqual(market, "tpex")
 
     def test_transfer_is_twse_on_listing_date(self) -> None:
         market = market_for_stock(
-            "1234", "2021-01-01", {"1234": "twse"}, {"1234": "2021-01-01"}, set()
+            "1234", "2021-01-01", {"1234": "twse"}, {"1234": "2021-01-01"}, {}
         )
         self.assertEqual(market, "twse")
 
@@ -105,13 +105,27 @@ class CalculationTests(unittest.TestCase):
                     "2017-07-03",
                     {},
                     {stock_id: listing_date},
-                    set(),
+                    {},
                 )
                 self.assertEqual(market, "twse")
 
-    def test_delisted_fallback(self) -> None:
-        self.assertEqual(market_for_stock("1234", "2020-01-01", {}, {}, {"1234"}), "twse")
-        self.assertEqual(market_for_stock("5678", "2020-01-01", {}, {}, set()), "tpex")
+    def test_delisting_interval(self) -> None:
+        delisting = {"1234": "2021-01-01"}
+        self.assertEqual(market_for_stock("1234", "2020-01-01", {}, {}, delisting), "twse")
+        self.assertEqual(market_for_stock("1234", "2021-01-01", {}, {}, delisting), "twse")
+        self.assertEqual(market_for_stock("5678", "2020-01-01", {}, {}, {}), "tpex")
+
+    def test_relisted_market_after_twse_delisting(self) -> None:
+        self.assertEqual(
+            market_for_stock(
+                "6423",
+                "2026-02-01",
+                {"6423": "tpex"},
+                {"6423": "2024-09-30"},
+                {"6423": "2026-01-22"},
+            ),
+            "tpex",
+        )
 
 
 if __name__ == "__main__":

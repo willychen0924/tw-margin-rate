@@ -31,6 +31,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--stock-data", type=Path)
     parser.add_argument("--warmup-start", default=config["warmup_start"])
     parser.add_argument("--display-start", default=config["display_start"])
+    parser.add_argument(
+        "--twse-market-cap-start",
+        default=config["market_cap_starts"]["twse"],
+    )
+    parser.add_argument(
+        "--tpex-market-cap-start",
+        default=config["market_cap_starts"]["tpex"],
+    )
     parser.add_argument("--no-finmind-fetch", action="store_true")
     parser.add_argument("--refresh-reference", action="store_true")
     parser.add_argument(
@@ -62,10 +70,14 @@ def publish(latest_day: str) -> None:
         "index.html",
         "data/reference/twse-company-info.latest.json",
         "data/reference/twse-delisted.latest.html",
+        "data/reference/twse-newlisting.latest.json",
         "data/reference/latest-manifest.json",
+        "data/cache/market-margin-money-history.json",
+        "data/cache/market-cap-history.json",
     }
     cache_path = re.compile(
-        r"data/cache/(?:TaiwanStockPrice|TaiwanStockMarginPurchaseShortSale)/"
+        r"data/cache/(?:TaiwanStockPrice|TaiwanStockMarginPurchaseShortSale|"
+        r"TaiwanStockTotalMarginPurchaseShortSale|TaiwanStockMarketValue)/"
         r"\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}_market_[0-9a-f]{12}\.json\.gz"
     )
     status = subprocess.run(
@@ -121,6 +133,28 @@ def main() -> None:
     root_html = PROJECT_ROOT / "index.html"
     previous = json.loads(history.read_text(encoding="utf-8"))
     previous_end = previous["metadata"]["end"]
+    margin_money_command = [
+        sys.executable,
+        "scripts/fetch_margin_money_history.py",
+        "--start",
+        args.display_start,
+    ]
+    if args.end:
+        margin_money_command.extend(["--end", args.end])
+    run(margin_money_command)
+    market_cap_command = [
+        sys.executable,
+        "scripts/fetch_market_cap_history.py",
+        "--twse-start",
+        args.twse_market_cap_start,
+        "--tpex-start",
+        args.tpex_market_cap_start,
+        "--stock-data",
+        str(stock_data),
+    ]
+    if args.end:
+        market_cap_command.extend(["--end", args.end])
+    run(market_cap_command)
     temp_parent = PROJECT_ROOT / "data/tmp"
     temp_parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="margin-update-", dir=temp_parent) as temp:

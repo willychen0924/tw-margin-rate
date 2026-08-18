@@ -1,0 +1,20 @@
+{
+  "fetched_at": "2026-08-19T01:55:01.173954+08:00",
+  "files": {
+    "twse-company-info.latest.json": {
+      "source": "https://openapi.twse.com.tw/v1/opendata/t187ap03_L",
+      "sha256": "9913e59a9ba8699bde30a34cc0aa7481f8469d2cb6755c367ca34c73deef9279",
+      "bytes": 1327380
+    },
+    "twse-delisted.latest.html": {
+      "source": "https://www.twse.com.tw/company/suspendListingCsvAndHtml?lang=zh&startYear=&type=html",
+      "sha256": "2c69aef721451d12ba332ec1dd193187c5289e693e0a0e3b0fb15c5d4448b1e7",
+      "bytes": 51624
+    },
+    "twse-newlisting.latest.json": {
+      "source": "https://www.twse.com.tw/rwd/zh/company/newlisting?response=json",
+      "sha256": "50817a94760356bdcaecc664a220825342dec0939de5e142dbe506ecc544424d",
+      "bytes": 97307
+    }
+  }
+}

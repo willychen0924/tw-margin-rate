@@ -61,16 +61,25 @@ def market_for_stock(
     day: str,
     current_market: dict[str, str],
     twse_listing_dates: dict[str, str],
-    twse_delisted_codes: set[str],
+    twse_delisting_dates: dict[str, str],
 ) -> str:
-    """Resolve historical market, preferring the dated official TWSE reference."""
+    """Resolve historical market from official TWSE listing intervals."""
     listing_date = twse_listing_dates.get(stock_id)
-    if listing_date:
-        return "tpex" if day < listing_date else "twse"
+    delisting_date = twse_delisting_dates.get(stock_id)
+    if listing_date and day < listing_date:
+        return "tpex"
+    if listing_date and (not delisting_date or day < delisting_date):
+        return "twse"
+    if delisting_date and day < delisting_date:
+        return "twse"
 
     market = current_market.get(stock_id)
     if market == "twse":
         return "twse"
     if market == "tpex":
         return "tpex"
-    return "twse" if stock_id in twse_delisted_codes else "tpex"
+    if delisting_date:
+        # A stale post-delisting FinMind row still belongs to its last known
+        # TWSE market.  A genuine relisting is handled by current_market above.
+        return "twse"
+    return "tpex"

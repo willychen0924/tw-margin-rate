@@ -31,6 +31,16 @@ def format_index(market: str, value: float) -> str:
     return f"{rounded:.2f}"
 
 
+def format_balance(value: int | float) -> str:
+    rounded = Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    return f"{rounded:.1f}"
+
+
+def format_ratio(value: int | float) -> str:
+    rounded = Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    return f"{rounded:.2f}%"
+
+
 def replace_exactly_twice(pattern: str, values: list[str], source: str) -> str:
     iterator = iter(values)
     count = 0
@@ -64,8 +74,12 @@ def main() -> None:
             "d": day,
             "tw": twse[day]["maintenance"],
             "ti": twse[day]["index"],
+            "tb": twse[day]["financed_amount"],
+            "tr": twse[day].get("margin_market_cap_ratio"),
             "ot": tpex[day]["maintenance"],
             "oi": tpex[day]["index"],
+            "ob": tpex[day]["financed_amount"],
+            "or": tpex[day].get("margin_market_cap_ratio"),
         }
         for day in common_dates
     ]
@@ -112,6 +126,20 @@ def main() -> None:
         source,
     )
 
+    balance_values = [format_balance(latest["tb"]), format_balance(latest["ob"])]
+    source = replace_exactly_twice(
+        r"(&lt;strong data-role=&quot;balance-value&quot;&gt;)([^&]*?)(&lt;/strong&gt;)",
+        balance_values,
+        source,
+    )
+
+    ratio_values = [format_ratio(latest["tr"]), format_ratio(latest["or"])]
+    source = replace_exactly_twice(
+        r"(&lt;strong data-role=&quot;ratio-value&quot;&gt;)([^&]*?)(&lt;/strong&gt;)",
+        ratio_values,
+        source,
+    )
+
     display_day = latest["d"].replace("-", "/")
     source, count = re.subn(
         r"(class=&quot;mmc-updated&quot;&gt;資料時間 )\d{4}/\d{2}/\d{2}",
@@ -134,8 +162,8 @@ def main() -> None:
     args.html.write_text(source, encoding="utf-8")
     print(
         f"embedded {len(rows)} fully recalculated rows through {latest['d']} "
-        f"(TWSE {values[0]} / {index_values[0]}, "
-        f"TPEx {values[1]} / {index_values[1]})"
+        f"(TWSE {values[0]} / {index_values[0]} / {balance_values[0]}億 / {ratio_values[0]}, "
+        f"TPEx {values[1]} / {index_values[1]} / {balance_values[1]}億 / {ratio_values[1]})"
     )
 
 
