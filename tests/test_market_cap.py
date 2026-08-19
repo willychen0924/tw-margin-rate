@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import sys
 import unittest
+import zipfile
 from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +17,7 @@ from fetch_market_cap_history import (
     is_stock_code,
     is_twse_for_day,
     last_day_per_month,
+    official_twse_weekly,
     parse_finmind_twse_rows,
     parse_tpex_payload,
     parse_twse_mi_index_codes,
@@ -22,6 +27,32 @@ from build_margin_maintenance_history import merge_twse_listing_date
 
 
 class MarketCapTests(unittest.TestCase):
+    def test_twse_weekly_retries_a_non_zip_response(self) -> None:
+        response = MagicMock(content=b"temporary error page")
+        archive = MagicMock()
+        archive.__enter__.return_value = archive
+        archive.namelist.return_value = ["weekly.xls"]
+        archive.read.return_value = b"xls"
+        with (
+            patch(
+                "fetch_market_cap_history.requests.get", return_value=response
+            ) as request,
+            patch(
+                "fetch_market_cap_history.zipfile.ZipFile",
+                side_effect=[zipfile.BadZipFile(), archive],
+            ),
+            patch(
+                "fetch_market_cap_history.pd.read_excel",
+                return_value=pd.DataFrame([["2026/08/19", "1,234"]]),
+            ),
+            patch("fetch_market_cap_history.time.sleep") as sleep,
+        ):
+            result = official_twse_weekly()
+
+        self.assertEqual(result, {"2026-08-19": 1234.0})
+        self.assertEqual(request.call_count, 2)
+        sleep.assert_called_once_with(2)
+
     def test_listing_history_merge_preserves_actual_market_start(self) -> None:
         dates = {"6024": "2017-10-16", "6873": "2024-09-26"}
         merge_twse_listing_date(

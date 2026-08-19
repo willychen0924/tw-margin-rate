@@ -486,17 +486,33 @@ def parse_date_value(value: object) -> str | None:
 
 
 def official_twse_weekly() -> dict[str, float]:
-    response = requests.get(
-        TWSE_WEEKLY_URL,
-        headers={"User-Agent": "tw-margin-rate/1.0"},
-        timeout=(15, 60),
-    )
-    response.raise_for_status()
-    with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
-        members = [name for name in archive.namelist() if name.lower().endswith(".xls")]
-        if len(members) != 1:
-            raise RuntimeError("TWSE 市值週報壓縮檔格式改變")
-        frame = pd.read_excel(io.BytesIO(archive.read(members[0])), header=None)
+    last_error: Exception | None = None
+    for attempt in range(3):
+        try:
+            response = requests.get(
+                TWSE_WEEKLY_URL,
+                headers={"User-Agent": "tw-margin-rate/1.0"},
+                timeout=(15, 60),
+            )
+            response.raise_for_status()
+            with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+                members = [
+                    name
+                    for name in archive.namelist()
+                    if name.lower().endswith(".xls")
+                ]
+                if len(members) != 1:
+                    raise RuntimeError("TWSE 市值週報壓縮檔格式改變")
+                frame = pd.read_excel(
+                    io.BytesIO(archive.read(members[0])), header=None
+                )
+            break
+        except (requests.RequestException, zipfile.BadZipFile) as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(2 * (attempt + 1))
+    else:
+        raise RuntimeError(f"TWSE 市值週報下載失敗：{last_error}") from last_error
     result: dict[str, float] = {}
     for row in frame.itertuples(index=False, name=None):
         if len(row) < 2:

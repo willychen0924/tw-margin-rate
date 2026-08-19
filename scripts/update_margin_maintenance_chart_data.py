@@ -49,12 +49,12 @@ def format_ratio(value: int | float) -> str:
 def format_delta(value: int | float, unit: str) -> tuple[str, str]:
     decimal = Decimal(str(value))
     rounded = abs(decimal).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
-    separator = " " if unit == "pt" else ""
+    suffix = "" if unit == "pt" else unit
     if rounded == 0:
-        return "flat", f"— {rounded:.1f}{separator}{unit}"
+        return "flat", f"— {rounded:.1f}{suffix}"
     tone = "up" if decimal > 0 else "down"
     arrow = "▲" if decimal > 0 else "▼"
-    return tone, f"{arrow} {rounded:,.1f}{separator}{unit}"
+    return tone, f"{arrow} {rounded:,.1f}{suffix}"
 
 
 def replace_exactly_twice(pattern: str, values: list[str], source: str) -> str:

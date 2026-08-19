@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from validate_margin_outputs import expect_baseline, validate_history, validate_html
-from update_margin_maintenance_chart_data import format_delta, format_index
+from update_margin_maintenance_chart_data import format_delta, format_index, format_ratio
 
 
 class OutputTests(unittest.TestCase):
@@ -45,8 +45,8 @@ class OutputTests(unittest.TestCase):
         self.assertEqual(self.root_html_path.read_bytes(), self.html_path.read_bytes())
 
     def test_summary_delta_formatting_uses_taiwan_market_colors(self) -> None:
-        self.assertEqual(format_delta(4.04, "pt"), ("up", "▲ 4.0 pt"))
-        self.assertEqual(format_delta(-3.48, "pt"), ("down", "▼ 3.5 pt"))
+        self.assertEqual(format_delta(4.04, "pt"), ("up", "▲ 4.0"))
+        self.assertEqual(format_delta(-3.48, "pt"), ("down", "▼ 3.5"))
         self.assertEqual(format_delta(-30.91, "億"), ("down", "▼ 30.9億"))
         self.assertEqual(format_delta(0, "億"), ("flat", "— 0.0億"))
 
@@ -54,7 +54,9 @@ class OutputTests(unittest.TestCase):
         self.assertEqual(format_index("twse", 45308.68), "45,309")
         self.assertEqual(format_index("tpex", 390.83), "390.8")
         source = self.html_path.read_text(encoding="utf-8")
-        self.assertEqual(source.count("&gt;390.8&lt;"), 2)
+        latest_tpex = self.payload["markets"]["tpex"][-1]
+        expected = format_index("tpex", latest_tpex["index"])
+        self.assertEqual(source.count(f"&gt;{expected}&lt;"), 2)
         self.assertIn("Number(value).toFixed(1)", source)
 
     def test_compact_header_and_reference_stat_layout_are_present(self) -> None:
@@ -62,7 +64,8 @@ class OutputTests(unittest.TestCase):
         self.assertIn("<title>台股上市櫃融資維持率</title>", source)
         self.assertNotIn("&lt;h1&gt;台股上市櫃融資維持率&lt;/h1&gt;", source)
         self.assertIn("台股融資維持率 · 上市 / 櫃買", source)
-        self.assertIn("更新時間 2026/08/18", source)
+        display_day = self.payload["metadata"]["end"].replace("-", "/")
+        self.assertIn(f"更新時間 {display_day}", source)
         self.assertNotIn("· 每日更新", source)
         self.assertEqual(source.count('class=&quot;mmc-market-chip&quot;'), 2)
         self.assertEqual(source.count('data-role=&quot;stat-maint-value&quot;'), 2)
@@ -106,10 +109,19 @@ class OutputTests(unittest.TestCase):
         self.assertEqual(source.count('class=&quot;mmc-balance-total&quot;'), 2)
         self.assertEqual(source.count('data-role=&quot;maint-delta&quot;'), 2)
         self.assertEqual(source.count('data-role=&quot;balance-delta&quot;'), 2)
-        self.assertIn("▼ 4.0 pt", source)
-        self.assertIn("▼ 3.5 pt", source)
-        self.assertIn("▼ 30.9億", source)
-        self.assertIn("▼ 3.6億", source)
+        for market in ("twse", "tpex"):
+            rows = self.payload["markets"][market]
+            latest = rows[-1]
+            previous = rows[-2] if len(rows) > 1 else latest
+            maintenance_delta = format_delta(
+                latest["maintenance"] - previous["maintenance"], "pt"
+            )[1]
+            balance_delta = format_delta(
+                latest["financed_amount"] - previous["financed_amount"], "億"
+            )[1]
+            self.assertIn(maintenance_delta, source)
+            self.assertNotIn(f"{maintenance_delta} pt", source)
+            self.assertIn(balance_delta, source)
         self.assertIn(".mmc-balance-total { white-space: nowrap; }", source)
         self.assertIn(
             "flex: 0 0 auto; padding: 2px 7px; font-size: 12px; "
@@ -283,8 +295,9 @@ class OutputTests(unittest.TestCase):
         self.assertIn("融資市值比", source)
         self.assertIn("nullablePathFor", source)
         self.assertIn("d[keys.ratio] == null ? Number.NaN", source)
-        self.assertIn("0.37%", source)
-        self.assertIn("1.70%", source)
+        for market in ("twse", "tpex"):
+            latest = self.payload["markets"][market][-1]
+            self.assertIn(format_ratio(latest["margin_market_cap_ratio"]), source)
 
         starts = self.payload["metadata"]["market_cap_starts"]
         self.assertEqual(starts["twse"], "2017-07-03")
@@ -316,9 +329,12 @@ class OutputTests(unittest.TestCase):
 
         latest_twse = self.payload["markets"]["twse"][-1]
         latest_tpex = self.payload["markets"]["tpex"][-1]
-        self.assertEqual(latest_twse["market_cap"], 1479725.4)
-        self.assertEqual(latest_twse["margin_market_cap_ratio"], 0.3697)
-        self.assertEqual(latest_tpex["margin_market_cap_ratio"], 1.702)
+        for latest in (latest_twse, latest_tpex):
+            self.assertGreater(latest["market_cap"], 0)
+            expected_ratio = latest["financed_amount"] / latest["market_cap"] * 100
+            self.assertAlmostEqual(
+                latest["margin_market_cap_ratio"], expected_ratio, delta=0.0001
+            )
 
     def test_baseline_has_expected_row_count(self) -> None:
         self.assertGreaterEqual(len(self.payload["markets"]["twse"]), 2207)
