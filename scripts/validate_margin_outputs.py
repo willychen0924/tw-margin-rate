@@ -121,8 +121,8 @@ def format_index(market: str, value: float) -> str:
     if market == "twse":
         rounded = Decimal(str(value)).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
         return f"{rounded:,.0f}"
-    rounded = Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-    return f"{rounded:.2f}"
+    rounded = Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    return f"{rounded:.1f}"
 
 
 def format_balance(value: int | float) -> str:
@@ -130,9 +130,24 @@ def format_balance(value: int | float) -> str:
     return f"{rounded:.1f}"
 
 
+def format_stat_balance(value: int | float) -> str:
+    rounded = Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    return f"{rounded:,.1f}"
+
+
 def format_ratio(value: int | float) -> str:
     rounded = Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
     return f"{rounded:.2f}%"
+
+
+def format_delta(value: int | float, unit: str) -> str:
+    decimal = Decimal(str(value))
+    rounded = abs(decimal).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    separator = " " if unit == "pt" else ""
+    if rounded == 0:
+        return f"— {rounded:.1f}{separator}{unit}"
+    arrow = "▲" if decimal > 0 else "▼"
+    return f"{arrow} {rounded:,.1f}{separator}{unit}"
 
 
 def validate_html(payload: dict[str, object], path: Path) -> None:
@@ -161,6 +176,7 @@ def validate_html(payload: dict[str, object], path: Path) -> None:
     if embedded != expected:
         raise AssertionError("HTML 嵌入歷史與 processed JSON 不一致")
     latest = expected[-1]
+    previous = expected[-2] if len(expected) > 1 else latest
     required = [
         latest["d"].replace("-", "/"),
         one_decimal(latest["tw"]),
@@ -171,10 +187,22 @@ def validate_html(payload: dict[str, object], path: Path) -> None:
         format_balance(latest["ob"]),
         format_ratio(latest["tr"]),
         format_ratio(latest["or"]),
+        format_stat_balance(latest["tb"]),
+        format_stat_balance(latest["ob"]),
+        format_delta(latest["tw"] - previous["tw"], "pt"),
+        format_delta(latest["ot"] - previous["ot"], "pt"),
+        format_delta(latest["tb"] - previous["tb"], "億"),
+        format_delta(latest["ob"] - previous["ob"], "億"),
     ]
     for value in required:
         if html.escape(value) not in source and value not in source:
             raise AssertionError(f"HTML 摘要或日期缺少最新值：{value}")
+    if "&lt;h1&gt;台股上市櫃融資維持率&lt;/h1&gt;" in source:
+        raise AssertionError("HTML 不應顯示獨立大標題")
+    if "台股融資維持率 · 上市 / 櫃買" not in source:
+        raise AssertionError("HTML 缺少精簡頁首 kicker")
+    if "💡 B 版：" in source:
+        raise AssertionError("HTML 不應包含版面提案說明文字")
 
 
 def expect_baseline(payload: dict[str, object]) -> None:

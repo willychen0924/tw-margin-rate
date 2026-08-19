@@ -7,7 +7,7 @@
 <meta name="description" content="2017 年起的台股上市與櫃買融資維持率、市場指數及融資餘額走勢。">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>台股上市櫃融資維持率</title>
-<style>:root{color-scheme:light;background:#faf6ef}html,body{margin:0}body{box-sizing:border-box;padding:0;background:#faf6ef}iframe{display:block;width:100%;height:100vh;margin:0 auto;border:0;background:#faf6ef}</style>
+<style>:root{color-scheme:light;background:#f5f1e8}html,body{margin:0}body{box-sizing:border-box;padding:0;background:#f5f1e8}iframe{display:block;width:100%;height:100vh;margin:0 auto;border:0;background:#f5f1e8}</style>
 </head>
 <body>
 <iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="台股上市櫃融資維持率" srcdoc="&lt;!doctype html&gt;
@@ -877,25 +877,49 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;body&gt;
 &lt;div id=&quot;margin-maintenance-history&quot;&gt;
   &lt;header class=&quot;mmc-page-head&quot;&gt;
-    &lt;div&gt;
-      &lt;h1&gt;台股上市櫃融資維持率&lt;/h1&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;mmc-updated&quot;&gt;資料時間 2026/08/18&lt;/div&gt;
+    &lt;div class=&quot;mmc-kicker&quot;&gt;台股融資維持率 · 上市 / 櫃買&lt;/div&gt;
+    &lt;div class=&quot;mmc-updated&quot;&gt;更新時間 2026/08/18&lt;/div&gt;
   &lt;/header&gt;
 
   &lt;div class=&quot;mmc-stat-row&quot; aria-label=&quot;最新數值&quot;&gt;
-    &lt;article class=&quot;mmc-stat-card&quot;&gt;
-      &lt;div&gt;
-        &lt;p&gt;上市融資維持率&lt;/p&gt;
-        &lt;div class=&quot;mmc-stat-value&quot;&gt;168.0%&lt;/div&gt;
-        &lt;div class=&quot;mmc-stat-index&quot;&gt;加權指數 45,309&lt;/div&gt;
+    &lt;article class=&quot;mmc-stat-card mmc-stat-listed&quot;&gt;
+      &lt;div class=&quot;mmc-stat-top&quot;&gt;
+        &lt;span class=&quot;mmc-market-chip&quot;&gt;上市&lt;/span&gt;
+        &lt;span class=&quot;mmc-stat-label&quot;&gt;融資維持率&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;mmc-stat-value-row&quot;&gt;
+        &lt;div class=&quot;mmc-stat-value&quot;&gt;&lt;span data-role=&quot;stat-maint-value&quot;&gt;168.0&lt;/span&gt;&lt;span class=&quot;mmc-stat-percent&quot;&gt;%&lt;/span&gt;&lt;/div&gt;
+        &lt;span class=&quot;mmc-delta&quot; data-tone=&quot;down&quot; data-role=&quot;maint-delta&quot;&gt;▼ 4.0 pt&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;mmc-stat-metrics&quot;&gt;
+        &lt;div class=&quot;mmc-stat-metric&quot;&gt;
+          &lt;span class=&quot;mmc-metric-label&quot;&gt;加權指數&lt;/span&gt;
+          &lt;span class=&quot;mmc-stat-index&quot;&gt;45,309&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;mmc-stat-metric&quot;&gt;
+          &lt;span class=&quot;mmc-metric-label&quot;&gt;融資餘額&lt;/span&gt;
+          &lt;span class=&quot;mmc-stat-balance&quot;&gt;&lt;span class=&quot;mmc-balance-total&quot;&gt;&lt;strong data-role=&quot;stat-balance-value&quot;&gt;5,470.1&lt;/strong&gt;億&lt;/span&gt;&lt;span class=&quot;mmc-mini-delta&quot; data-tone=&quot;down&quot; data-role=&quot;balance-delta&quot;&gt;▼ 30.9億&lt;/span&gt;&lt;/span&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/article&gt;
-    &lt;article class=&quot;mmc-stat-card&quot;&gt;
-      &lt;div&gt;
-        &lt;p&gt;櫃買融資維持率&lt;/p&gt;
-        &lt;div class=&quot;mmc-stat-value&quot;&gt;155.3%&lt;/div&gt;
-        &lt;div class=&quot;mmc-stat-index&quot;&gt;櫃買指數 390.83&lt;/div&gt;
+    &lt;article class=&quot;mmc-stat-card mmc-stat-tpex&quot;&gt;
+      &lt;div class=&quot;mmc-stat-top&quot;&gt;
+        &lt;span class=&quot;mmc-market-chip&quot;&gt;櫃買&lt;/span&gt;
+        &lt;span class=&quot;mmc-stat-label&quot;&gt;融資維持率&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;mmc-stat-value-row&quot;&gt;
+        &lt;div class=&quot;mmc-stat-value&quot;&gt;&lt;span data-role=&quot;stat-maint-value&quot;&gt;155.3&lt;/span&gt;&lt;span class=&quot;mmc-stat-percent&quot;&gt;%&lt;/span&gt;&lt;/div&gt;
+        &lt;span class=&quot;mmc-delta&quot; data-tone=&quot;down&quot; data-role=&quot;maint-delta&quot;&gt;▼ 3.5 pt&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;mmc-stat-metrics&quot;&gt;
+        &lt;div class=&quot;mmc-stat-metric&quot;&gt;
+          &lt;span class=&quot;mmc-metric-label&quot;&gt;櫃買指數&lt;/span&gt;
+          &lt;span class=&quot;mmc-stat-index&quot;&gt;390.8&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;mmc-stat-metric&quot;&gt;
+          &lt;span class=&quot;mmc-metric-label&quot;&gt;融資餘額&lt;/span&gt;
+          &lt;span class=&quot;mmc-stat-balance&quot;&gt;&lt;span class=&quot;mmc-balance-total&quot;&gt;&lt;strong data-role=&quot;stat-balance-value&quot;&gt;1,824.6&lt;/strong&gt;億&lt;/span&gt;&lt;span class=&quot;mmc-mini-delta&quot; data-tone=&quot;down&quot; data-role=&quot;balance-delta&quot;&gt;▼ 3.6億&lt;/span&gt;&lt;/span&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
     &lt;/article&gt;
   &lt;/div&gt;
@@ -918,10 +942,10 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;h2 id=&quot;mmc-twse-heading&quot;&gt;上市&lt;/h2&gt;
       &lt;div class=&quot;mmc-summary&quot; aria-label=&quot;上市圖例與目前數值&quot; aria-live=&quot;polite&quot;&gt;
         &lt;span data-role=&quot;date&quot; class=&quot;mmc-date mmc-visually-hidden&quot;&gt;2026/08/18&lt;/span&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;maint&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換上市融資維持率&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-maint&quot;&gt;&lt;/i&gt;融資維持率 &lt;strong data-role=&quot;maint-value&quot;&gt;168.0%&lt;/strong&gt;&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;index&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換加權指數&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-index&quot;&gt;&lt;/i&gt;加權指數 &lt;strong data-role=&quot;index-value&quot;&gt;45,309&lt;/strong&gt;&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;balance&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換上市融資餘額&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-balance&quot;&gt;&lt;/i&gt;融資餘額 &lt;span class=&quot;mmc-balance-reading&quot;&gt;&lt;strong data-role=&quot;balance-value&quot;&gt;5470.1&lt;/strong&gt;億&lt;/span&gt;&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;ratio&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換上市融資市值比&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-ratio&quot;&gt;&lt;/i&gt;融資市值比 &lt;strong data-role=&quot;ratio-value&quot;&gt;0.37%&lt;/strong&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;maint&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換上市融資維持率&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-maint&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;融資維持率&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;維持率&lt;/span&gt;&lt;strong data-role=&quot;maint-value&quot;&gt;168.0%&lt;/strong&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;index&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換加權指數&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-index&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;加權指數&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;指數&lt;/span&gt;&lt;strong data-role=&quot;index-value&quot;&gt;45,309&lt;/strong&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;balance&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換上市融資餘額&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-balance&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;融資餘額&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;餘額&lt;/span&gt;&lt;span class=&quot;mmc-balance-reading&quot;&gt;&lt;strong data-role=&quot;balance-value&quot;&gt;5470.1&lt;/strong&gt;億&lt;/span&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;ratio&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換上市融資市值比&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-ratio&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;融資市值比&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;市值比&lt;/span&gt;&lt;strong data-role=&quot;ratio-value&quot;&gt;0.37%&lt;/strong&gt;&lt;/button&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&quot;mmc-plot&quot; data-role=&quot;plot&quot;&gt;
@@ -938,7 +962,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;circle data-role=&quot;index-dot&quot; class=&quot;mmc-dot mmc-dot-index&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
         &lt;circle data-role=&quot;balance-dot&quot; class=&quot;mmc-dot mmc-dot-balance&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
         &lt;circle data-role=&quot;ratio-dot&quot; class=&quot;mmc-dot mmc-dot-ratio&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
-        &lt;circle data-role=&quot;maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
+        &lt;circle data-role=&quot;maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;5&quot;&gt;&lt;/circle&gt;
         &lt;line data-role=&quot;crosshair&quot; class=&quot;mmc-crosshair&quot;&gt;&lt;/line&gt;
         &lt;rect data-role=&quot;hit&quot; class=&quot;mmc-hit&quot; x=&quot;58&quot; y=&quot;18&quot; width=&quot;644&quot; height=&quot;228&quot;&gt;&lt;/rect&gt;
       &lt;/svg&gt;
@@ -951,10 +975,10 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;h2 id=&quot;mmc-tpex-heading&quot;&gt;櫃買&lt;/h2&gt;
       &lt;div class=&quot;mmc-summary&quot; aria-label=&quot;櫃買圖例與目前數值&quot; aria-live=&quot;polite&quot;&gt;
         &lt;span data-role=&quot;date&quot; class=&quot;mmc-date mmc-visually-hidden&quot;&gt;2026/08/18&lt;/span&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;maint&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買融資維持率&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-maint&quot;&gt;&lt;/i&gt;融資維持率 &lt;strong data-role=&quot;maint-value&quot;&gt;155.3%&lt;/strong&gt;&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;index&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買指數&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-index&quot;&gt;&lt;/i&gt;櫃買指數 &lt;strong data-role=&quot;index-value&quot;&gt;390.83&lt;/strong&gt;&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;balance&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買融資餘額&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-balance&quot;&gt;&lt;/i&gt;融資餘額 &lt;span class=&quot;mmc-balance-reading&quot;&gt;&lt;strong data-role=&quot;balance-value&quot;&gt;1824.6&lt;/strong&gt;億&lt;/span&gt;&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;ratio&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買融資市值比&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-ratio&quot;&gt;&lt;/i&gt;融資市值比 &lt;strong data-role=&quot;ratio-value&quot;&gt;1.70%&lt;/strong&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;maint&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買融資維持率&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-maint&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;融資維持率&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;維持率&lt;/span&gt;&lt;strong data-role=&quot;maint-value&quot;&gt;155.3%&lt;/strong&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;index&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買指數&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-index&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;櫃買指數&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;指數&lt;/span&gt;&lt;strong data-role=&quot;index-value&quot;&gt;390.8&lt;/strong&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;balance&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買融資餘額&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-balance&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;融資餘額&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;餘額&lt;/span&gt;&lt;span class=&quot;mmc-balance-reading&quot;&gt;&lt;strong data-role=&quot;balance-value&quot;&gt;1824.6&lt;/strong&gt;億&lt;/span&gt;&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;mmc-legend-item&quot; data-series=&quot;ratio&quot; aria-pressed=&quot;true&quot; aria-label=&quot;切換櫃買融資市值比&quot;&gt;&lt;i class=&quot;mmc-swatch mmc-ratio&quot;&gt;&lt;/i&gt;&lt;span class=&quot;mmc-legend-long&quot;&gt;融資市值比&lt;/span&gt;&lt;span class=&quot;mmc-legend-short&quot;&gt;市值比&lt;/span&gt;&lt;strong data-role=&quot;ratio-value&quot;&gt;1.70%&lt;/strong&gt;&lt;/button&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&quot;mmc-plot&quot; data-role=&quot;plot&quot;&gt;
@@ -971,7 +995,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;circle data-role=&quot;index-dot&quot; class=&quot;mmc-dot mmc-dot-index&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
         &lt;circle data-role=&quot;balance-dot&quot; class=&quot;mmc-dot mmc-dot-balance&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
         &lt;circle data-role=&quot;ratio-dot&quot; class=&quot;mmc-dot mmc-dot-ratio&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
-        &lt;circle data-role=&quot;maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
+        &lt;circle data-role=&quot;maint-dot&quot; class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;5&quot;&gt;&lt;/circle&gt;
         &lt;line data-role=&quot;crosshair&quot; class=&quot;mmc-crosshair&quot;&gt;&lt;/line&gt;
         &lt;rect data-role=&quot;hit&quot; class=&quot;mmc-hit&quot; x=&quot;58&quot; y=&quot;18&quot; width=&quot;644&quot; height=&quot;228&quot;&gt;&lt;/rect&gt;
       &lt;/svg&gt;
@@ -983,80 +1007,126 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;/div&gt;
 
 &lt;style&gt;
-  :root { color-scheme: light; background: #faf6ef !important; }
-  html &gt; body { background: #faf6ef !important; }
+  :root { color-scheme: light; background: #f5f1e8 !important; }
+  html &gt; body { background: #f5f1e8 !important; }
   #margin-maintenance-history {
-    --mmc-page: #faf6ef;
-    --mmc-surface: #fffdfa;
-    --mmc-ink: #251f19;
-    --mmc-ink-2: #6d6055;
-    --mmc-muted: #a89b8b;
-    --mmc-grid: #ece2d4;
-    --mmc-border: rgba(37,31,25,.09);
-    --mmc-tint: #f1e8db;
-    --mmc-tint-hover: #e8dcc9;
-    --mmc-active: #3a2c22;
+    --mmc-page: #f5f1e8;
+    --mmc-surface: #ffffff;
+    --mmc-surface-soft: #faf7f0;
+    --mmc-ink: #2f2b25;
+    --mmc-ink-2: #6b655c;
+    --mmc-muted: #a69f93;
+    --mmc-grid: #ded6c8;
+    --mmc-border: rgba(60,50,38,.10);
+    --mmc-tint: #ece6db;
+    --mmc-tint-hover: #e2dbcd;
+    --mmc-active: #2a2622;
     --mmc-active-fg: #ffffff;
-    --mmc-blue: #2a78d6;
-    --mmc-orange: #eb6834;
-    --mmc-green: #24986f;
-    --mmc-purple: #8b5bb5;
-    --mmc-critical: #d03b3b;
-    width: 100%; max-width: 1080px; margin: 0 auto; padding: 40px 24px 64px;
+    --mmc-blue: #4a7fd0;
+    --mmc-orange: #e0783c;
+    --mmc-green: #4e9e72;
+    --mmc-purple: #8a6fc0;
+    --mmc-critical: #d0645c;
+    --mmc-up: #c74a3f;
+    --mmc-down: #1a9e5f;
+    width: 100%; max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px;
     color: var(--mmc-ink); background: var(--mmc-page); border-radius: 0;
     font-family: system-ui, -apple-system, &quot;PingFang TC&quot;, &quot;Segoe UI&quot;, sans-serif;
-    -webkit-font-smoothing: antialiased;
+    font-size: 16px; line-height: normal; -webkit-font-smoothing: antialiased;
   }
   #margin-maintenance-history * { box-sizing: border-box; }
   #margin-maintenance-history .mmc-page-head {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 6px; margin-bottom: 24px; text-align: center;
-  }
-  #margin-maintenance-history .mmc-page-head h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -.01em; }
-  #margin-maintenance-history .mmc-updated { color: var(--mmc-muted); font-size: 12px; }
-  #margin-maintenance-history .mmc-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-  #margin-maintenance-history .mmc-stat-card {
-    display: flex; align-items: center; gap: 16px; padding: 18px 20px;
-    min-width: 0;
-    border: 1px solid var(--mmc-border); border-radius: 16px; background: var(--mmc-surface);
-    box-shadow: 0 1px 2px rgba(11,11,11,.04), 0 8px 24px -16px rgba(11,11,11,.12);
-  }
-  #margin-maintenance-history .mmc-stat-card &gt; div { min-width: 0; }
-  #margin-maintenance-history .mmc-stat-card p { margin: 0 0 2px; color: var(--mmc-ink-2); font-size: 12px; }
-  #margin-maintenance-history .mmc-stat-value { font-size: 28px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
-  #margin-maintenance-history .mmc-stat-index { margin-top: 3px; color: var(--mmc-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-  #margin-maintenance-history .mmc-toolbar {
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;
     gap: 10px; margin-bottom: 14px;
   }
-  #margin-maintenance-history .mmc-segmented { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--mmc-tint); }
+  #margin-maintenance-history .mmc-kicker {
+    color: var(--mmc-muted); font-size: 12.5px; font-weight: 600; letter-spacing: .14em;
+  }
+  #margin-maintenance-history .mmc-updated { color: var(--mmc-muted); font-size: 12px; }
+  #margin-maintenance-history .mmc-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+  #margin-maintenance-history .mmc-stat-card {
+    position: relative; min-width: 0; padding: 15px 20px 13px; overflow: hidden;
+    border: 1px solid var(--mmc-border); border-radius: 16px; background: var(--mmc-surface);
+    box-shadow: 0 1px 2px rgba(47,43,37,.04), 0 14px 30px -22px rgba(47,43,37,.25);
+  }
+  #margin-maintenance-history .mmc-stat-listed::before,
+  #margin-maintenance-history .mmc-stat-tpex::before {
+    position: absolute; top: 0; bottom: 0; left: 0; width: 4px; content: &quot;&quot;;
+  }
+  #margin-maintenance-history .mmc-stat-listed::before { background: var(--mmc-blue); }
+  #margin-maintenance-history .mmc-stat-tpex::before { background: #c99a4e; }
+  #margin-maintenance-history .mmc-stat-top { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; }
+  #margin-maintenance-history .mmc-market-chip {
+    padding: 4px 11px; border-radius: 7px; background: var(--mmc-tint);
+    color: var(--mmc-ink); font-size: 14px; font-weight: 700;
+  }
+  #margin-maintenance-history .mmc-stat-label { color: var(--mmc-ink-2); font-size: 16px; font-weight: 600; }
+  #margin-maintenance-history .mmc-stat-value-row { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+  #margin-maintenance-history .mmc-stat-value {
+    font-size: 46px; font-weight: 800; line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums;
+  }
+  #margin-maintenance-history .mmc-stat-percent { font-size: 26px; font-weight: 700; }
+  #margin-maintenance-history .mmc-delta,
+  #margin-maintenance-history .mmc-mini-delta {
+    display: inline-flex; align-items: center; border-radius: 999px; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  #margin-maintenance-history .mmc-delta { margin-bottom: 6px; padding: 3px 8px; font-size: 13px; }
+  #margin-maintenance-history .mmc-mini-delta {
+    flex: 0 0 auto; padding: 2px 7px; font-size: 12px; line-height: 1.2; white-space: nowrap;
+  }
+  #margin-maintenance-history [data-tone=&quot;up&quot;] { color: var(--mmc-up); background: rgba(199,74,63,.14); }
+  #margin-maintenance-history [data-tone=&quot;down&quot;] { color: var(--mmc-down); background: rgba(26,158,95,.14); }
+  #margin-maintenance-history [data-tone=&quot;flat&quot;] { color: var(--mmc-muted); background: var(--mmc-tint); }
+  #margin-maintenance-history .mmc-stat-metrics { display: flex; margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--mmc-border); }
+  #margin-maintenance-history .mmc-stat-metric { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; }
+  #margin-maintenance-history .mmc-stat-metric + .mmc-stat-metric { padding-left: 16px; border-left: 1px solid var(--mmc-border); }
+  #margin-maintenance-history .mmc-metric-label { color: var(--mmc-muted); font-size: 12px; }
+  #margin-maintenance-history .mmc-stat-index,
+  #margin-maintenance-history .mmc-stat-balance {
+    display: flex; min-height: 21px; align-items: center; gap: 6px;
+    color: var(--mmc-ink); font-size: 15px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums;
+  }
+  #margin-maintenance-history .mmc-stat-balance strong { font-weight: 700; }
+  #margin-maintenance-history .mmc-balance-total { white-space: nowrap; }
+  #margin-maintenance-history .mmc-toolbar {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    gap: 10px; margin-bottom: 12px;
+  }
+  #margin-maintenance-history .mmc-segmented { display: inline-flex; gap: 2px; padding: 2px; border-radius: 999px; background: var(--mmc-tint); }
   #margin-maintenance-history .mmc-segmented button {
-    border: 0; border-radius: 999px; padding: 6px 14px; background: transparent;
-    color: var(--mmc-ink-2); font-family: inherit; font-size: 13px; cursor: pointer;
+    border: 0; border-radius: 999px; padding: 2px 12px; background: transparent;
+    color: var(--mmc-ink-2); font-family: inherit; font-size: 13px; line-height: 1.1; cursor: pointer;
     transition: background .15s, color .15s;
   }
   #margin-maintenance-history .mmc-segmented button:hover:not(.btn-primary) { background: var(--mmc-tint-hover); }
   #margin-maintenance-history .mmc-segmented button.btn-primary { background: var(--mmc-active); color: var(--mmc-active-fg); font-weight: 600; }
   #margin-maintenance-history .mmc-segmented-small button { padding: 5px 12px; font-size: 12px; }
   #margin-maintenance-history .mmc-market-section {
-    margin: 0 0 18px; padding: 20px 20px 14px; overflow: hidden;
+    margin: 0 0 18px; padding: 20px 20px 8px; overflow: hidden;
     border: 1px solid var(--mmc-border); border-radius: 16px; background: var(--mmc-surface);
-    box-shadow: 0 1px 2px rgba(11,11,11,.04), 0 8px 24px -16px rgba(11,11,11,.12);
+    box-shadow: 0 1px 2px rgba(47,43,37,.04), 0 14px 30px -24px rgba(47,43,37,.20);
   }
-  #margin-maintenance-history .mmc-market-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
-  #margin-maintenance-history .mmc-market-meta h2 { margin: 0; padding: 3px 10px; border-radius: 6px; background: var(--mmc-tint); color: var(--mmc-ink); font-size: 13px; font-weight: 700; }
-  #margin-maintenance-history .mmc-summary { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 6px 16px; color: var(--mmc-ink-2); font-size: 12px; font-variant-numeric: tabular-nums; }
+  #margin-maintenance-history .mmc-market-meta {
+    display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 12px;
+    margin: -20px -20px 10px; padding: 11px 18px;
+    border-bottom: 1px solid var(--mmc-border); background: var(--mmc-surface-soft);
+  }
+  #margin-maintenance-history .mmc-market-meta h2 { margin: 0; padding: 5px 13px; border-radius: 8px; background: var(--mmc-tint); color: var(--mmc-ink); font-size: 15px; font-weight: 800; letter-spacing: .03em; }
+  #margin-maintenance-history [data-chart=&quot;twse&quot;] .mmc-market-meta h2 { background: rgba(74,127,208,.14); color: #2c5aa6; }
+  #margin-maintenance-history [data-chart=&quot;tpex&quot;] .mmc-market-meta h2 { background: rgba(201,154,78,.18); color: #8a6320; }
+  #margin-maintenance-history .mmc-summary { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 6px; color: var(--mmc-ink-2); font-size: 12.5px; font-variant-numeric: tabular-nums; }
   #margin-maintenance-history .mmc-summary span,
   #margin-maintenance-history .mmc-legend-item { display: inline-flex; align-items: center; gap: 6px; }
   #margin-maintenance-history .mmc-legend-item {
-    appearance: none; margin: -3px -5px; padding: 3px 5px; border: 0; border-radius: 6px;
+    appearance: none; margin: 0; padding: 3px 8px; border: 1px solid transparent; border-radius: 7px;
     color: inherit; background: transparent; font: inherit; font-variant-numeric: inherit; cursor: pointer;
     transition: opacity .16s ease, background-color .16s ease;
   }
-  #margin-maintenance-history .mmc-legend-item:hover { background: var(--mmc-tint); }
+  #margin-maintenance-history .mmc-legend-item:hover { background: var(--mmc-surface); }
   #margin-maintenance-history .mmc-legend-item:focus-visible { outline: 2px solid var(--mmc-blue); outline-offset: 2px; }
   #margin-maintenance-history .mmc-legend-item[aria-pressed=&quot;false&quot;] { opacity: .38; }
-  #margin-maintenance-history .mmc-summary strong { color: var(--mmc-ink); font-weight: 700; }
+  #margin-maintenance-history .mmc-summary strong { margin-left: 1px; color: var(--mmc-ink); font-weight: 800; }
+  #margin-maintenance-history .mmc-summary .mmc-legend-short { display: none; }
   #margin-maintenance-history .mmc-summary .mmc-balance-reading { gap: 1px; }
   #margin-maintenance-history .mmc-date { color: var(--mmc-muted); }
   #margin-maintenance-history .mmc-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -1069,16 +1139,14 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history .mmc-chart { display: block; width: 100%; height: auto; overflow: visible; }
   #margin-maintenance-history .mmc-grid-line { stroke: var(--mmc-grid); stroke-width: 1; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-year-line { stroke: var(--mmc-muted); stroke-width: 1; stroke-dasharray: 2 5; opacity: .42; vector-effect: non-scaling-stroke; }
-  #margin-maintenance-history .mmc-axis-label { fill: var(--mmc-muted); font-size: 11px; font-weight: 400; font-variant-numeric: tabular-nums; }
-  #margin-maintenance-history .mmc-axis-title { fill: var(--mmc-ink-2); font-size: 11px; font-weight: 500; }
-  #margin-maintenance-history .mmc-axis-title-maint { writing-mode: vertical-rl; text-orientation: upright; }
-  #margin-maintenance-history .mmc-axis-title-index { writing-mode: vertical-rl; text-orientation: upright; }
-  #margin-maintenance-history .mmc-line { fill: none; stroke-width: 1.35; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-  #margin-maintenance-history .mmc-line-maint { stroke: var(--mmc-blue); }
-  #margin-maintenance-history .mmc-line-index { stroke: var(--mmc-orange); }
-  #margin-maintenance-history .mmc-line-balance { stroke: var(--mmc-green); }
-  #margin-maintenance-history .mmc-line-ratio { stroke: var(--mmc-purple); }
-  #margin-maintenance-history .mmc-risk-zone { fill: rgba(208,59,59,.07); }
+  #margin-maintenance-history .mmc-axis-label { fill: var(--mmc-muted); font-size: 9px; font-weight: 400; font-variant-numeric: tabular-nums; }
+  #margin-maintenance-history .mmc-axis-title { fill: var(--mmc-muted); font-size: 9px; font-weight: 400; letter-spacing: .18em; }
+  #margin-maintenance-history .mmc-line { fill: none; stroke-width: 1.3; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-line-maint { stroke: var(--mmc-blue); stroke-width: 2.4; }
+  #margin-maintenance-history .mmc-line-index { stroke: var(--mmc-orange); opacity: .7; }
+  #margin-maintenance-history .mmc-line-balance { stroke: var(--mmc-green); opacity: .7; }
+  #margin-maintenance-history .mmc-line-ratio { stroke: var(--mmc-purple); opacity: .7; }
+  #margin-maintenance-history .mmc-risk-zone { fill: rgba(208,100,92,.07); }
   #margin-maintenance-history .mmc-alert-line { stroke: var(--mmc-critical); stroke-width: 1.2; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
   #margin-maintenance-history .mmc-warn-label { fill: var(--mmc-critical); font-size: 11px; font-weight: 600; }
   #margin-maintenance-history .mmc-dot { stroke: var(--mmc-surface); stroke-width: 2; vector-effect: non-scaling-stroke; }
@@ -1087,27 +1155,52 @@ html&gt;body{padding:0}&lt;/style&gt;
   #margin-maintenance-history .mmc-dot-balance { fill: var(--mmc-green); }
   #margin-maintenance-history .mmc-dot-ratio { fill: var(--mmc-purple); }
   #margin-maintenance-history .mmc-crosshair { stroke: var(--mmc-ink-2); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; }
-  #margin-maintenance-history .mmc-hit { fill: transparent; cursor: crosshair; }
+  #margin-maintenance-history .mmc-hit {
+    fill: transparent; cursor: crosshair; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  }
   #margin-maintenance-history .mmc-tooltip {
-    position: absolute; left: 0; bottom: 2px; z-index: 5; min-width: 8rem; padding: 6px 8px; visibility: hidden;
+    position: fixed; left: 0; top: 0; z-index: 100; min-width: 8rem; padding: 6px 8px; visibility: hidden;
     border-radius: 7px; background: var(--mmc-ink); color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.16);
     font-size: 11px; line-height: 1.4; font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
   }
   #margin-maintenance-history .mmc-tooltip strong { font-size: 11px; color: rgba(255,255,255,.72); }
   #margin-maintenance-history footer { margin-top: 8px; color: var(--mmc-muted); font-size: 11px; text-align: center; }
+  @media (min-width: 701px) {
+    #margin-maintenance-history .mmc-line { stroke-width: 1.4; }
+    #margin-maintenance-history .mmc-line-maint { stroke-width: 2.5; }
+    #margin-maintenance-history .mmc-dot { r: 3.2px; }
+  }
   @media (max-width: 700px) {
-    #margin-maintenance-history { padding: 24px 12px 36px; border-radius: 14px; }
-    #margin-maintenance-history .mmc-stat-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-    #margin-maintenance-history .mmc-stat-card { align-items: flex-start; gap: 8px; padding: 14px 10px; }
-    #margin-maintenance-history .mmc-stat-card p,
-    #margin-maintenance-history .mmc-stat-index { font-size: 11px; white-space: nowrap; }
-    #margin-maintenance-history .mmc-stat-value { font-size: 24px; }
-    #margin-maintenance-history .mmc-toolbar { align-items: flex-start; }
-    #margin-maintenance-history .mmc-segmented { max-width: 100%; overflow-x: auto; }
-    #margin-maintenance-history .mmc-segmented button { padding: 6px 11px; }
+    #margin-maintenance-history .mmc-axis-title { display: none; }
     #margin-maintenance-history .mmc-market-section { padding: 16px 10px 10px; }
-    #margin-maintenance-history .mmc-summary { justify-content: flex-start; }
-    #margin-maintenance-history .mmc-x-axis-label { font-size: 13px; }
+    #margin-maintenance-history .mmc-market-meta {
+      display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; justify-content: stretch; gap: 0 8px;
+      margin: -16px -10px 10px; padding: 10px;
+    }
+    #margin-maintenance-history .mmc-market-meta h2 { grid-column: 1; grid-row: 1; }
+    #margin-maintenance-history .mmc-summary {
+      display: grid; grid-column: 2; grid-template-columns: repeat(2, minmax(0, 1fr));
+      justify-content: stretch; gap: 0 8px; width: 100%;
+    }
+    #margin-maintenance-history .mmc-legend-item { min-width: 0; padding: 1px 2px; line-height: 1.1; white-space: nowrap; }
+    #margin-maintenance-history .mmc-summary .mmc-legend-long { display: none; }
+    #margin-maintenance-history .mmc-summary .mmc-legend-short { display: inline; }
+    #margin-maintenance-history .mmc-axis-label { font-size: 18px; font-weight: 500; }
+    #margin-maintenance-history .mmc-x-axis-label { font-size: 18px; }
+  }
+  @media (max-width: 640px) {
+    #margin-maintenance-history .mmc-stat-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 360px) {
+    #margin-maintenance-history .mmc-market-meta { grid-template-columns: auto minmax(0, 1fr); gap: 0 4px; }
+    #margin-maintenance-history .mmc-market-meta h2 { padding: 4px 8px; font-size: 13px; }
+    #margin-maintenance-history .mmc-summary {
+      min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 4px; font-size: 11px;
+    }
+    #margin-maintenance-history .mmc-summary span,
+    #margin-maintenance-history .mmc-legend-item { gap: 3px; }
+    #margin-maintenance-history .mmc-legend-item { padding: 1px; }
+    #margin-maintenance-history .mmc-swatch { width: 8px; height: 8px; }
   }
 &lt;/style&gt;
 
@@ -1158,12 +1251,18 @@ html&gt;body{padding:0}&lt;/style&gt;
       shown: null,
     };
   });
+  const isNarrow = () =&gt; root.getBoundingClientRect().width &lt;= 700;
   function updateChartGeometry() {
-    const narrow = root.getBoundingClientRect().width &lt;= 700;
+    const narrow = isNarrow();
+    bounds.left = narrow ? 64 : 39;
+    bounds.right = narrow ? 672 : 712;
     bounds.bottom = narrow ? 366 : 246;
-    chartHeight = narrow ? 420 : 300;
+    chartHeight = narrow ? 420 : 282;
     charts.forEach(chart =&gt; {
+      if (chart.tooltip.parentElement !== root) root.appendChild(chart.tooltip);
       chart.svg.setAttribute(&#x27;viewBox&#x27;, `0 0 760 ${chartHeight}`);
+      chart.hit.setAttribute(&#x27;x&#x27;, bounds.left);
+      chart.hit.setAttribute(&#x27;width&#x27;, bounds.right - bounds.left);
       chart.hit.setAttribute(&#x27;y&#x27;, bounds.top);
       chart.hit.setAttribute(&#x27;height&#x27;, bounds.bottom - bounds.top);
     });
@@ -1264,7 +1363,11 @@ html&gt;body{padding:0}&lt;/style&gt;
       return `${command}${xFor(i, values.length).toFixed(1)},${yFor(value, domain).toFixed(1)}`;
     }).join(&#x27; &#x27;);
   };
-  const fmtIndex = (market, value) =&gt; market === &#x27;twse&#x27; ? Math.round(value).toLocaleString(&#x27;zh-TW&#x27;) : Number(value).toFixed(2);
+  const fmtIndex = (market, value) =&gt; market === &#x27;twse&#x27; ? Math.round(value).toLocaleString(&#x27;zh-TW&#x27;) : Number(value).toFixed(1);
+  const fmtAxisIndex = (market, value) =&gt; {
+    if (!isNarrow() || Math.abs(value) &lt; 1000) return fmtIndex(market, value);
+    return `${Number((value / 1000).toFixed(1))}k`;
+  };
   const fmtMaintenance = value =&gt; (Math.round((value + Number.EPSILON) * 10) / 10).toFixed(1);
   const balanceFor = value =&gt; Number(value);
   const fmtBalanceAmount = value =&gt; Number(value).toLocaleString(&#x27;zh-TW&#x27;, { minimumFractionDigits: 1, maximumFractionDigits: 1, useGrouping: false });
@@ -1297,14 +1400,18 @@ html&gt;body{padding:0}&lt;/style&gt;
     chart.grid.replaceChildren();
     chart.axes.replaceChildren();
     const ticks = 4;
+    const narrow = isNarrow();
+    const leftAxisX = narrow ? bounds.left - 9 : bounds.left - 25;
+    const leftAxisAnchor = narrow ? &#x27;end&#x27; : &#x27;start&#x27;;
+    const rightAxisX = bounds.right + 9;
     for (let i = 0; i &lt;= ticks; i++) {
       const y = bounds.top + i / ticks * (bounds.bottom - bounds.top);
       const mv = maintDomain[1] - i / ticks * (maintDomain[1] - maintDomain[0]);
       const indexTick = indexDomain[1] - i / ticks * (indexDomain[1] - indexDomain[0]);
       const iv = scaleMode === &#x27;log&#x27; ? 10 ** indexTick : indexTick;
       chart.grid.appendChild(node(&#x27;line&#x27;, { x1: bounds.left, x2: bounds.right, y1: y, y2: y, class: &#x27;mmc-grid-line&#x27; }));
-      chart.axes.appendChild(node(&#x27;text&#x27;, { x: bounds.left - 9, y: y + 4, &#x27;text-anchor&#x27;: &#x27;end&#x27;, class: &#x27;mmc-axis-label&#x27; }, Math.round(mv)));
-      chart.axes.appendChild(node(&#x27;text&#x27;, { x: bounds.right + 9, y: y + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, class: &#x27;mmc-axis-label&#x27; }, fmtIndex(chart.market, iv)));
+      chart.axes.appendChild(node(&#x27;text&#x27;, { x: leftAxisX, y: y + 4, &#x27;text-anchor&#x27;: leftAxisAnchor, class: &#x27;mmc-axis-label&#x27; }, Math.round(mv)));
+      chart.axes.appendChild(node(&#x27;text&#x27;, { x: rightAxisX, y: y + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, class: &#x27;mmc-axis-label&#x27; }, fmtAxisIndex(chart.market, iv)));
     }
     yearGuideIndexes(rows).forEach(idx =&gt; {
       const x = xFor(idx, rows.length);
@@ -1315,8 +1422,9 @@ html&gt;body{padding:0}&lt;/style&gt;
       const anchor = tick.idx === 0 ? &#x27;start&#x27; : tick.idx === rows.length - 1 ? &#x27;end&#x27; : &#x27;middle&#x27;;
       chart.axes.appendChild(node(&#x27;text&#x27;, { x, y: bounds.bottom + 24, &#x27;text-anchor&#x27;: anchor, class: &#x27;mmc-axis-label mmc-x-axis-label&#x27; }, tick.label));
     });
-    chart.axes.appendChild(node(&#x27;text&#x27;, { x: 16, y: (bounds.top + bounds.bottom) / 2, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, &#x27;dominant-baseline&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-maint&#x27; }, &#x27;維持率&#x27;));
-    chart.axes.appendChild(node(&#x27;text&#x27;, { x: 748, y: (bounds.top + bounds.bottom) / 2, &#x27;text-anchor&#x27;: &#x27;middle&#x27;, &#x27;dominant-baseline&#x27;: &#x27;middle&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-index&#x27; }, `${chart.config.indexLabel}${scaleMode === &#x27;log&#x27; ? &#x27;︵對數︶&#x27; : &#x27;&#x27;}`));
+    const axisTitleY = bounds.bottom + 24;
+    chart.axes.appendChild(node(&#x27;text&#x27;, { x: leftAxisX, y: axisTitleY, &#x27;text-anchor&#x27;: &#x27;start&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-maint&#x27; }, &#x27;維持率&#x27;));
+    chart.axes.appendChild(node(&#x27;text&#x27;, { x: rightAxisX, y: axisTitleY, &#x27;text-anchor&#x27;: &#x27;start&#x27;, class: &#x27;mmc-axis-title mmc-axis-title-index&#x27; }, &#x27;指數&#x27;));
     const alertY = yFor(130, maintDomain);
     chart.riskZone.setAttribute(&#x27;x&#x27;, bounds.left); chart.riskZone.setAttribute(&#x27;y&#x27;, Math.max(bounds.top, alertY));
     chart.riskZone.setAttribute(&#x27;width&#x27;, bounds.right - bounds.left); chart.riskZone.setAttribute(&#x27;height&#x27;, Math.max(0, bounds.bottom - alertY));
@@ -1451,10 +1559,10 @@ html&gt;body{padding:0}&lt;/style&gt;
       renderChart(chart, true);
       saveSeriesPreferences();
     }));
-    chart.hit.addEventListener(&#x27;pointermove&#x27;, event =&gt; {
+    const showInteraction = clientX =&gt; {
       if (!chart.shown) return;
       const rect = chart.svg.getBoundingClientRect();
-      const px = (event.clientX - rect.left) / rect.width * 760;
+      const px = (clientX - rect.left) / rect.width * 760;
       const idx = Math.max(0, Math.min(chart.shown.rows.length - 1, Math.round((px - bounds.left) / (bounds.right - bounds.left) * (chart.shown.rows.length - 1))));
       const row = chart.shown.rows[idx], keys = chart.config, x = xFor(idx, chart.shown.rows.length);
       chart.crosshair.setAttribute(&#x27;x1&#x27;, x); chart.crosshair.setAttribute(&#x27;x2&#x27;, x); chart.crosshair.setAttribute(&#x27;y1&#x27;, bounds.top); chart.crosshair.setAttribute(&#x27;y2&#x27;, bounds.bottom); chart.crosshair.style.opacity = 1;
@@ -1478,9 +1586,14 @@ html&gt;body{padding:0}&lt;/style&gt;
       const plotRect = chart.plot.getBoundingClientRect();
       const box = chart.tooltip.getBoundingClientRect();
       const screenX = x / 760 * plotRect.width;
-      chart.tooltip.style.left = `${Math.max(4, Math.min(plotRect.width - box.width - 4, screenX - box.width / 2))}px`;
-    });
-    chart.hit.addEventListener(&#x27;pointerleave&#x27;, () =&gt; {
+      const viewportPadding = 8;
+      const desiredLeft = plotRect.left + screenX - box.width / 2;
+      const tooltipLift = isNarrow() ? 16 : 12;
+      const desiredTop = plotRect.top + bounds.bottom / chartHeight * plotRect.height - tooltipLift;
+      chart.tooltip.style.left = `${Math.max(viewportPadding, Math.min(window.innerWidth - box.width - viewportPadding, desiredLeft))}px`;
+      chart.tooltip.style.top = `${Math.max(viewportPadding, Math.min(window.innerHeight - box.height - viewportPadding, desiredTop))}px`;
+    };
+    const resetInteraction = () =&gt; {
       chart.tooltip.style.visibility = &#x27;hidden&#x27;; chart.tooltip.setAttribute(&#x27;aria-hidden&#x27;, &#x27;true&#x27;); chart.crosshair.style.opacity = 0;
       if (chart.shown) {
         const last = chart.shown.rows.at(-1), keys = chart.config, x = xFor(chart.shown.rows.length - 1, chart.shown.rows.length);
@@ -1493,6 +1606,69 @@ html&gt;body{padding:0}&lt;/style&gt;
         }
         updateDetail(chart, last);
       }
+    };
+    let touchTimer = 0;
+    let touchPointerId = null;
+    let touchActive = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchLastX = 0;
+    const clearTouchTimer = () =&gt; {
+      if (!touchTimer) return;
+      window.clearTimeout(touchTimer);
+      touchTimer = 0;
+    };
+    const finishTouch = event =&gt; {
+      if (event.pointerType !== &#x27;touch&#x27; || event.pointerId !== touchPointerId) return;
+      clearTouchTimer();
+      if (chart.hit.hasPointerCapture?.(event.pointerId)) chart.hit.releasePointerCapture(event.pointerId);
+      touchPointerId = null;
+      touchActive = false;
+      resetInteraction();
+    };
+    chart.hit.addEventListener(&#x27;pointerdown&#x27;, event =&gt; {
+      if (event.pointerType !== &#x27;touch&#x27; || event.isPrimary === false) return;
+      clearTouchTimer();
+      touchPointerId = event.pointerId;
+      touchStartX = event.clientX;
+      touchStartY = event.clientY;
+      touchLastX = event.clientX;
+      touchTimer = window.setTimeout(() =&gt; {
+        if (touchPointerId !== event.pointerId) return;
+        touchTimer = 0;
+        touchActive = true;
+        try { chart.hit.setPointerCapture?.(event.pointerId); } catch {}
+        showInteraction(touchLastX);
+      }, 320);
+    });
+    chart.hit.addEventListener(&#x27;pointermove&#x27;, event =&gt; {
+      if (event.pointerType !== &#x27;touch&#x27;) {
+        showInteraction(event.clientX);
+        return;
+      }
+      if (event.pointerId !== touchPointerId) return;
+      touchLastX = event.clientX;
+      if (!touchActive) {
+        if (Math.hypot(event.clientX - touchStartX, event.clientY - touchStartY) &gt; 10) {
+          clearTouchTimer();
+          touchPointerId = null;
+        }
+        return;
+      }
+      event.preventDefault();
+      showInteraction(event.clientX);
+    }, { passive: false });
+    chart.hit.addEventListener(&#x27;pointerleave&#x27;, event =&gt; {
+      if (event.pointerType === &#x27;touch&#x27;) {
+        if (!touchActive) { clearTouchTimer(); touchPointerId = null; }
+        return;
+      }
+      resetInteraction();
+    });
+    chart.hit.addEventListener(&#x27;pointerup&#x27;, finishTouch);
+    chart.hit.addEventListener(&#x27;pointercancel&#x27;, finishTouch);
+    chart.hit.addEventListener(&#x27;contextmenu&#x27;, event =&gt; {
+      if (isNarrow()) event.preventDefault();
     });
   });
   updateChartGeometry();

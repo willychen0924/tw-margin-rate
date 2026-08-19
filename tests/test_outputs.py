@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from validate_margin_outputs import expect_baseline, validate_history, validate_html
+from update_margin_maintenance_chart_data import format_delta, format_index
 
 
 class OutputTests(unittest.TestCase):
@@ -43,6 +44,82 @@ class OutputTests(unittest.TestCase):
     def test_root_html_is_exact_docs_mirror(self) -> None:
         self.assertEqual(self.root_html_path.read_bytes(), self.html_path.read_bytes())
 
+    def test_summary_delta_formatting_uses_taiwan_market_colors(self) -> None:
+        self.assertEqual(format_delta(4.04, "pt"), ("up", "▲ 4.0 pt"))
+        self.assertEqual(format_delta(-3.48, "pt"), ("down", "▼ 3.5 pt"))
+        self.assertEqual(format_delta(-30.91, "億"), ("down", "▼ 30.9億"))
+        self.assertEqual(format_delta(0, "億"), ("flat", "— 0.0億"))
+
+    def test_tpex_index_displays_one_decimal(self) -> None:
+        self.assertEqual(format_index("twse", 45308.68), "45,309")
+        self.assertEqual(format_index("tpex", 390.83), "390.8")
+        source = self.html_path.read_text(encoding="utf-8")
+        self.assertEqual(source.count("&gt;390.8&lt;"), 2)
+        self.assertIn("Number(value).toFixed(1)", source)
+
+    def test_compact_header_and_reference_stat_layout_are_present(self) -> None:
+        source = self.html_path.read_text(encoding="utf-8")
+        self.assertIn("<title>台股上市櫃融資維持率</title>", source)
+        self.assertNotIn("&lt;h1&gt;台股上市櫃融資維持率&lt;/h1&gt;", source)
+        self.assertIn("台股融資維持率 · 上市 / 櫃買", source)
+        self.assertIn("更新時間 2026/08/18", source)
+        self.assertNotIn("· 每日更新", source)
+        self.assertEqual(source.count('class=&quot;mmc-market-chip&quot;'), 2)
+        self.assertEqual(source.count('data-role=&quot;stat-maint-value&quot;'), 2)
+        self.assertEqual(source.count('class=&quot;mmc-stat-percent&quot;'), 2)
+        self.assertIn(".mmc-stat-listed::before { background: var(--mmc-blue); }", source)
+        self.assertIn(".mmc-stat-tpex::before { background: #c99a4e; }", source)
+        self.assertIn(".mmc-stat-percent { font-size: 26px; font-weight: 700; }", source)
+        self.assertIn("--mmc-blue: #4a7fd0;", source)
+        self.assertIn("--mmc-orange: #e0783c;", source)
+        self.assertIn("--mmc-green: #4e9e72;", source)
+        self.assertIn("--mmc-purple: #8a6fc0;", source)
+        self.assertIn("--mmc-page: #f5f1e8;", source)
+        self.assertIn("--mmc-surface: #ffffff;", source)
+        self.assertIn("--mmc-ink: #2f2b25;", source)
+        self.assertIn("--mmc-ink-2: #6b655c;", source)
+        self.assertIn("--mmc-muted: #a69f93;", source)
+        self.assertIn("--mmc-tint: #ece6db;", source)
+        self.assertIn("--mmc-active: #2a2622;", source)
+        self.assertIn(".mmc-line-maint { stroke: var(--mmc-blue); stroke-width: 2.4; }", source)
+        self.assertIn(".mmc-line-index { stroke: var(--mmc-orange); opacity: .7; }", source)
+        self.assertIn(".mmc-line-balance { stroke: var(--mmc-green); opacity: .7; }", source)
+        self.assertIn(".mmc-line-ratio { stroke: var(--mmc-purple); opacity: .7; }", source)
+        self.assertIn("@media (min-width: 701px)", source)
+        self.assertIn(".mmc-line { stroke-width: 1.4; }", source)
+        self.assertIn(".mmc-line-maint { stroke-width: 2.5; }", source)
+        self.assertIn(".mmc-dot { r: 3.2px; }", source)
+        self.assertEqual(
+            source.count('class=&quot;mmc-dot mmc-dot-maint&quot; r=&quot;5&quot;'),
+            2,
+        )
+        self.assertIn(
+            '[data-tone=&quot;up&quot;] { color: var(--mmc-up); background: rgba(199,74,63,.14); }',
+            source,
+        )
+        self.assertIn(
+            '[data-tone=&quot;down&quot;] { color: var(--mmc-down); background: rgba(26,158,95,.14); }',
+            source,
+        )
+        self.assertIn("--mmc-down: #1a9e5f;", source)
+        self.assertEqual(source.count('data-role=&quot;stat-balance-value&quot;'), 2)
+        self.assertEqual(source.count('class=&quot;mmc-balance-total&quot;'), 2)
+        self.assertEqual(source.count('data-role=&quot;maint-delta&quot;'), 2)
+        self.assertEqual(source.count('data-role=&quot;balance-delta&quot;'), 2)
+        self.assertIn("▼ 4.0 pt", source)
+        self.assertIn("▼ 3.5 pt", source)
+        self.assertIn("▼ 30.9億", source)
+        self.assertIn("▼ 3.6億", source)
+        self.assertIn(".mmc-balance-total { white-space: nowrap; }", source)
+        self.assertIn(
+            "flex: 0 0 auto; padding: 2px 7px; font-size: 12px; "
+            "line-height: 1.2; white-space: nowrap;",
+            source,
+        )
+        self.assertNotIn("💡 B 版：", source)
+        self.assertLess(source.index("mmc-stat-row"), source.index("mmc-toolbar"))
+        self.assertLess(source.index("mmc-toolbar"), source.index("mmc-market-section"))
+
     def test_contextual_calendar_axis_is_present(self) -> None:
         source = self.html_path.read_text(encoding="utf-8")
         self.assertIn("const fixedMonthTicks =", source)
@@ -52,6 +129,25 @@ class OutputTests(unittest.TestCase):
         self.assertIn("const yearGuideIndexes =", source)
         self.assertIn("mmc-year-line", source)
         self.assertNotIn("rows[idx].d.slice(5)", source)
+
+    def test_mobile_axes_and_long_press_touch_interaction(self) -> None:
+        source = self.html_path.read_text(encoding="utf-8")
+        self.assertIn("--mmc-grid: #ded6c8;", source)
+        self.assertIn(".mmc-axis-label { fill: var(--mmc-muted); font-size: 9px;", source)
+        self.assertIn(".mmc-axis-title { fill: var(--mmc-muted); font-size: 9px; font-weight: 400; letter-spacing: .18em; }", source)
+        self.assertIn(".mmc-axis-title { display: none; }", source)
+        self.assertIn(".mmc-axis-label { font-size: 18px; font-weight: 500; }", source)
+        self.assertIn(".mmc-x-axis-label { font-size: 18px; }", source)
+        self.assertIn("const fmtAxisIndex = (market, value) =&gt;", source)
+        self.assertIn("if (!isNarrow() || Math.abs(value) &lt; 1000)", source)
+        self.assertIn("`${Number((value / 1000).toFixed(1))}k`", source)
+        self.assertIn("touch-action: pan-y; user-select: none;", source)
+        self.assertIn("-webkit-touch-callout: none;", source)
+        self.assertIn("chart.hit.addEventListener(&#x27;pointerdown&#x27;", source)
+        self.assertIn("try { chart.hit.setPointerCapture?.(event.pointerId); } catch {}", source)
+        self.assertIn("}, 320);", source)
+        self.assertIn("event.preventDefault();", source)
+        self.assertIn("chart.hit.addEventListener(&#x27;pointercancel&#x27;, finishTouch);", source)
 
     def test_balance_series_has_clickable_legend_controls(self) -> None:
         source = self.html_path.read_text(encoding="utf-8")
@@ -71,11 +167,22 @@ class OutputTests(unittest.TestCase):
         self.assertNotIn("mmc-legend-unit", source)
         self.assertEqual(source.count("mmc-balance-reading"), 3)
         self.assertIn(".mmc-summary .mmc-balance-reading { gap: 1px; }", source)
-        self.assertEqual(source.count("融資維持率 &lt;strong"), 2)
+        self.assertEqual(source.count('class=&quot;mmc-legend-long&quot;&gt;融資維持率&lt;/span&gt;'), 2)
         self.assertNotIn("&gt;上市融資維持率 &lt;strong", source)
         self.assertNotIn("&gt;櫃買融資維持率 &lt;strong", source)
 
-    def test_chart_is_fixed_to_linear_and_mobile_stats_stay_side_by_side(self) -> None:
+    def test_mobile_legend_uses_compact_labels(self) -> None:
+        source = self.html_path.read_text(encoding="utf-8")
+        self.assertEqual(source.count('class=&quot;mmc-legend-long&quot;'), 8)
+        self.assertEqual(source.count('class=&quot;mmc-legend-short&quot;'), 8)
+        self.assertEqual(source.count('&gt;維持率&lt;/span&gt;'), 2)
+        self.assertEqual(source.count('&gt;指數&lt;/span&gt;'), 2)
+        self.assertEqual(source.count('&gt;餘額&lt;/span&gt;'), 2)
+        self.assertEqual(source.count('&gt;市值比&lt;/span&gt;'), 2)
+        self.assertIn(".mmc-summary .mmc-legend-long { display: none; }", source)
+        self.assertIn(".mmc-summary .mmc-legend-short { display: inline; }", source)
+
+    def test_chart_is_fixed_to_linear_and_mobile_stats_stack(self) -> None:
         source = self.html_path.read_text(encoding="utf-8")
         self.assertNotIn("data-scale=", source)
         self.assertIn("let scaleMode = &#x27;linear&#x27;;", source)
@@ -92,16 +199,63 @@ class OutputTests(unittest.TestCase):
         )
         self.assertIn('data-range=&quot;3m&quot;', source)
         self.assertIn("range.endsWith(&#x27;m&#x27;)", source)
+        self.assertIn("padding: 2px 12px; background: transparent;", source)
+        self.assertIn("font-size: 13px; line-height: 1.1;", source)
+        self.assertIn("@media (max-width: 640px)", source)
         self.assertIn(
-            "grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;",
+            ".mmc-stat-row { grid-template-columns: 1fr; }",
+            source,
+        )
+        self.assertNotIn(
+            ".mmc-stat-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }",
             source,
         )
         self.assertIn("bounds.bottom = narrow ? 366 : 246", source)
-        self.assertIn("chartHeight = narrow ? 420 : 300", source)
+        self.assertIn("chartHeight = narrow ? 420 : 282", source)
+        self.assertIn("padding: 20px 20px 8px; overflow: hidden;", source)
+        self.assertIn("--mmc-surface-soft: #faf7f0;", source)
+        self.assertIn("justify-content: flex-start; flex-wrap: wrap; gap: 12px;", source)
+        self.assertIn("margin: -20px -20px 10px; padding: 11px 18px;", source)
+        self.assertIn("border-bottom: 1px solid var(--mmc-border); background: var(--mmc-surface-soft);", source)
+        self.assertIn("padding: 5px 13px; border-radius: 8px;", source)
+        self.assertIn("font-size: 15px; font-weight: 800; letter-spacing: .03em;", source)
+        self.assertIn("background: rgba(74,127,208,.14); color: #2c5aa6;", source)
+        self.assertIn("background: rgba(201,154,78,.18); color: #8a6320;", source)
+        self.assertIn("font-size: 12.5px; font-variant-numeric: tabular-nums;", source)
+        self.assertIn("margin: 0; padding: 3px 8px; border: 1px solid transparent; border-radius: 7px;", source)
+        self.assertIn("margin-left: 1px; color: var(--mmc-ink); font-weight: 800;", source)
+        self.assertIn("display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; justify-content: stretch; gap: 0 8px;", source)
+        self.assertIn("display: grid; grid-column: 2; grid-template-columns: repeat(2, minmax(0, 1fr));", source)
+        self.assertIn("justify-content: stretch; gap: 0 8px; width: 100%;", source)
+        self.assertIn("min-width: 0; padding: 1px 2px; line-height: 1.1; white-space: nowrap;", source)
+        self.assertIn("@media (max-width: 360px)", source)
+        self.assertIn("grid-template-columns: auto minmax(0, 1fr); gap: 0 4px;", source)
+        self.assertIn("min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 4px; font-size: 11px;", source)
+        self.assertIn(".mmc-swatch { width: 8px; height: 8px; }", source)
+        self.assertIn(".mmc-market-section { padding: 16px 10px 10px; }", source)
+        self.assertIn("position: fixed; left: 0; top: 0; z-index: 100;", source)
+        self.assertIn("chart.tooltip.parentElement !== root", source)
+        self.assertIn("root.appendChild(chart.tooltip)", source)
+        self.assertIn(
+            "const desiredTop = plotRect.top + bounds.bottom / chartHeight * plotRect.height - tooltipLift",
+            source,
+        )
+        self.assertIn("const tooltipLift = isNarrow() ? 16 : 12", source)
+        self.assertIn("window.innerHeight - box.height - viewportPadding", source)
+        self.assertIn("bounds.left = narrow ? 64 : 39", source)
+        self.assertIn("bounds.right = narrow ? 672 : 712", source)
+        self.assertIn("chart.hit.setAttribute(&#x27;width&#x27;, bounds.right - bounds.left)", source)
+        self.assertIn("const axisTitleY = bounds.bottom + 24", source)
+        self.assertIn("const leftAxisX = narrow ? bounds.left - 9 : bounds.left - 25", source)
+        self.assertIn("const leftAxisAnchor = narrow ? &#x27;end&#x27; : &#x27;start&#x27;", source)
+        self.assertIn("const rightAxisX = bounds.right + 9", source)
+        self.assertIn("{ x: leftAxisX, y: axisTitleY, &#x27;text-anchor&#x27;: &#x27;start&#x27;", source)
+        self.assertIn("{ x: rightAxisX, y: axisTitleY, &#x27;text-anchor&#x27;: &#x27;start&#x27;", source)
+        self.assertNotIn("writing-mode: vertical-rl", source)
         self.assertIn("const geometryObserver = new ResizeObserver", source)
         self.assertNotIn("mmc-stat-dot", source)
         self.assertNotIn("融資維持率走勢 ·", source)
-        self.assertIn("flex-direction: column; align-items: center", source)
+        self.assertIn("display: flex; align-items: baseline; justify-content: space-between", source)
 
     def test_series_toggles_are_remembered_per_market(self) -> None:
         source = self.html_path.read_text(encoding="utf-8")

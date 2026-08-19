@@ -27,8 +27,8 @@ def format_index(market: str, value: float) -> str:
     if market == "twse":
         rounded = Decimal(str(value)).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
         return f"{rounded:,.0f}"
-    rounded = Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-    return f"{rounded:.2f}"
+    rounded = Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    return f"{rounded:.1f}"
 
 
 def format_balance(value: int | float) -> str:
@@ -36,9 +36,25 @@ def format_balance(value: int | float) -> str:
     return f"{rounded:.1f}"
 
 
+def format_stat_balance(value: int | float) -> str:
+    rounded = Decimal(str(value)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    return f"{rounded:,.1f}"
+
+
 def format_ratio(value: int | float) -> str:
     rounded = Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
     return f"{rounded:.2f}%"
+
+
+def format_delta(value: int | float, unit: str) -> tuple[str, str]:
+    decimal = Decimal(str(value))
+    rounded = abs(decimal).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    separator = " " if unit == "pt" else ""
+    if rounded == 0:
+        return "flat", f"— {rounded:.1f}{separator}{unit}"
+    tone = "up" if decimal > 0 else "down"
+    arrow = "▲" if decimal > 0 else "▼"
+    return tone, f"{arrow} {rounded:,.1f}{separator}{unit}"
 
 
 def replace_exactly_twice(pattern: str, values: list[str], source: str) -> str:
@@ -57,6 +73,35 @@ def replace_exactly_twice(pattern: str, values: list[str], source: str) -> str:
     updated = re.sub(pattern, replacement, source)
     if count != len(values):
         raise RuntimeError(f"Expected {len(values)} replacements, made {count}")
+    return updated
+
+
+def replace_tone_values(
+    class_name: str,
+    role: str,
+    values: list[tuple[str, str]],
+    source: str,
+) -> str:
+    iterator = iter(values)
+    count = 0
+    pattern = (
+        rf"(&lt;span class=&quot;{class_name}&quot; data-tone=&quot;)"
+        rf"(?:up|down|flat)"
+        rf"(&quot; data-role=&quot;{role}&quot;&gt;).*?(&lt;/span&gt;)"
+    )
+
+    def replacement(match: re.Match[str]) -> str:
+        nonlocal count
+        try:
+            tone, label = next(iterator)
+        except StopIteration:
+            return match.group(0)
+        count += 1
+        return f"{match.group(1)}{tone}{match.group(2)}{label}{match.group(3)}"
+
+    updated = re.sub(pattern, replacement, source)
+    if count != len(values):
+        raise RuntimeError(f"Expected {len(values)} {role} replacements, made {count}")
     return updated
 
 
@@ -84,6 +129,7 @@ def main() -> None:
         for day in common_dates
     ]
     latest = rows[-1]
+    previous = rows[-2] if len(rows) > 1 else latest
     embedded = html.escape(
         json.dumps(rows, ensure_ascii=False, separators=(",", ":")), quote=True
     )
@@ -101,8 +147,8 @@ def main() -> None:
 
     values = [one_decimal(latest["tw"]), one_decimal(latest["ot"])]
     source = replace_exactly_twice(
-        r"(&lt;div class=&quot;mmc-stat-value&quot;&gt;)([^&]*?)(&lt;/div&gt;)",
-        values,
+        r"(&lt;span data-role=&quot;stat-maint-value&quot;&gt;)([^&]*?)(&lt;/span&gt;)",
+        [value.removesuffix("%") for value in values],
         source,
     )
     source = replace_exactly_twice(
@@ -116,7 +162,7 @@ def main() -> None:
         format_index("tpex", latest["oi"]),
     ]
     source = replace_exactly_twice(
-        r"(&lt;div class=&quot;mmc-stat-index&quot;&gt;(?:加權|櫃買)指數 )([^&]*?)(&lt;/div&gt;)",
+        r"(&lt;span class=&quot;mmc-stat-index&quot;&gt;)([^&]*?)(&lt;/span&gt;)",
         index_values,
         source,
     )
@@ -132,6 +178,30 @@ def main() -> None:
         balance_values,
         source,
     )
+    source = replace_exactly_twice(
+        r"(&lt;strong data-role=&quot;stat-balance-value&quot;&gt;)([^&]*?)(&lt;/strong&gt;)",
+        [format_stat_balance(latest["tb"]), format_stat_balance(latest["ob"])],
+        source,
+    )
+
+    source = replace_tone_values(
+        "mmc-delta",
+        "maint-delta",
+        [
+            format_delta(latest["tw"] - previous["tw"], "pt"),
+            format_delta(latest["ot"] - previous["ot"], "pt"),
+        ],
+        source,
+    )
+    source = replace_tone_values(
+        "mmc-mini-delta",
+        "balance-delta",
+        [
+            format_delta(latest["tb"] - previous["tb"], "億"),
+            format_delta(latest["ob"] - previous["ob"], "億"),
+        ],
+        source,
+    )
 
     ratio_values = [format_ratio(latest["tr"]), format_ratio(latest["or"])]
     source = replace_exactly_twice(
@@ -142,7 +212,7 @@ def main() -> None:
 
     display_day = latest["d"].replace("-", "/")
     source, count = re.subn(
-        r"(class=&quot;mmc-updated&quot;&gt;資料時間 )\d{4}/\d{2}/\d{2}",
+        r"(class=&quot;mmc-updated&quot;&gt;更新時間 )\d{4}/\d{2}/\d{2}",
         rf"\g<1>{display_day}",
         source,
         count=1,
