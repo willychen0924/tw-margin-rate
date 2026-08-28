@@ -33,7 +33,11 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.calculation import market_for_stock
 from tw_margin_rate.finmind import FinMindClient, load_dotenv
-from tw_margin_rate.paths import discover_stock_data, local_env_path
+from tw_margin_rate.paths import (
+    discover_stock_data,
+    latest_complete_stock_info,
+    local_env_path,
+)
 
 
 MARGIN_COLUMNS = [
@@ -133,12 +137,9 @@ def load_market_reference(
     twse_delisted_html: Path,
     twse_newlisting_json: Path,
 ) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
-    stock_info_files = sorted((stock_data / "raw/stock_info").glob("*/*.parquet"))
-    if not stock_info_files:
-        raise FileNotFoundError("No stock_info parquet files found")
-
+    stock_info_path = latest_complete_stock_info(stock_data / "raw/stock_info")
     stock_info = pd.read_parquet(
-        stock_info_files[-1], columns=["stock_id", "type", "date"]
+        stock_info_path, columns=["stock_id", "type", "date"]
     )
     stock_info = stock_info.dropna(subset=["type"])
     stock_info = stock_info[stock_info["type"].isin(["twse", "tpex"])]
@@ -626,7 +627,7 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
                 "validation_tolerance_pct"
             ],
             "market_reference": {
-                "stock_info": "latest iCloud TaiwanStockInfo parquet",
+                "stock_info": "latest complete iCloud TaiwanStockInfo parquet",
                 "twse_company_info": {
                     "file": args.twse_company_info.name,
                     "sha256": file_sha256(args.twse_company_info),
