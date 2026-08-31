@@ -1,0 +1,41 @@
+{
+  "investigated_at": "2026-08-31",
+  "source": "FinMind TaiwanStockMarketValue",
+  "reason": "Provider revision detected by the required recent-day refresh",
+  "approval_basis": "Prior explicit user authorization to apply independently verified corrections without asking again",
+  "affected_rows": [
+    {
+      "market": "twse",
+      "date": "2026-08-28",
+      "market_cap_100m_twd": {
+        "old": 1512178.99,
+        "new": 1512560.58,
+        "delta": 381.59
+      },
+      "margin_market_cap_ratio_pct": {
+        "old": 0.3751,
+        "new": 0.3750
+      }
+    }
+  ],
+  "unchanged_fields": [
+    "maintenance",
+    "index",
+    "financed_balance",
+    "financed_amount",
+    "stock_count"
+  ],
+  "verification": {
+    "changed_historical_market_cap_rows": 1,
+    "repeated_forced_fetches": 2,
+    "finmind_row_count": 2730,
+    "finmind_response_sha256": "574af53aa540e16533094b4d87e70bfc75b44f2633b421e76df05a071eff3464",
+    "twse_mi_index_code_count": 1081,
+    "official_code_scope_difference_pct": 0.0,
+    "twse_official_total_market_cap_100m_twd": 1514509.64,
+    "official_total_scope_gap_pct": {
+      "old": -0.1539,
+      "new": -0.1287
+    }
+  }
+}
