@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-09-08",
+  "scope": "Six verified 2026 stock splits. This is not a complete historical corporate-action database. Cash capital reductions, stock dividends and unexplained balance revisions are not stock splits.",
+  "events": [
+    {
+      "stock_id": "8932", "name": "智通", "type": "stock_split",
+      "effective_date": "2026-03-09", "new_shares_per_old_share": 2,
+      "old_par_value": 5, "new_par_value": 2.5,
+      "sources": [{"title": "TPEx 證櫃監字第11500008331號：面額 5 元改 2.5 元，3/9 恢復交易", "url": "https://www.tpex.org.tw/storage/eb_data/11503/11500008331.html"}]
+    },
+    {
+      "stock_id": "8937", "name": "合騏", "type": "stock_split",
+      "effective_date": "2026-04-13", "new_shares_per_old_share": 4,
+      "old_par_value": 10, "new_par_value": 2.5,
+      "sources": [{"title": "TPEx：合騏面額 10 元改 2.5 元，4/13 開始交易", "url": "https://www.tpex.org.tw/storage/about_otc_news/2026/03/1773998202916_1279086_news.pdf"}]
+    },
+    {
+      "stock_id": "3086", "name": "華義", "type": "stock_split",
+      "effective_date": "2026-04-20", "new_shares_per_old_share": 10,
+      "old_par_value": 10, "new_par_value": 1,
+      "sources": [{"title": "TPEx 證櫃監字第11500014221號：每 1 股換 10 股，4/20 開始交易", "url": "https://www.tpex.org.tw/storage/eb_data/11503/11500014221.html"}]
+    },
+    {
+      "stock_id": "5904", "name": "寶雅", "type": "stock_split",
+      "effective_date": "2026-08-10", "new_shares_per_old_share": 10,
+      "old_par_value": 10, "new_par_value": 1,
+      "sources": [{"title": "TPEx 證櫃監字第11500046541號：每 1 股換 10 股，8/10 開始交易", "url": "https://www.tpex.org.tw/storage/eb_data/11507/11500046541.html"}]
+    },
+    {
+      "stock_id": "4747", "name": "強生", "type": "stock_split",
+      "effective_date": "2026-08-31", "new_shares_per_old_share": 2,
+      "old_par_value": 10, "new_par_value": 5,
+      "sources": [{"title": "TPEx 恢復交易公告（MoneyDJ 轉載）：45,461,032 股改 90,922,064 股，8/31 恢復交易", "url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=527ddbda-0985-4164-9690-cbbbcdcde56a"}]
+    },
+    {
+      "stock_id": "6949", "name": "沛爾生醫", "type": "stock_split",
+      "effective_date": "2026-09-07", "new_shares_per_old_share": 20,
+      "old_par_value": 10, "new_par_value": 0.5,
+      "sources": [{"title": "TWSE 新股上市公告（玉山證券轉載）：65,580,050 股改 1,311,601,000 股，9/7 開始交易", "url": "https://m.esunsec.com.tw/news/instant-detail.aspx?id=%7B0BA183D6-61C4-4032-B575-FFD0BE1F7DE7%7D"}]
+    }
+  ]
+}

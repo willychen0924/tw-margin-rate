@@ -31,7 +31,7 @@ def updated_average_cost(
     cash_repayments: float,
     today: float,
 ) -> float | None:
-    """Apply the official stock-level moving-average financing-cost rule."""
+    """Apply this project's estimated stock-level moving-average cost rule."""
     today = float(today)
     if today <= 0:
         return None

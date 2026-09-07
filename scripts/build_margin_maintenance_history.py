@@ -25,14 +25,15 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import duckdb
-import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.calculation import market_for_stock
+from tw_margin_rate.corporate_actions import SplitCursor, load_stock_splits
 from tw_margin_rate.finmind import FinMindClient, load_dotenv
+from tw_margin_rate.portfolio import update_portfolio
 from tw_margin_rate.paths import (
     discover_stock_data,
     latest_complete_stock_info,
@@ -74,6 +75,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--warmup-start", default="2001-01-05")
     parser.add_argument("--display-start", default="2017-07-03")
     parser.add_argument("--end", default=date.today().isoformat())
+    parser.add_argument(
+        "--stock-splits",
+        type=Path,
+        default=PROJECT_ROOT / "data/reference/verified-stock-splits.json",
+        help="Reviewed share-split events; never infer ratios from prices or balances.",
+    )
     parser.add_argument(
         "--margin-money-history",
         type=Path,
@@ -466,6 +473,11 @@ def load_market_cap_history(
 
 
 def build_history(args: argparse.Namespace) -> dict[str, object]:
+    split_path = getattr(
+        args, "stock_splits", PROJECT_ROOT / "data/reference/verified-stock-splits.json"
+    )
+    split_events = load_stock_splits(split_path)
+    split_cursor = SplitCursor(split_events)
     current_market, listing_dates, delisting_dates = load_market_reference(
         args.stock_data,
         args.twse_company_info,
@@ -506,50 +518,18 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
                 if finite(index_map[day][market]):
                     last_index[market] = index_map[day][market]
 
-        margin = margin.copy()
-        margin["stock_id"] = margin["stock_id"].astype(str)
-        margin["close"] = margin["close"].where(
-            margin["close"].notna(), margin["stock_id"].map(last_close)
-        )
-        margin = margin[margin["close"].notna()].copy()
-
+        split_cursor.advance(day, average_cost, last_close)
+        margin = update_portfolio(margin, average_cost, last_close)
         stock_ids = margin["stock_id"]
-        close = margin["close"].astype(float).to_numpy()
-        yesterday = margin["MarginPurchaseYesterdayBalance"].astype(float).to_numpy()
-        buys = margin["MarginPurchaseBuy"].astype(float).to_numpy()
-        sells = margin["MarginPurchaseSell"].astype(float).to_numpy()
-        repayments = margin["MarginPurchaseCashRepayment"].astype(float).to_numpy()
         today = margin["MarginPurchaseTodayBalance"].astype(float).to_numpy()
-        remaining = np.maximum(yesterday - sells - repayments, 0.0)
-
-        old_cost = stock_ids.map(average_cost).astype(float).to_numpy()
-        old_cost = np.where(np.isfinite(old_cost), old_cost, close)
-        numerator = remaining * old_cost + buys * close
-        new_cost = np.divide(
-            numerator,
-            today,
-            out=close.copy(),
-            where=today > 0,
-        )
-
-        for stock_id, stock_close, balance, cost in zip(stock_ids, close, today, new_cost):
-            last_close[stock_id] = float(stock_close)
-            if balance > 0:
-                average_cost[stock_id] = float(cost)
-            else:
-                average_cost.pop(stock_id, None)
 
         if day >= args.display_start:
-            margin["average_cost"] = new_cost
             margin["market"] = [
                 market_for_stock(
                     stock_id, day, current_market, listing_dates, delisting_dates
                 )
                 for stock_id in stock_ids
             ]
-            margin["market_value"] = close * today
-            margin["estimated_debt"] = new_cost * today * 0.60
-
             for market in ("twse", "tpex"):
                 group = margin[(margin["market"] == market) & (today > 0)]
                 debt = float(group["estimated_debt"].sum())
@@ -631,7 +611,14 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
             "end": history["twse"][-1]["date"],
             "formula": "sum(close*balance) / sum(avg_cost*balance*0.60) * 100",
             "universe": "Four-digit ordinary shares; ETFs and TDRs excluded",
-            "algorithm_version": "stock-level-moving-average-v1",
+            "algorithm_version": "stock-level-moving-average-v2-split-valid-price",
+            "stock_splits": {
+                "file": split_path.name,
+                "sha256": file_sha256(split_path),
+                "event_count": len(split_events),
+                "scope": "Reviewed events only; not a complete corporate-action history",
+            },
+            "missing_price_policy": "Non-finite or non-positive close: carry the same stock's last valid close in current share units; exclude if none",
             "financed_amount_unit": "TWD 100 million",
             "financed_amount_sources": {
                 "twse": "FinMind TaiwanStockTotalMarginPurchaseShortSale / MarginPurchaseMoney",

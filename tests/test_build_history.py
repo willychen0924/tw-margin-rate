@@ -6,12 +6,17 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+
+import build_margin_maintenance_history as builder
+from tw_margin_rate.corporate_actions import StockSplit
 
 from build_margin_maintenance_history import (
     MARGIN_COLUMNS,
@@ -96,6 +101,60 @@ class CacheDayTests(unittest.TestCase):
                 local_margin_cache_boundary(stock_data, "2026-08-03"),
                 "2026-07-24",
             )
+
+
+class FullBuilderFixtureTests(unittest.TestCase):
+    def test_split_and_zero_price_are_used_in_both_market_outputs(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            args = SimpleNamespace(
+                stock_data=root, workspace=root,
+                twse_company_info=root / "companies.json",
+                twse_delisted_html=root / "delisted.html",
+                twse_newlisting_json=root / "newlisting.json",
+                stock_splits=root / "splits.json",
+                warmup_start="2001-01-05", display_start="2026-09-04",
+                end="2026-09-07", no_finmind_fetch=True,
+                margin_money_history=root / "money.json", market_cap_history=root / "cap.json",
+            )
+            joined = root / "year=2026/data.parquet"
+            joined.parent.mkdir()
+            rows = []
+            for day in ("2026-09-04", "2026-09-07"):
+                for code in ("6949", "4747"):
+                    split = day == "2026-09-07" and code == "6949"
+                    close = (5 if split else 100) if code == "6949" else (60 if day == "2026-09-04" else 0)
+                    balance = 200 if split else 10
+                    rows.append({
+                        "date": day, "stock_id": code, "close": close,
+                        "MarginPurchaseYesterdayBalance": balance,
+                        "MarginPurchaseTodayBalance": balance,
+                        "MarginPurchaseBuy": 0, "MarginPurchaseSell": 0,
+                        "MarginPurchaseCashRepayment": 0,
+                    })
+            pd.DataFrame(rows).to_parquet(joined, index=False)
+            dates = ("2026-09-04", "2026-09-07")
+            money = {market: {day: 100.0 for day in dates} for market in ("twse", "tpex")}
+            cap_meta = {
+                "market_cap_starts": {m: dates[0] for m in money},
+                "twse_source": "fixture", "tpex_source": "fixture",
+                "twse_scope": "fixture", "validation_tolerance_pct": 1,
+            }
+            with (
+                patch.object(builder, "load_stock_splits", return_value=(StockSplit("6949", dates[1], 20),)),
+                patch.object(builder, "load_market_reference", return_value=({"6949": "twse", "4747": "tpex"}, {}, {})),
+                patch.object(builder, "latest_icloud_margin_date", return_value=dates[1]),
+                patch.object(builder, "prepare_local_history", return_value=([joined], {day: {"twse": 47000.0, "tpex": 400.0} for day in dates}, dates[1])),
+                patch.object(builder, "load_margin_money_history", return_value=money),
+                patch.object(builder, "load_market_cap_history", return_value=(money, cap_meta)),
+                patch.object(builder, "file_sha256", return_value="fixture"),
+            ):
+                result = builder.build_history(args)
+            for market in ("twse", "tpex"):
+                self.assertEqual([r["maintenance"] for r in result["markets"][market]], [166.67, 166.67])
+                self.assertEqual([r["stock_count"] for r in result["markets"][market]], [1, 1])
+            self.assertEqual(result["markets"]["twse"][-1]["financed_balance"], 200)
+            self.assertEqual(result["metadata"]["stock_splits"]["event_count"], 1)
 
 
 if __name__ == "__main__":

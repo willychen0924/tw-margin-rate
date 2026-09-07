@@ -217,9 +217,10 @@ def validate_html(payload: dict[str, object], path: Path) -> None:
 
 def expect_baseline(payload: dict[str, object]) -> None:
     expected = {
-        # Approved six-day July backfill; see history-correction-20260907.json.
-        "twse": {"maintenance": 132.38, "index": 39933.30},
-        "tpex": {"maintenance": 118.55, "index": 326.23},
+        # Approved split/valid-price correction on 2026-09-08. Old values were
+        # 132.38 / 118.55; full deltas: history-correction-20260908.json.
+        "twse": {"maintenance": 132.45, "index": 39933.30},
+        "tpex": {"maintenance": 119.99, "index": 326.23},
     }
     for market, values in expected.items():
         row = next(

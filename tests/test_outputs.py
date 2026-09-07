@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import sys
 import unittest
@@ -47,6 +48,21 @@ class OutputTests(unittest.TestCase):
 
     def test_published_baseline_numbers(self) -> None:
         expect_baseline(self.payload)
+
+    def test_approved_20260908_full_history_is_preserved(self) -> None:
+        audit = json.loads((ROOT / "data/reference/history-correction-20260908.json").read_text(encoding="utf-8"))
+        for market in ("twse", "tpex"):
+            rows = [row for row in self.payload["markets"][market] if row["date"] <= audit["through"]]
+            self.assertEqual(len(rows), audit["row_counts"][market])
+            encoded = json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+            self.assertEqual(hashlib.sha256(encoded).hexdigest(), audit["approved_history_sha256"][market])
+
+    def test_release_records_split_source_and_has_no_diagnostic_marker(self) -> None:
+        metadata = self.payload["metadata"]
+        self.assertEqual(metadata["algorithm_version"], "stock-level-moving-average-v2-split-valid-price")
+        reference = ROOT / "data/reference/verified-stock-splits.json"
+        self.assertEqual(metadata["stock_splits"]["sha256"], hashlib.sha256(reference.read_bytes()).hexdigest())
+        self.assertNotIn("diagnostic_variant", metadata)
 
     def test_history_schema_and_common_dates(self) -> None:
         validate_history(self.payload)
