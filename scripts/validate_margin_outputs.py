@@ -98,6 +98,16 @@ def compare_rows(
         if through:
             expected = [row for row in expected if row["date"] <= through]
         actual_map = {row["date"]: row for row in candidate["markets"][market]}
+        if expected:
+            cutoff = through or expected[-1]["date"]
+            expected_dates = {row["date"] for row in expected}
+            actual_dates = {day for day in actual_map if day <= cutoff}
+            if actual_dates != expected_dates:
+                raise AssertionError(
+                    f"{market} 歷史日期差異："
+                    f"新增={sorted(actual_dates - expected_dates)}，"
+                    f"缺少={sorted(expected_dates - actual_dates)}"
+                )
         for index, expected_row in enumerate(expected):
             actual_row = actual_map.get(expected_row["date"])
             comparable = (
@@ -207,8 +217,9 @@ def validate_html(payload: dict[str, object], path: Path) -> None:
 
 def expect_baseline(payload: dict[str, object]) -> None:
     expected = {
-        "twse": {"maintenance": 132.50, "index": 39933.30},
-        "tpex": {"maintenance": 118.32, "index": 326.23},
+        # Approved six-day July backfill; see history-correction-20260907.json.
+        "twse": {"maintenance": 132.38, "index": 39933.30},
+        "tpex": {"maintenance": 118.55, "index": 326.23},
     }
     for market, values in expected.items():
         row = next(

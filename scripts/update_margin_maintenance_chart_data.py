@@ -7,6 +7,8 @@ import argparse
 import html
 import json
 import re
+import os
+import tempfile
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
@@ -15,6 +17,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--history", type=Path, required=True)
     parser.add_argument("--html", type=Path, required=True)
+    parser.add_argument("--mirror", type=Path, help="Write a byte-identical Pages mirror")
     return parser.parse_args()
 
 
@@ -105,9 +108,21 @@ def replace_tone_values(
     return updated
 
 
-def main() -> None:
-    args = parse_args()
-    payload = json.loads(args.history.read_text(encoding="utf-8"))
+def website_template() -> str:
+    """Readable sources are canonical; outputs remain portable, standalone HTML."""
+    web = Path(__file__).resolve().parents[1] / "web"
+    document = (web / "document.html").read_text(encoding="utf-8")
+    for name, extension in (("CSS", "css"), ("HTML", "html"), ("JS", "js")):
+        document = document.replace(
+            "{{CHART_" + name + "}}",
+            (web / f"chart.{extension}").read_text(encoding="utf-8"),
+        )
+    return (web / "page.html").read_text(encoding="utf-8").replace(
+        "{{CHART_DOCUMENT}}", html.escape(document, quote=True)
+    )
+
+
+def render_website(payload: dict) -> str:
     twse = {row["date"]: row for row in payload["markets"]["twse"]}
     tpex = {row["date"]: row for row in payload["markets"]["tpex"]}
     common_dates = sorted(set(twse) & set(tpex))
@@ -134,7 +149,7 @@ def main() -> None:
         json.dumps(rows, ensure_ascii=False, separators=(",", ":")), quote=True
     )
 
-    source = args.html.read_text(encoding="utf-8")
+    source = website_template()
     source, count = re.subn(
         r"(  const data = )\[.*?\](;\n  const NS =)",
         lambda match: f"{match.group(1)}{embedded}{match.group(2)}",
@@ -212,7 +227,7 @@ def main() -> None:
 
     display_day = latest["d"].replace("-", "/")
     source, count = re.subn(
-        r"(class=&quot;mmc-updated&quot;&gt;更新時間 )\d{4}/\d{2}/\d{2}",
+        r"(class=&quot;mmc-updated&quot;&gt;資料日期 )\d{4}/\d{2}/\d{2}",
         rf"\g<1>{display_day}",
         source,
         count=1,
@@ -229,11 +244,38 @@ def main() -> None:
     if count != 2:
         raise RuntimeError(f"Expected two hidden date labels, replaced {count}")
 
-    args.html.write_text(source, encoding="utf-8")
+    return source
+
+
+def write_atomic(path: Path, source: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent, delete=False) as stream:
+            temporary = Path(stream.name)
+            stream.write(source)
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def main() -> None:
+    args = parse_args()
+    payload = json.loads(args.history.read_text(encoding="utf-8"))
+    source = render_website(payload)
+    # Validate before replacing any valid output, including a requested mirror.
+    from validate_margin_outputs import validate_history, validate_html
+    validate_history(payload)
+    with tempfile.TemporaryDirectory() as temporary:
+        candidate = Path(temporary) / "index.html"
+        candidate.write_text(source, encoding="utf-8")
+        validate_html(payload, candidate)
+    write_atomic(args.html, source)
+    if args.mirror:
+        write_atomic(args.mirror, source)
     print(
-        f"embedded {len(rows)} fully recalculated rows through {latest['d']} "
-        f"(TWSE {values[0]} / {index_values[0]} / {balance_values[0]}億 / {ratio_values[0]}, "
-        f"TPEx {values[1]} / {index_values[1]} / {balance_values[1]}億 / {ratio_values[1]})"
+        f"rendered {len(payload['markets']['twse'])} rows through {payload['metadata']['end']}"
     )
 
 

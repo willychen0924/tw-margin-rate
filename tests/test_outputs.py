@@ -4,17 +4,31 @@ import json
 import os
 import sys
 import unittest
+import tempfile
+import subprocess
+from unittest.mock import patch
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from validate_margin_outputs import expect_baseline, validate_history, validate_html
-from update_margin_maintenance_chart_data import format_delta, format_index, format_ratio
+from validate_margin_outputs import compare_rows, expect_baseline, validate_history, validate_html
+from update_margin_maintenance_chart_data import format_delta, format_index, format_ratio, render_website, write_atomic
 
 
 class OutputTests(unittest.TestCase):
+    def test_history_guard_rejects_inserted_old_dates(self) -> None:
+        reference = {"markets": {m: [{"date": "2026-07-02"}, {"date": "2026-07-14"}] for m in ("twse", "tpex")}}
+        candidate = {"markets": {m: [{"date": "2026-07-02"}, {"date": "2026-07-03"}, {"date": "2026-07-14"}] for m in ("twse", "tpex")}}
+        with self.assertRaisesRegex(AssertionError, "歷史日期差異"):
+            compare_rows(candidate, reference, "2026-07-14")
+
+    def test_history_guard_allows_only_newer_dates(self) -> None:
+        reference = {"markets": {m: [{"date": "2026-09-04"}] for m in ("twse", "tpex")}}
+        candidate = {"markets": {m: [{"date": "2026-09-04"}, {"date": "2026-09-07"}] for m in ("twse", "tpex")}}
+        compare_rows(candidate, reference, "2026-09-04")
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.history_path = Path(
@@ -65,7 +79,7 @@ class OutputTests(unittest.TestCase):
         self.assertNotIn("&lt;h1&gt;台股上市櫃融資維持率&lt;/h1&gt;", source)
         self.assertIn("台股融資維持率 · 上市 / 櫃買", source)
         display_day = self.payload["metadata"]["end"].replace("-", "/")
-        self.assertIn(f"更新時間 {display_day}", source)
+        self.assertIn(f"資料日期 {display_day}", source)
         self.assertNotIn("· 每日更新", source)
         self.assertEqual(source.count('class=&quot;mmc-market-chip&quot;'), 2)
         self.assertEqual(source.count('data-role=&quot;stat-maint-value&quot;'), 2)
@@ -145,11 +159,12 @@ class OutputTests(unittest.TestCase):
     def test_mobile_axes_and_long_press_touch_interaction(self) -> None:
         source = self.html_path.read_text(encoding="utf-8")
         self.assertIn("--mmc-grid: #ded6c8;", source)
-        self.assertIn(".mmc-axis-label { fill: var(--mmc-muted); font-size: 9px;", source)
-        self.assertIn(".mmc-axis-title { fill: var(--mmc-muted); font-size: 9px; font-weight: 400; letter-spacing: .18em; }", source)
+        self.assertIn(".mmc-axis-label { fill: var(--mmc-ink-2); font-size: var(--mmc-axis-font, 9px);", source)
+        self.assertIn(".mmc-axis-title { fill: var(--mmc-ink-2); font-size: var(--mmc-axis-font, 9px); font-weight: 400; letter-spacing: .18em; }", source)
         self.assertIn(".mmc-axis-title { display: none; }", source)
-        self.assertIn(".mmc-axis-label { font-size: 18px; font-weight: 500; }", source)
-        self.assertIn(".mmc-x-axis-label { font-size: 18px; }", source)
+        self.assertIn(".mmc-axis-label { font-weight: 500; }", source)
+        self.assertIn("12 * 760 / Math.max(1, renderedWidth)", source)
+        self.assertIn("label.appendChild(node(&#x27;tspan&#x27;", source)
         self.assertIn("const fmtAxisIndex = (market, value) =&gt;", source)
         self.assertIn("if (!isNarrow() || Math.abs(value) &lt; 1000)", source)
         self.assertIn("`${Number((value / 1000).toFixed(1))}k`", source)
@@ -211,7 +226,7 @@ class OutputTests(unittest.TestCase):
         )
         self.assertIn('data-range=&quot;3m&quot;', source)
         self.assertIn("range.endsWith(&#x27;m&#x27;)", source)
-        self.assertIn("padding: 2px 12px; background: transparent;", source)
+        self.assertIn("min-width: 0; min-height: 32px; border: 0;", source)
         self.assertIn("font-size: 13px; line-height: 1.1;", source)
         self.assertIn("@media (max-width: 640px)", source)
         self.assertIn(
@@ -223,7 +238,7 @@ class OutputTests(unittest.TestCase):
             source,
         )
         self.assertIn("bounds.bottom = narrow ? 366 : 246", source)
-        self.assertIn("chartHeight = narrow ? 420 : 282", source)
+        self.assertIn("chartHeight = narrow ? 500 : 290", source)
         self.assertIn("padding: 20px 20px 8px; overflow: hidden;", source)
         self.assertIn("--mmc-surface-soft: #faf7f0;", source)
         self.assertIn("justify-content: flex-start; flex-wrap: wrap; gap: 12px;", source)
@@ -239,10 +254,10 @@ class OutputTests(unittest.TestCase):
         self.assertIn("display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; justify-content: stretch; gap: 0 8px;", source)
         self.assertIn("display: grid; grid-column: 2; grid-template-columns: repeat(2, minmax(0, 1fr));", source)
         self.assertIn("justify-content: stretch; gap: 0 8px; width: 100%;", source)
-        self.assertIn("min-width: 0; padding: 1px 2px; line-height: 1.1; white-space: nowrap;", source)
+        self.assertIn("min-width: 0; min-height: 32px; padding: 4px 2px; line-height: 1.1; white-space: nowrap;", source)
         self.assertIn("@media (max-width: 360px)", source)
         self.assertIn("grid-template-columns: auto minmax(0, 1fr); gap: 0 4px;", source)
-        self.assertIn("min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 4px; font-size: 11px;", source)
+        self.assertIn("min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 4px; font-size: 11.5px;", source)
         self.assertIn(".mmc-swatch { width: 8px; height: 8px; }", source)
         self.assertIn(".mmc-market-section { padding: 16px 10px 10px; }", source)
         self.assertIn("position: fixed; left: 0; top: 0; z-index: 100;", source)
@@ -278,6 +293,54 @@ class OutputTests(unittest.TestCase):
         self.assertIn("localStorage.setItem(storageKey", source)
         self.assertIn("event.source !== frame.contentWindow", source)
         self.assertIn("frame.addEventListener('load', sendState)", source)
+
+    def test_readable_templates_reproduce_both_outputs(self) -> None:
+        self.assertEqual(render_website(self.payload), self.html_path.read_text(encoding="utf-8"))
+        template_js = (ROOT / "web/chart.js").read_text(encoding="utf-8")
+        self.assertIn("const data = [];", template_js)
+        self.assertNotIn('"d":"2017-07-03"', template_js)
+
+    def test_ui_improvements_preserve_data_and_remove_unused_scripts(self) -> None:
+        source = self.html_path.read_text(encoding="utf-8")
+        self.assertNotIn("&lt;script src=", source)
+        self.assertNotIn("codex-visualization-lucide", source)
+        for removed in (
+            "mmc-reading-tools", "mmc-range-dates", "mmc-date-controls",
+            "mmc-date-help", "mmc-reading-date", "mmc-methodology",
+            "檢視日期", "回最新", "已選取", "各線採獨立刻度", "資料來源：",
+        ):
+            self.assertNotIn(removed, source)
+        self.assertNotIn('type=&quot;date&quot;', source)
+        self.assertIn("charts.forEach(chart =&gt; applyInspectionRow(chart, row, true))", source)
+        self.assertIn("fixedMonthTicks(rows, Array.from({ length: 12 }", source)
+        self.assertIn(".mmc-stat-balance { flex-wrap: wrap; row-gap: 4px; }", source)
+        self.assertIn("width: min(100%, 350px)", source)
+
+    def test_failed_atomic_write_preserves_previous_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "index.html"
+            path.write_text("previous valid output", encoding="utf-8")
+            with patch("update_margin_maintenance_chart_data.os.replace", side_effect=OSError("test failure")):
+                with self.assertRaises(OSError):
+                    write_atomic(path, "candidate")
+            self.assertEqual(path.read_text(), "previous valid output")
+            self.assertEqual(list(Path(temporary).iterdir()), [path])
+
+    def test_invalid_history_does_not_replace_output_or_mirror(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            history = directory / "history.json"
+            history.write_text('{"markets":{"twse":[],"tpex":[]}}')
+            output, mirror = directory / "index.html", directory / "mirror.html"
+            for path in (output, mirror):
+                path.write_text("previous valid output")
+            result = subprocess.run([
+                sys.executable, str(ROOT / "scripts/update_margin_maintenance_chart_data.py"),
+                "--history", str(history), "--html", str(output), "--mirror", str(mirror),
+            ], capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            for path in (output, mirror):
+                self.assertEqual(path.read_text(), "previous valid output")
 
     def test_index_toggle_keeps_right_axis_visible(self) -> None:
         source = self.html_path.read_text(encoding="utf-8")

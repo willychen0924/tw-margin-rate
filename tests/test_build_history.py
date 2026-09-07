@@ -7,6 +7,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import pandas as pd
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -17,7 +19,38 @@ from build_margin_maintenance_history import (
     load_cache,
     load_cache_day,
     local_margin_cache_boundary,
+    current_markets_from_stock_info,
 )
+
+
+class StockInfoMarketTests(unittest.TestCase):
+    def test_latest_market_wins_regardless_of_row_order(self) -> None:
+        rows = [
+            {"stock_id": "6423", "type": "twse", "date": "2024-12-04"},
+            {"stock_id": "6423", "type": "twse", "date": "2026-01-22"},
+            {"stock_id": "6423", "type": "tpex", "date": "2026-09-07"},
+        ]
+        for ordered in (rows, rows[::-1]):
+            self.assertEqual(current_markets_from_stock_info(pd.DataFrame(ordered)), {"6423": "tpex"})
+
+    def test_same_market_duplicates_and_undated_records_are_safe(self) -> None:
+        rows = [{"stock_id": "2330", "type": "twse", "date": date} for date in ("2026-09-07", "2026-09-07", "None", None)]
+        self.assertEqual(current_markets_from_stock_info(pd.DataFrame(rows)), {"2330": "twse"})
+
+    def test_newest_date_market_conflict_is_rejected(self) -> None:
+        rows = [{"stock_id": "6423", "type": market, "date": "2026-09-07"} for market in ("twse", "tpex")]
+        with self.assertRaisesRegex(ValueError, "6423.*衝突"):
+            current_markets_from_stock_info(pd.DataFrame(rows))
+
+    def test_undated_conflicting_market_is_rejected(self) -> None:
+        rows = [{"stock_id": "6423", "type": "twse", "date": "None"}, {"stock_id": "6423", "type": "tpex", "date": "2026-09-07"}]
+        with self.assertRaisesRegex(ValueError, "6423.*日期不明"):
+            current_markets_from_stock_info(pd.DataFrame(rows))
+
+    def test_historical_market_conflict_does_not_override_newest(self) -> None:
+        rows = [{"stock_id": "6423", "type": market, "date": "2026-01-22"} for market in ("twse", "tpex")]
+        rows.append({"stock_id": "6423", "type": "tpex", "date": "2026-09-07"})
+        self.assertEqual(current_markets_from_stock_info(pd.DataFrame(rows)), {"6423": "tpex"})
 
 
 class CacheDayTests(unittest.TestCase):

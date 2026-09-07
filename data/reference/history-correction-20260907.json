@@ -1,0 +1,1084 @@
+{
+  "approved_date": "2026-09-07",
+  "authorization": "User agreed to correct market selection, verify six backfilled days, rebuild historical data and publish after verification.",
+  "formula_unchanged": true,
+  "warmup_start": "2001-01-05",
+  "previous_commit": "dfb99d76873ab0d98333adfcce0b33d7b011352c",
+  "previous_history_sha256": "6b480f419232b60ae3b2f06e734e1ec5c5514e680df7afc11e77a37c439ec417",
+  "candidate_history_sha256": "8a022cdca599bbc984cfcdf7b7f1816b42c0a25324b008372c7f90438ad921bc",
+  "market_fix": "Select newest dated stock_info market instead of first file row; reject unresolved conflicts. 6423 remains TPEx from 2026-01-22, as previously published.",
+  "official_transfer_sources": [
+    "https://dsp.tpex.org.tw/web/announcement/announcement_detail.php?content_file=MTE1MDAwMDIyNzEuaHRtbA%3D%3D&content_number=MTE1MDAwMDIyNzE%3D",
+    "https://www.twse.com.tw/staticFiles/news/news/tsecnews/8a8216d69a3d6cf9019bc625f80f075e.pdf"
+  ],
+  "fresh_six_day_rebuild_all_2240_rows_equal": true,
+  "without_six_days_all_published_maintenance_equal": true,
+  "source_checks": {
+    "checked_at": "2026-09-07T23:48:25.562686+08:00",
+    "source": "Fresh FinMind daily queries versus read-only iCloud parquet; four-digit ordinary shares and both market indices",
+    "checks": [
+      {
+        "date": "2026-07-03",
+        "dataset": "TaiwanStockMarginPurchaseShortSale",
+        "local_sha256": "e8219a69da88445bf1b5ef92a2bcf076f23632169746353e6a0dd8b3be3f004c",
+        "local_rows": 2190,
+        "response_rows": 2190,
+        "local_in_scope": 1842,
+        "fresh_in_scope": 1842,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-03",
+        "dataset": "TaiwanStockPrice",
+        "local_sha256": "cc4166340e4abeed2fc3274c6609ca7749ce96a0305fb7bd9524fe11b8d19e16",
+        "local_rows": 40361,
+        "response_rows": 40361,
+        "local_in_scope": 2324,
+        "fresh_in_scope": 2324,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-06",
+        "dataset": "TaiwanStockMarginPurchaseShortSale",
+        "local_sha256": "5cb9d6da64fd7ebd7f80aafbebf85f566af5affec90a3f2975509837eb2faa54",
+        "local_rows": 2190,
+        "response_rows": 2190,
+        "local_in_scope": 1842,
+        "fresh_in_scope": 1842,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-06",
+        "dataset": "TaiwanStockPrice",
+        "local_sha256": "989ebd5a7b68e414fe8c5a700a12ceed67cc1ec42747fcfa9d49e6f5e1897ba6",
+        "local_rows": 40581,
+        "response_rows": 40581,
+        "local_in_scope": 2324,
+        "fresh_in_scope": 2324,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-07",
+        "dataset": "TaiwanStockMarginPurchaseShortSale",
+        "local_sha256": "0682498e3f65f0675dc3975c48e54319ce6200a496db057943ab59a69880a3a0",
+        "local_rows": 2190,
+        "response_rows": 2190,
+        "local_in_scope": 1842,
+        "fresh_in_scope": 1842,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-07",
+        "dataset": "TaiwanStockPrice",
+        "local_sha256": "f4ade4210bf86eb2e5e5d434a5e07058dc74b675f357720503d4faaa9dec2b74",
+        "local_rows": 40705,
+        "response_rows": 40705,
+        "local_in_scope": 2324,
+        "fresh_in_scope": 2324,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-08",
+        "dataset": "TaiwanStockMarginPurchaseShortSale",
+        "local_sha256": "71c8410f2feb1b99ae9ede4b07117374586b58c60b8c33caf688ce50eb9be85a",
+        "local_rows": 2193,
+        "response_rows": 2193,
+        "local_in_scope": 1844,
+        "fresh_in_scope": 1844,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-08",
+        "dataset": "TaiwanStockPrice",
+        "local_sha256": "bab8d1a2fac8c3f04d8ce3fa132489366a267c99de453593f7c8c9855b1060ff",
+        "local_rows": 43898,
+        "response_rows": 40915,
+        "local_in_scope": 2372,
+        "fresh_in_scope": 2324,
+        "local_only": [
+          "1262",
+          "1469",
+          "1507",
+          "1589",
+          "1592",
+          "1701",
+          "1704",
+          "1724",
+          "1902",
+          "2311",
+          "2325",
+          "2358",
+          "2443",
+          "2448",
+          "2456",
+          "2475",
+          "2499",
+          "2809",
+          "2823",
+          "2841",
+          "2856",
+          "2888",
+          "2936",
+          "3383",
+          "3454",
+          "3514",
+          "3519",
+          "3536",
+          "3561",
+          "3579",
+          "3682",
+          "3698",
+          "4141",
+          "4144",
+          "4725",
+          "4984",
+          "5259",
+          "5264",
+          "5305",
+          "6131",
+          "6145",
+          "6172",
+          "6251",
+          "6289",
+          "6422",
+          "6452",
+          "8427",
+          "8480"
+        ],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": false
+      },
+      {
+        "date": "2026-07-09",
+        "dataset": "TaiwanStockMarginPurchaseShortSale",
+        "local_sha256": "82405236a6aba0fa1879eb486064c292b089c5a41be6108256862914c4eafd32",
+        "local_rows": 2194,
+        "response_rows": 2194,
+        "local_in_scope": 1845,
+        "fresh_in_scope": 1845,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-09",
+        "dataset": "TaiwanStockPrice",
+        "local_sha256": "943afc238e3d57ba95c331ce3444860c9f1a0192d0b2950d484636e195a93421",
+        "local_rows": 45292,
+        "response_rows": 42311,
+        "local_in_scope": 2371,
+        "fresh_in_scope": 2323,
+        "local_only": [
+          "1262",
+          "1469",
+          "1507",
+          "1589",
+          "1592",
+          "1701",
+          "1704",
+          "1724",
+          "1902",
+          "2311",
+          "2325",
+          "2358",
+          "2443",
+          "2448",
+          "2456",
+          "2475",
+          "2499",
+          "2809",
+          "2823",
+          "2841",
+          "2856",
+          "2888",
+          "2936",
+          "3383",
+          "3454",
+          "3514",
+          "3519",
+          "3536",
+          "3561",
+          "3579",
+          "3682",
+          "3698",
+          "4141",
+          "4144",
+          "4725",
+          "4984",
+          "5259",
+          "5264",
+          "5305",
+          "6131",
+          "6145",
+          "6172",
+          "6251",
+          "6289",
+          "6422",
+          "6452",
+          "8427",
+          "8480"
+        ],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": false
+      },
+      {
+        "date": "2026-07-13",
+        "dataset": "TaiwanStockMarginPurchaseShortSale",
+        "local_sha256": "4e4b531821a52a69ed89bec9b5c06eb8dce942bc8747ba5be15dec56c27e01fd",
+        "local_rows": 2195,
+        "response_rows": 2195,
+        "local_in_scope": 1846,
+        "fresh_in_scope": 1846,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      },
+      {
+        "date": "2026-07-13",
+        "dataset": "TaiwanStockPrice",
+        "local_sha256": "92481080686b75aa48b662bd29a96acfd4a4a99ea604c55f42732afab82e3be1",
+        "local_rows": 41101,
+        "response_rows": 41101,
+        "local_in_scope": 2323,
+        "fresh_in_scope": 2323,
+        "local_only": [],
+        "fresh_only": [],
+        "mismatched_ids": [],
+        "passed": true
+      }
+    ],
+    "passed": false
+  },
+  "source_check_exceptions": "7/08 and 7/09 iCloud price files each include 48 extra ordinary codes absent in the fresh API result. Only 1589 has a margin row; its 67.4 close equals the previously carried close. Replacing all six days with fresh API rows and the documented missing-price carry-forward produces exactly the same complete two-market history. These are not asserted to be actual trades on those dates.",
+  "separate_market_cap_refresh": {
+    "date": "2026-09-04",
+    "candidate": 1510905.67,
+    "official_code_scope": 1510905.67,
+    "official_code_count": 1081,
+    "difference_pct": 0.0
+  },
+  "markets": {
+    "twse": {
+      "added_dates": [
+        "2026-07-03",
+        "2026-07-06",
+        "2026-07-07",
+        "2026-07-08",
+        "2026-07-09",
+        "2026-07-13",
+        "2026-09-07"
+      ],
+      "baseline": {
+        "old": {
+          "date": "2026-07-30",
+          "maintenance": 132.5,
+          "index": 39933.3,
+          "financed_balance": 6058669,
+          "financed_amount": 4938.67,
+          "market_cap": 1303246.34,
+          "margin_market_cap_ratio": 0.379,
+          "stock_count": 1005
+        },
+        "new": {
+          "date": "2026-07-30",
+          "maintenance": 132.38,
+          "index": 39933.3,
+          "financed_balance": 6058669,
+          "financed_amount": 4938.67,
+          "market_cap": 1303246.34,
+          "margin_market_cap_ratio": 0.379,
+          "stock_count": 1005
+        }
+      },
+      "differences": [
+        {
+          "date": "2026-07-14",
+          "fields": {
+            "maintenance": {
+              "old": 156.74,
+              "new": 156.14
+            }
+          }
+        },
+        {
+          "date": "2026-07-15",
+          "fields": {
+            "maintenance": {
+              "old": 162.37,
+              "new": 161.83
+            }
+          }
+        },
+        {
+          "date": "2026-07-16",
+          "fields": {
+            "maintenance": {
+              "old": 158.9,
+              "new": 158.47
+            }
+          }
+        },
+        {
+          "date": "2026-07-17",
+          "fields": {
+            "maintenance": {
+              "old": 147.25,
+              "new": 146.93
+            }
+          }
+        },
+        {
+          "date": "2026-07-20",
+          "fields": {
+            "maintenance": {
+              "old": 143.66,
+              "new": 143.38
+            }
+          }
+        },
+        {
+          "date": "2026-07-21",
+          "fields": {
+            "maintenance": {
+              "old": 150.9,
+              "new": 150.65
+            }
+          }
+        },
+        {
+          "date": "2026-07-22",
+          "fields": {
+            "maintenance": {
+              "old": 156.69,
+              "new": 156.48
+            }
+          }
+        },
+        {
+          "date": "2026-07-23",
+          "fields": {
+            "maintenance": {
+              "old": 155.79,
+              "new": 155.6
+            }
+          }
+        },
+        {
+          "date": "2026-07-24",
+          "fields": {
+            "maintenance": {
+              "old": 150.02,
+              "new": 149.86
+            }
+          }
+        },
+        {
+          "date": "2026-07-27",
+          "fields": {
+            "maintenance": {
+              "old": 150.27,
+              "new": 150.13
+            }
+          }
+        },
+        {
+          "date": "2026-07-28",
+          "fields": {
+            "maintenance": {
+              "old": 140.41,
+              "new": 140.28
+            }
+          }
+        },
+        {
+          "date": "2026-07-29",
+          "fields": {
+            "maintenance": {
+              "old": 133.86,
+              "new": 133.73
+            }
+          }
+        },
+        {
+          "date": "2026-07-30",
+          "fields": {
+            "maintenance": {
+              "old": 132.5,
+              "new": 132.38
+            }
+          }
+        },
+        {
+          "date": "2026-07-31",
+          "fields": {
+            "maintenance": {
+              "old": 144.25,
+              "new": 144.13
+            }
+          }
+        },
+        {
+          "date": "2026-08-03",
+          "fields": {
+            "maintenance": {
+              "old": 151.64,
+              "new": 151.54
+            }
+          }
+        },
+        {
+          "date": "2026-08-04",
+          "fields": {
+            "maintenance": {
+              "old": 157.33,
+              "new": 157.22
+            }
+          }
+        },
+        {
+          "date": "2026-08-05",
+          "fields": {
+            "maintenance": {
+              "old": 162.74,
+              "new": 162.63
+            }
+          }
+        },
+        {
+          "date": "2026-08-06",
+          "fields": {
+            "maintenance": {
+              "old": 164.73,
+              "new": 164.61
+            }
+          }
+        },
+        {
+          "date": "2026-08-07",
+          "fields": {
+            "maintenance": {
+              "old": 162.16,
+              "new": 162.03
+            }
+          }
+        },
+        {
+          "date": "2026-08-10",
+          "fields": {
+            "maintenance": {
+              "old": 167.22,
+              "new": 167.09
+            }
+          }
+        },
+        {
+          "date": "2026-08-11",
+          "fields": {
+            "maintenance": {
+              "old": 167.64,
+              "new": 167.51
+            }
+          }
+        },
+        {
+          "date": "2026-08-12",
+          "fields": {
+            "maintenance": {
+              "old": 169.74,
+              "new": 169.63
+            }
+          }
+        },
+        {
+          "date": "2026-08-13",
+          "fields": {
+            "maintenance": {
+              "old": 171.75,
+              "new": 171.64
+            }
+          }
+        },
+        {
+          "date": "2026-08-14",
+          "fields": {
+            "maintenance": {
+              "old": 171.24,
+              "new": 171.13
+            }
+          }
+        },
+        {
+          "date": "2026-08-17",
+          "fields": {
+            "maintenance": {
+              "old": 172.01,
+              "new": 171.91
+            }
+          }
+        },
+        {
+          "date": "2026-08-18",
+          "fields": {
+            "maintenance": {
+              "old": 167.97,
+              "new": 167.87
+            }
+          }
+        },
+        {
+          "date": "2026-08-19",
+          "fields": {
+            "maintenance": {
+              "old": 165.3,
+              "new": 165.21
+            }
+          }
+        },
+        {
+          "date": "2026-08-20",
+          "fields": {
+            "maintenance": {
+              "old": 166.75,
+              "new": 166.65
+            }
+          }
+        },
+        {
+          "date": "2026-08-21",
+          "fields": {
+            "maintenance": {
+              "old": 165.35,
+              "new": 165.27
+            }
+          }
+        },
+        {
+          "date": "2026-08-24",
+          "fields": {
+            "maintenance": {
+              "old": 163.69,
+              "new": 163.62
+            }
+          }
+        },
+        {
+          "date": "2026-08-25",
+          "fields": {
+            "maintenance": {
+              "old": 165.96,
+              "new": 165.89
+            }
+          }
+        },
+        {
+          "date": "2026-08-26",
+          "fields": {
+            "maintenance": {
+              "old": 170.5,
+              "new": 170.43
+            }
+          }
+        },
+        {
+          "date": "2026-08-27",
+          "fields": {
+            "maintenance": {
+              "old": 171.76,
+              "new": 171.69
+            }
+          }
+        },
+        {
+          "date": "2026-08-28",
+          "fields": {
+            "maintenance": {
+              "old": 172.72,
+              "new": 172.66
+            }
+          }
+        },
+        {
+          "date": "2026-08-31",
+          "fields": {
+            "maintenance": {
+              "old": 170.8,
+              "new": 170.75
+            }
+          }
+        },
+        {
+          "date": "2026-09-01",
+          "fields": {
+            "maintenance": {
+              "old": 172.4,
+              "new": 172.35
+            }
+          }
+        },
+        {
+          "date": "2026-09-02",
+          "fields": {
+            "maintenance": {
+              "old": 169.06,
+              "new": 169.02
+            }
+          }
+        },
+        {
+          "date": "2026-09-03",
+          "fields": {
+            "maintenance": {
+              "old": 163.77,
+              "new": 163.73
+            }
+          }
+        },
+        {
+          "date": "2026-09-04",
+          "fields": {
+            "maintenance": {
+              "old": 167.3,
+              "new": 167.25
+            },
+            "market_cap": {
+              "old": 1509857.19,
+              "new": 1510905.67
+            },
+            "margin_market_cap_ratio": {
+              "old": 0.3854,
+              "new": 0.3851
+            }
+          }
+        }
+      ],
+      "without_six_days_residual": [
+        {
+          "date": "2026-09-04",
+          "fields": {
+            "market_cap": {
+              "old": 1509857.19,
+              "new": 1510905.67
+            },
+            "margin_market_cap_ratio": {
+              "old": 0.3854,
+              "new": 0.3851
+            }
+          }
+        }
+      ]
+    },
+    "tpex": {
+      "added_dates": [
+        "2026-07-03",
+        "2026-07-06",
+        "2026-07-07",
+        "2026-07-08",
+        "2026-07-09",
+        "2026-07-13",
+        "2026-09-07"
+      ],
+      "baseline": {
+        "old": {
+          "date": "2026-07-30",
+          "maintenance": 118.32,
+          "index": 326.23,
+          "financed_balance": 2050844,
+          "financed_amount": 1630.15,
+          "market_cap": 88578.27,
+          "margin_market_cap_ratio": 1.8403,
+          "stock_count": 744
+        },
+        "new": {
+          "date": "2026-07-30",
+          "maintenance": 118.55,
+          "index": 326.23,
+          "financed_balance": 2050844,
+          "financed_amount": 1630.15,
+          "market_cap": 88578.27,
+          "margin_market_cap_ratio": 1.8403,
+          "stock_count": 744
+        }
+      },
+      "differences": [
+        {
+          "date": "2026-07-14",
+          "fields": {
+            "maintenance": {
+              "old": 148.3,
+              "new": 148.12
+            }
+          }
+        },
+        {
+          "date": "2026-07-15",
+          "fields": {
+            "maintenance": {
+              "old": 150.11,
+              "new": 150.02
+            }
+          }
+        },
+        {
+          "date": "2026-07-16",
+          "fields": {
+            "maintenance": {
+              "old": 146.9,
+              "new": 146.93
+            }
+          }
+        },
+        {
+          "date": "2026-07-17",
+          "fields": {
+            "maintenance": {
+              "old": 135.56,
+              "new": 135.7
+            }
+          }
+        },
+        {
+          "date": "2026-07-20",
+          "fields": {
+            "maintenance": {
+              "old": 131.89,
+              "new": 132.02
+            }
+          }
+        },
+        {
+          "date": "2026-07-21",
+          "fields": {
+            "maintenance": {
+              "old": 137.95,
+              "new": 138.14
+            }
+          }
+        },
+        {
+          "date": "2026-07-22",
+          "fields": {
+            "maintenance": {
+              "old": 143.61,
+              "new": 143.86
+            }
+          }
+        },
+        {
+          "date": "2026-07-23",
+          "fields": {
+            "maintenance": {
+              "old": 143.09,
+              "new": 143.37
+            }
+          }
+        },
+        {
+          "date": "2026-07-24",
+          "fields": {
+            "maintenance": {
+              "old": 137.78,
+              "new": 138.09
+            }
+          }
+        },
+        {
+          "date": "2026-07-27",
+          "fields": {
+            "maintenance": {
+              "old": 138.48,
+              "new": 138.79
+            }
+          }
+        },
+        {
+          "date": "2026-07-28",
+          "fields": {
+            "maintenance": {
+              "old": 128.66,
+              "new": 128.94
+            }
+          }
+        },
+        {
+          "date": "2026-07-29",
+          "fields": {
+            "maintenance": {
+              "old": 122.09,
+              "new": 122.33
+            }
+          }
+        },
+        {
+          "date": "2026-07-30",
+          "fields": {
+            "maintenance": {
+              "old": 118.32,
+              "new": 118.55
+            }
+          }
+        },
+        {
+          "date": "2026-07-31",
+          "fields": {
+            "maintenance": {
+              "old": 128.35,
+              "new": 128.61
+            }
+          }
+        },
+        {
+          "date": "2026-08-03",
+          "fields": {
+            "maintenance": {
+              "old": 135.69,
+              "new": 135.95
+            }
+          }
+        },
+        {
+          "date": "2026-08-04",
+          "fields": {
+            "maintenance": {
+              "old": 143.42,
+              "new": 143.69
+            }
+          }
+        },
+        {
+          "date": "2026-08-05",
+          "fields": {
+            "maintenance": {
+              "old": 148.84,
+              "new": 149.13
+            }
+          }
+        },
+        {
+          "date": "2026-08-06",
+          "fields": {
+            "maintenance": {
+              "old": 153.51,
+              "new": 153.78
+            }
+          }
+        },
+        {
+          "date": "2026-08-07",
+          "fields": {
+            "maintenance": {
+              "old": 149.92,
+              "new": 150.16
+            }
+          }
+        },
+        {
+          "date": "2026-08-10",
+          "fields": {
+            "maintenance": {
+              "old": 152.69,
+              "new": 152.9
+            }
+          }
+        },
+        {
+          "date": "2026-08-11",
+          "fields": {
+            "maintenance": {
+              "old": 153.67,
+              "new": 153.87
+            }
+          }
+        },
+        {
+          "date": "2026-08-12",
+          "fields": {
+            "maintenance": {
+              "old": 159.01,
+              "new": 159.22
+            }
+          }
+        },
+        {
+          "date": "2026-08-13",
+          "fields": {
+            "maintenance": {
+              "old": 160.85,
+              "new": 161.04
+            }
+          }
+        },
+        {
+          "date": "2026-08-14",
+          "fields": {
+            "maintenance": {
+              "old": 157.67,
+              "new": 157.88
+            }
+          }
+        },
+        {
+          "date": "2026-08-17",
+          "fields": {
+            "maintenance": {
+              "old": 158.78,
+              "new": 159.0
+            }
+          }
+        },
+        {
+          "date": "2026-08-18",
+          "fields": {
+            "maintenance": {
+              "old": 155.3,
+              "new": 155.52
+            }
+          }
+        },
+        {
+          "date": "2026-08-19",
+          "fields": {
+            "maintenance": {
+              "old": 153.22,
+              "new": 153.44
+            }
+          }
+        },
+        {
+          "date": "2026-08-20",
+          "fields": {
+            "maintenance": {
+              "old": 155.56,
+              "new": 155.78
+            }
+          }
+        },
+        {
+          "date": "2026-08-21",
+          "fields": {
+            "maintenance": {
+              "old": 155.47,
+              "new": 155.68
+            }
+          }
+        },
+        {
+          "date": "2026-08-24",
+          "fields": {
+            "maintenance": {
+              "old": 154.23,
+              "new": 154.44
+            }
+          }
+        },
+        {
+          "date": "2026-08-25",
+          "fields": {
+            "maintenance": {
+              "old": 156.91,
+              "new": 157.11
+            }
+          }
+        },
+        {
+          "date": "2026-08-26",
+          "fields": {
+            "maintenance": {
+              "old": 161.21,
+              "new": 161.4
+            }
+          }
+        },
+        {
+          "date": "2026-08-27",
+          "fields": {
+            "maintenance": {
+              "old": 164.21,
+              "new": 164.38
+            }
+          }
+        },
+        {
+          "date": "2026-08-28",
+          "fields": {
+            "maintenance": {
+              "old": 164.32,
+              "new": 164.47
+            }
+          }
+        },
+        {
+          "date": "2026-08-31",
+          "fields": {
+            "maintenance": {
+              "old": 164.08,
+              "new": 164.23
+            }
+          }
+        },
+        {
+          "date": "2026-09-01",
+          "fields": {
+            "maintenance": {
+              "old": 167.49,
+              "new": 167.64
+            }
+          }
+        },
+        {
+          "date": "2026-09-02",
+          "fields": {
+            "maintenance": {
+              "old": 164.75,
+              "new": 164.88
+            }
+          }
+        },
+        {
+          "date": "2026-09-03",
+          "fields": {
+            "maintenance": {
+              "old": 158.27,
+              "new": 158.4
+            }
+          }
+        },
+        {
+          "date": "2026-09-04",
+          "fields": {
+            "maintenance": {
+              "old": 162.29,
+              "new": 162.41
+            }
+          }
+        }
+      ],
+      "without_six_days_residual": []
+    }
+  },
+  "verification_passed": true
+}

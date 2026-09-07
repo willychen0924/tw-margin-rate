@@ -44,3 +44,7 @@ Finder 雙擊 `更新融資維持率.command`，或在終端機執行：
 發布必須明確加上 `--publish`；程式會先完成重算、歷史不變性、兩份 Pages HTML 同步及專用測試，再允許提交與推送。`docs/index.html` 與根目錄 `index.html` 是由同一資料產生的完全相同鏡像，不可分開手動修改。推送後仍須人工開啟公開頁面核對。
 
 完整規則見 `AGENTS.md`，公式見 `計算方式.md`，兩台 Mac 操作見 `更新說明.md`。
+
+## 修改網站版型
+
+請修改 `web/` 中的 HTML、CSS 與 JavaScript，再透過生成器輸出兩份相同的 Pages HTML；不要直接修改輸出。操作及 UI 驗收步驟見 [web/README.md](web/README.md)。

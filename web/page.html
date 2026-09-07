@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="2017 年起的台股上市與櫃買融資維持率、市場指數及融資餘額走勢。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>台股上市櫃融資維持率</title>
+<style>:root{color-scheme:light;background:#f5f1e8}html,body{margin:0}body{box-sizing:border-box;padding:0;background:#f5f1e8}iframe{display:block;width:100%;height:100vh;margin:0 auto;border:0;background:#f5f1e8}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="台股上市櫃融資維持率" srcdoc="{{CHART_DOCUMENT}}"></iframe>
+<script>
+(() => {
+  const frame = document.querySelector('iframe');
+  const messageType = 'tw-margin-rate:series-visibility';
+  const storageKey = 'tw-margin-rate:series-visibility:v1';
+  const readState = () => {
+    try {
+      const value = JSON.parse(localStorage.getItem(storageKey));
+      return value != null && typeof value === 'object' ? value : null;
+    } catch {
+      return null;
+    }
+  };
+  const writeState = value => {
+    if (value == null || typeof value !== 'object') return;
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(value));
+    } catch {
+      // Keep the toggles functional when browser storage is unavailable.
+    }
+  };
+  const sendState = () => frame.contentWindow?.postMessage(
+    { type: messageType, action: 'state', value: readState() },
+    '*',
+  );
+  frame.addEventListener('load', sendState);
+  window.addEventListener('message', event => {
+    if (event.source !== frame.contentWindow || event.data?.type !== messageType) return;
+    if (event.data.action === 'get') {
+      sendState();
+    } else if (event.data.action === 'set') {
+      writeState(event.data.value);
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -131,6 +131,33 @@ def merge_twse_listing_date(
         listing_dates[stock_id] = listing_date
 
 
+def current_markets_from_stock_info(stock_info: pd.DataFrame) -> dict[str, str]:
+    """Resolve mixed current/historical snapshots by data date, never row order.
+
+    Duplicate industry/name records are harmless. Conflicting markets on the
+    newest date (or an undated conflicting record) must stop the update.
+    Official listing intervals are still applied separately by market_for_stock.
+    """
+    rows = stock_info[stock_info["type"].isin(["twse", "tpex"])].copy()
+    rows["stock_id"] = rows["stock_id"].astype(str)
+    rows["record_date"] = pd.to_datetime(
+        rows["date"], format="%Y-%m-%d", errors="coerce"
+    )
+    result: dict[str, str] = {}
+    for stock_id, group in rows.groupby("stock_id", sort=True):
+        valid = group[group["record_date"].notna()]
+        newest = (
+            valid[valid["record_date"] == valid["record_date"].max()]
+            if not valid.empty else group
+        )
+        markets = set(newest["type"])
+        markets.update(group.loc[group["record_date"].isna(), "type"])
+        if len(markets) != 1:
+            raise ValueError(f"stock_info {stock_id} 最新市場紀錄衝突或日期不明")
+        result[stock_id] = markets.pop()
+    return result
+
+
 def load_market_reference(
     stock_data: Path,
     twse_company_info: Path,
@@ -141,10 +168,7 @@ def load_market_reference(
     stock_info = pd.read_parquet(
         stock_info_path, columns=["stock_id", "type", "date"]
     )
-    stock_info = stock_info.dropna(subset=["type"])
-    stock_info = stock_info[stock_info["type"].isin(["twse", "tpex"])]
-    stock_info = stock_info.drop_duplicates("stock_id", keep="first")
-    current_market = dict(zip(stock_info["stock_id"].astype(str), stock_info["type"]))
+    current_market = current_markets_from_stock_info(stock_info)
 
     with twse_company_info.open(encoding="utf-8") as handle:
         listed_rows = json.load(handle)

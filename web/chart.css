@@ -1,0 +1,201 @@
+:root { color-scheme: light; background: #f5f1e8 !important; }
+  html, body { margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; }
+  button, input, summary { font: inherit; }
+  button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px solid #4a7fd0; outline-offset: 2px; }
+  html > body { background: #f5f1e8 !important; }
+  #margin-maintenance-history {
+    --mmc-page: #f5f1e8;
+    --mmc-surface: #ffffff;
+    --mmc-surface-soft: #faf7f0;
+    --mmc-ink: #2f2b25;
+    --mmc-ink-2: #6b655c;
+    --mmc-muted: #a69f93;
+    --mmc-grid: #ded6c8;
+    --mmc-border: rgba(60,50,38,.10);
+    --mmc-tint: #ece6db;
+    --mmc-tint-hover: #e2dbcd;
+    --mmc-active: #2a2622;
+    --mmc-active-fg: #ffffff;
+    --mmc-blue: #4a7fd0;
+    --mmc-orange: #e0783c;
+    --mmc-green: #4e9e72;
+    --mmc-purple: #8a6fc0;
+    --mmc-critical: #d0645c;
+    --mmc-up: #c74a3f;
+    --mmc-down: #1a9e5f;
+    width: 100%; max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px;
+    color: var(--mmc-ink); background: var(--mmc-page); border-radius: 0;
+    font-family: system-ui, -apple-system, "PingFang TC", "Segoe UI", sans-serif;
+    font-size: 16px; line-height: normal; -webkit-font-smoothing: antialiased;
+  }
+  #margin-maintenance-history * { box-sizing: border-box; }
+  #margin-maintenance-history .mmc-page-head {
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;
+    gap: 10px; margin-bottom: 14px;
+  }
+  #margin-maintenance-history .mmc-kicker {
+    color: var(--mmc-ink-2); font-size: 12.5px; font-weight: 600; letter-spacing: .14em;
+  }
+  #margin-maintenance-history .mmc-updated { color: var(--mmc-ink-2); font-size: 13px; }
+  #margin-maintenance-history .mmc-latest-label { margin-left: auto; color: var(--mmc-ink-2); font-size: 12px; white-space: nowrap; }
+  #margin-maintenance-history .mmc-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+  #margin-maintenance-history .mmc-stat-card {
+    position: relative; min-width: 0; padding: 15px 20px 13px; overflow: hidden;
+    border: 1px solid var(--mmc-border); border-radius: 16px; background: var(--mmc-surface);
+    box-shadow: 0 1px 2px rgba(47,43,37,.04), 0 14px 30px -22px rgba(47,43,37,.25);
+  }
+  #margin-maintenance-history .mmc-stat-listed::before,
+  #margin-maintenance-history .mmc-stat-tpex::before {
+    position: absolute; top: 0; bottom: 0; left: 0; width: 4px; content: "";
+  }
+  #margin-maintenance-history .mmc-stat-listed::before { background: var(--mmc-blue); }
+  #margin-maintenance-history .mmc-stat-tpex::before { background: #c99a4e; }
+  #margin-maintenance-history .mmc-stat-top { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; }
+  #margin-maintenance-history .mmc-market-chip {
+    padding: 4px 11px; border-radius: 7px; background: var(--mmc-tint);
+    color: var(--mmc-ink); font-size: 14px; font-weight: 700;
+  }
+  #margin-maintenance-history .mmc-stat-label { color: var(--mmc-ink-2); font-size: 16px; font-weight: 600; }
+  #margin-maintenance-history .mmc-stat-value-row { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+  #margin-maintenance-history .mmc-stat-value {
+    font-size: 46px; font-weight: 800; line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums;
+  }
+  #margin-maintenance-history .mmc-stat-percent { font-size: 26px; font-weight: 700; }
+  #margin-maintenance-history .mmc-delta,
+  #margin-maintenance-history .mmc-mini-delta {
+    display: inline-flex; align-items: center; border-radius: 999px; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  #margin-maintenance-history .mmc-delta { margin-bottom: 6px; padding: 3px 8px; font-size: 13px; }
+  #margin-maintenance-history .mmc-mini-delta {
+    flex: 0 0 auto; padding: 2px 7px; font-size: 12px; line-height: 1.2; white-space: nowrap;
+  }
+  #margin-maintenance-history [data-tone="up"] { color: var(--mmc-up); background: rgba(199,74,63,.14); }
+  #margin-maintenance-history [data-tone="down"] { color: var(--mmc-down); background: rgba(26,158,95,.14); }
+  #margin-maintenance-history [data-tone="flat"] { color: var(--mmc-muted); background: var(--mmc-tint); }
+  #margin-maintenance-history .mmc-stat-metrics { display: flex; margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--mmc-border); }
+  #margin-maintenance-history .mmc-stat-metric { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; }
+  #margin-maintenance-history .mmc-stat-metric + .mmc-stat-metric { padding-left: 16px; border-left: 1px solid var(--mmc-border); }
+  #margin-maintenance-history .mmc-metric-label { color: var(--mmc-ink-2); font-size: 13px; }
+  #margin-maintenance-history .mmc-stat-index,
+  #margin-maintenance-history .mmc-stat-balance {
+    display: flex; min-height: 21px; align-items: center; gap: 6px;
+    color: var(--mmc-ink); font-size: 15px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums;
+  }
+  #margin-maintenance-history .mmc-stat-balance strong { font-weight: 700; }
+  #margin-maintenance-history .mmc-stat-balance { flex-wrap: wrap; row-gap: 4px; }
+  #margin-maintenance-history .mmc-balance-total { white-space: nowrap; }
+  #margin-maintenance-history .mmc-toolbar {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    gap: 10px; margin-bottom: 12px;
+  }
+  #margin-maintenance-history .mmc-segmented { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); width: min(100%, 350px); gap: 2px; padding: 2px; border-radius: 999px; background: var(--mmc-tint); }
+  #margin-maintenance-history .mmc-segmented button {
+    min-width: 0; min-height: 32px; border: 0; border-radius: 999px; padding: 2px; background: transparent;
+    color: var(--mmc-ink-2); font-family: inherit; font-size: 13px; line-height: 1.1; cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  #margin-maintenance-history .mmc-segmented button:hover:not(.btn-primary) { background: var(--mmc-tint-hover); }
+  #margin-maintenance-history .mmc-segmented button.btn-primary { background: var(--mmc-active); color: var(--mmc-active-fg); font-weight: 600; }
+  #margin-maintenance-history .mmc-segmented-small button { padding: 5px 12px; font-size: 12px; }
+  #margin-maintenance-history .mmc-market-section {
+    margin: 0 0 18px; padding: 20px 20px 8px; overflow: hidden;
+    border: 1px solid var(--mmc-border); border-radius: 16px; background: var(--mmc-surface);
+    box-shadow: 0 1px 2px rgba(47,43,37,.04), 0 14px 30px -24px rgba(47,43,37,.20);
+  }
+  #margin-maintenance-history .mmc-market-meta {
+    display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 12px;
+    margin: -20px -20px 10px; padding: 11px 18px;
+    border-bottom: 1px solid var(--mmc-border); background: var(--mmc-surface-soft);
+  }
+  #margin-maintenance-history .mmc-market-meta h2 { margin: 0; padding: 5px 13px; border-radius: 8px; background: var(--mmc-tint); color: var(--mmc-ink); font-size: 15px; font-weight: 800; letter-spacing: .03em; }
+  #margin-maintenance-history [data-chart="twse"] .mmc-market-meta h2 { background: rgba(74,127,208,.14); color: #2c5aa6; }
+  #margin-maintenance-history [data-chart="tpex"] .mmc-market-meta h2 { background: rgba(201,154,78,.18); color: #8a6320; }
+  #margin-maintenance-history .mmc-summary { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 6px; color: var(--mmc-ink-2); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  #margin-maintenance-history .mmc-summary span,
+  #margin-maintenance-history .mmc-legend-item { display: inline-flex; align-items: center; gap: 6px; }
+  #margin-maintenance-history .mmc-legend-item {
+    appearance: none; margin: 0; padding: 3px 8px; border: 1px solid transparent; border-radius: 7px;
+    color: inherit; background: transparent; font: inherit; font-variant-numeric: inherit; cursor: pointer;
+    transition: opacity .16s ease, background-color .16s ease;
+  }
+  #margin-maintenance-history .mmc-legend-item:hover { background: var(--mmc-surface); }
+  #margin-maintenance-history .mmc-legend-item:focus-visible { outline: 2px solid var(--mmc-blue); outline-offset: 2px; }
+  #margin-maintenance-history .mmc-legend-item[aria-pressed="false"] { opacity: .38; }
+  #margin-maintenance-history .mmc-summary strong { margin-left: 1px; color: var(--mmc-ink); font-weight: 800; }
+  #margin-maintenance-history .mmc-summary .mmc-legend-short { display: none; }
+  #margin-maintenance-history .mmc-summary .mmc-balance-reading { gap: 1px; }
+  #margin-maintenance-history .mmc-date { color: var(--mmc-muted); }
+  #margin-maintenance-history .mmc-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  #margin-maintenance-history .mmc-swatch { width: 10px; height: 10px; flex: none; border-radius: 2px; }
+  #margin-maintenance-history .mmc-maint { background: var(--mmc-blue); }
+  #margin-maintenance-history .mmc-index { background: var(--mmc-orange); }
+  #margin-maintenance-history .mmc-balance { background: var(--mmc-green); }
+  #margin-maintenance-history .mmc-ratio { background: var(--mmc-purple); }
+  #margin-maintenance-history .mmc-plot { position: relative; width: 100%; }
+  #margin-maintenance-history .mmc-chart { display: block; width: 100%; height: auto; overflow: visible; }
+  #margin-maintenance-history .mmc-grid-line { stroke: var(--mmc-grid); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-year-line { stroke: var(--mmc-muted); stroke-width: 1; stroke-dasharray: 2 5; opacity: .42; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-axis-label { fill: var(--mmc-ink-2); font-size: var(--mmc-axis-font, 9px); font-weight: 400; font-variant-numeric: tabular-nums; }
+  #margin-maintenance-history .mmc-axis-title { fill: var(--mmc-ink-2); font-size: var(--mmc-axis-font, 9px); font-weight: 400; letter-spacing: .18em; }
+  #margin-maintenance-history .mmc-line { fill: none; stroke-width: 1.3; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-line-maint { stroke: var(--mmc-blue); stroke-width: 2.4; }
+  #margin-maintenance-history .mmc-line-index { stroke: var(--mmc-orange); opacity: .7; }
+  #margin-maintenance-history .mmc-line-balance { stroke: var(--mmc-green); opacity: .7; }
+  #margin-maintenance-history .mmc-line-ratio { stroke: var(--mmc-purple); opacity: .7; }
+  #margin-maintenance-history .mmc-risk-zone { fill: rgba(208,100,92,.07); }
+  #margin-maintenance-history .mmc-alert-line { stroke: var(--mmc-critical); stroke-width: 1.2; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-warn-label { fill: var(--mmc-critical); font-size: 11px; font-weight: 600; }
+  #margin-maintenance-history .mmc-dot { stroke: var(--mmc-surface); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  #margin-maintenance-history .mmc-dot-maint { fill: var(--mmc-blue); }
+  #margin-maintenance-history .mmc-dot-index { fill: var(--mmc-orange); }
+  #margin-maintenance-history .mmc-dot-balance { fill: var(--mmc-green); }
+  #margin-maintenance-history .mmc-dot-ratio { fill: var(--mmc-purple); }
+  #margin-maintenance-history .mmc-crosshair { stroke: var(--mmc-ink-2); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; }
+  #margin-maintenance-history .mmc-hit {
+    fill: transparent; cursor: crosshair; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  }
+  #margin-maintenance-history .mmc-tooltip {
+    position: fixed; left: 0; top: 0; z-index: 100; min-width: 8rem; padding: 6px 8px; visibility: hidden;
+    border-radius: 7px; background: var(--mmc-ink); color: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.16);
+    font-size: 13px; line-height: 1.5; font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
+  }
+  #margin-maintenance-history .mmc-tooltip strong { font-size: 13px; color: #fff; }
+  @media (min-width: 701px) {
+    #margin-maintenance-history .mmc-line { stroke-width: 1.4; }
+    #margin-maintenance-history .mmc-line-maint { stroke-width: 2.5; }
+    #margin-maintenance-history .mmc-dot { r: 3.2px; }
+  }
+  @media (max-width: 700px) {
+    #margin-maintenance-history { padding: 24px 12px 40px; }
+    #margin-maintenance-history .mmc-stat-card { padding: 15px 16px 13px; }
+    #margin-maintenance-history .mmc-axis-title { display: none; }
+    #margin-maintenance-history .mmc-market-section { padding: 16px 10px 10px; }
+    #margin-maintenance-history .mmc-market-meta {
+      display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; justify-content: stretch; gap: 0 8px;
+      margin: -16px -10px 10px; padding: 10px;
+    }
+    #margin-maintenance-history .mmc-market-meta h2 { grid-column: 1; grid-row: 1; }
+    #margin-maintenance-history .mmc-summary {
+      display: grid; grid-column: 2; grid-template-columns: repeat(2, minmax(0, 1fr));
+      justify-content: stretch; gap: 0 8px; width: 100%;
+    }
+    #margin-maintenance-history .mmc-legend-item { min-width: 0; min-height: 32px; padding: 4px 2px; line-height: 1.1; white-space: nowrap; }
+    #margin-maintenance-history .mmc-summary .mmc-legend-long { display: none; }
+    #margin-maintenance-history .mmc-summary .mmc-legend-short { display: inline; }
+    #margin-maintenance-history .mmc-axis-label { font-weight: 500; }
+  }
+  @media (max-width: 640px) {
+    #margin-maintenance-history .mmc-stat-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 360px) {
+    #margin-maintenance-history .mmc-market-meta { grid-template-columns: auto minmax(0, 1fr); gap: 0 4px; }
+    #margin-maintenance-history .mmc-market-meta h2 { padding: 4px 8px; font-size: 13px; }
+    #margin-maintenance-history .mmc-summary {
+      min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 4px; font-size: 11.5px;
+    }
+    #margin-maintenance-history .mmc-summary span,
+    #margin-maintenance-history .mmc-legend-item { gap: 3px; }
+    #margin-maintenance-history .mmc-legend-item { padding: 1px; }
+    #margin-maintenance-history .mmc-swatch { width: 8px; height: 8px; }
+  }

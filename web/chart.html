@@ -1,0 +1,131 @@
+<div id="margin-maintenance-history">
+  <header class="mmc-page-head">
+    <div class="mmc-kicker">台股融資維持率 · 上市 / 櫃買</div>
+    <div class="mmc-updated">資料日期 2026/09/04</div>
+  </header>
+
+  <div class="mmc-stat-row" aria-label="最新數值">
+    <article class="mmc-stat-card mmc-stat-listed">
+      <div class="mmc-stat-top">
+        <span class="mmc-market-chip">上市</span>
+        <span class="mmc-stat-label">融資維持率</span>
+        <span class="mmc-latest-label">最新</span>
+      </div>
+      <div class="mmc-stat-value-row">
+        <div class="mmc-stat-value"><span data-role="stat-maint-value">167.3</span><span class="mmc-stat-percent">%</span></div>
+        <span class="mmc-delta" data-tone="up" data-role="maint-delta">▲ 3.5</span>
+      </div>
+      <div class="mmc-stat-metrics">
+        <div class="mmc-stat-metric">
+          <span class="mmc-metric-label">加權指數</span>
+          <span class="mmc-stat-index">46,551</span>
+        </div>
+        <div class="mmc-stat-metric">
+          <span class="mmc-metric-label">融資餘額</span>
+          <span class="mmc-stat-balance"><span class="mmc-balance-total"><strong data-role="stat-balance-value">5,819.0</strong>億</span><span class="mmc-mini-delta" data-tone="up" data-role="balance-delta">▲ 31.6億</span></span>
+        </div>
+      </div>
+    </article>
+    <article class="mmc-stat-card mmc-stat-tpex">
+      <div class="mmc-stat-top">
+        <span class="mmc-market-chip">櫃買</span>
+        <span class="mmc-stat-label">融資維持率</span>
+        <span class="mmc-latest-label">最新</span>
+      </div>
+      <div class="mmc-stat-value-row">
+        <div class="mmc-stat-value"><span data-role="stat-maint-value">162.3</span><span class="mmc-stat-percent">%</span></div>
+        <span class="mmc-delta" data-tone="up" data-role="maint-delta">▲ 4.0</span>
+      </div>
+      <div class="mmc-stat-metrics">
+        <div class="mmc-stat-metric">
+          <span class="mmc-metric-label">櫃買指數</span>
+          <span class="mmc-stat-index">402.5</span>
+        </div>
+        <div class="mmc-stat-metric">
+          <span class="mmc-metric-label">融資餘額</span>
+          <span class="mmc-stat-balance"><span class="mmc-balance-total"><strong data-role="stat-balance-value">1,982.4</strong>億</span><span class="mmc-mini-delta" data-tone="up" data-role="balance-delta">▲ 20.8億</span></span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="mmc-toolbar">
+    <div class="mmc-segmented" role="group" aria-label="期間">
+      <button type="button" class="btn" data-range="all" aria-pressed="false">All</button>
+      <button type="button" class="btn" data-range="3m" aria-pressed="false">3m</button>
+      <button type="button" class="btn" data-range="6m" aria-pressed="false">6m</button>
+      <button type="button" class="btn" data-range="ytd" aria-pressed="false">YTD</button>
+      <button type="button" class="btn btn-primary" data-range="1y" aria-pressed="true">1y</button>
+      <button type="button" class="btn" data-range="2y" aria-pressed="false">2y</button>
+      <button type="button" class="btn" data-range="3y" aria-pressed="false">3y</button>
+      <button type="button" class="btn" data-range="5y" aria-pressed="false">5y</button>
+    </div>
+  </div>
+
+  <section class="mmc-market-section" data-chart="twse" aria-labelledby="mmc-twse-heading">
+    <div class="mmc-market-meta">
+      <h2 id="mmc-twse-heading">上市</h2>
+      <div class="mmc-summary" aria-label="上市圖例與目前數值">
+        <span data-role="date" class="mmc-date mmc-visually-hidden">2026/09/04</span>
+        <button type="button" class="mmc-legend-item" data-series="maint" aria-pressed="true" aria-label="切換上市融資維持率"><i class="mmc-swatch mmc-maint"></i><span class="mmc-legend-long">融資維持率</span><span class="mmc-legend-short">維持率</span><strong data-role="maint-value">167.3%</strong></button>
+        <button type="button" class="mmc-legend-item" data-series="index" aria-pressed="true" aria-label="切換加權指數"><i class="mmc-swatch mmc-index"></i><span class="mmc-legend-long">加權指數</span><span class="mmc-legend-short">指數</span><strong data-role="index-value">46,551</strong></button>
+        <button type="button" class="mmc-legend-item" data-series="balance" aria-pressed="true" aria-label="切換上市融資餘額"><i class="mmc-swatch mmc-balance"></i><span class="mmc-legend-long">融資餘額</span><span class="mmc-legend-short">餘額</span><span class="mmc-balance-reading"><strong data-role="balance-value">5819.0</strong>億</span></button>
+        <button type="button" class="mmc-legend-item" data-series="ratio" aria-pressed="true" aria-label="切換上市融資市值比"><i class="mmc-swatch mmc-ratio"></i><span class="mmc-legend-long">融資市值比</span><span class="mmc-legend-short">市值比</span><strong data-role="ratio-value">0.39%</strong></button>
+      </div>
+    </div>
+    <div class="mmc-plot" data-role="plot">
+      <svg class="mmc-chart" data-role="svg" viewBox="0 0 760 300" role="img" aria-label="上市融資維持率、加權指數、融資餘額與融資市值比走勢" aria-describedby="mmc-twse-desc">
+        <desc id="mmc-twse-desc">上市融資維持率估值、加權指數、融資餘額與融資市值比，自2017年7月3日起。</desc>
+        <g data-role="grid"></g><g data-role="axes"></g>
+        <rect data-role="risk-zone" class="mmc-risk-zone"></rect>
+        <line data-role="alert-line" class="mmc-alert-line"></line>
+        <text data-role="alert-label" class="mmc-warn-label"></text>
+        <path data-role="index-path" class="mmc-line mmc-line-index"></path>
+        <path data-role="balance-path" class="mmc-line mmc-line-balance"></path>
+        <path data-role="ratio-path" class="mmc-line mmc-line-ratio"></path>
+        <path data-role="maint-path" class="mmc-line mmc-line-maint"></path>
+        <circle data-role="index-dot" class="mmc-dot mmc-dot-index" r="4"></circle>
+        <circle data-role="balance-dot" class="mmc-dot mmc-dot-balance" r="4"></circle>
+        <circle data-role="ratio-dot" class="mmc-dot mmc-dot-ratio" r="4"></circle>
+        <circle data-role="maint-dot" class="mmc-dot mmc-dot-maint" r="5"></circle>
+        <line data-role="crosshair" class="mmc-crosshair"></line>
+        <rect data-role="hit" class="mmc-hit" x="58" y="18" width="644" height="228"></rect>
+      </svg>
+      <div data-role="tooltip" class="mmc-tooltip" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="mmc-market-section" data-chart="tpex" aria-labelledby="mmc-tpex-heading">
+    <div class="mmc-market-meta">
+      <h2 id="mmc-tpex-heading">櫃買</h2>
+      <div class="mmc-summary" aria-label="櫃買圖例與目前數值">
+        <span data-role="date" class="mmc-date mmc-visually-hidden">2026/09/04</span>
+        <button type="button" class="mmc-legend-item" data-series="maint" aria-pressed="true" aria-label="切換櫃買融資維持率"><i class="mmc-swatch mmc-maint"></i><span class="mmc-legend-long">融資維持率</span><span class="mmc-legend-short">維持率</span><strong data-role="maint-value">162.3%</strong></button>
+        <button type="button" class="mmc-legend-item" data-series="index" aria-pressed="true" aria-label="切換櫃買指數"><i class="mmc-swatch mmc-index"></i><span class="mmc-legend-long">櫃買指數</span><span class="mmc-legend-short">指數</span><strong data-role="index-value">402.5</strong></button>
+        <button type="button" class="mmc-legend-item" data-series="balance" aria-pressed="true" aria-label="切換櫃買融資餘額"><i class="mmc-swatch mmc-balance"></i><span class="mmc-legend-long">融資餘額</span><span class="mmc-legend-short">餘額</span><span class="mmc-balance-reading"><strong data-role="balance-value">1982.4</strong>億</span></button>
+        <button type="button" class="mmc-legend-item" data-series="ratio" aria-pressed="true" aria-label="切換櫃買融資市值比"><i class="mmc-swatch mmc-ratio"></i><span class="mmc-legend-long">融資市值比</span><span class="mmc-legend-short">市值比</span><strong data-role="ratio-value">1.79%</strong></button>
+      </div>
+    </div>
+    <div class="mmc-plot" data-role="plot">
+      <svg class="mmc-chart" data-role="svg" viewBox="0 0 760 300" role="img" aria-label="櫃買融資維持率、櫃買指數、融資餘額與融資市值比走勢" aria-describedby="mmc-tpex-desc">
+        <desc id="mmc-tpex-desc">櫃買融資維持率估值、櫃買指數、融資餘額與融資市值比，自2017年7月3日起。</desc>
+        <g data-role="grid"></g><g data-role="axes"></g>
+        <rect data-role="risk-zone" class="mmc-risk-zone"></rect>
+        <line data-role="alert-line" class="mmc-alert-line"></line>
+        <text data-role="alert-label" class="mmc-warn-label"></text>
+        <path data-role="index-path" class="mmc-line mmc-line-index"></path>
+        <path data-role="balance-path" class="mmc-line mmc-line-balance"></path>
+        <path data-role="ratio-path" class="mmc-line mmc-line-ratio"></path>
+        <path data-role="maint-path" class="mmc-line mmc-line-maint"></path>
+        <circle data-role="index-dot" class="mmc-dot mmc-dot-index" r="4"></circle>
+        <circle data-role="balance-dot" class="mmc-dot mmc-dot-balance" r="4"></circle>
+        <circle data-role="ratio-dot" class="mmc-dot mmc-dot-ratio" r="4"></circle>
+        <circle data-role="maint-dot" class="mmc-dot mmc-dot-maint" r="5"></circle>
+        <line data-role="crosshair" class="mmc-crosshair"></line>
+        <rect data-role="hit" class="mmc-hit" x="58" y="18" width="644" height="228"></rect>
+      </svg>
+      <div data-role="tooltip" class="mmc-tooltip" aria-hidden="true"></div>
+    </div>
+  </section>
+
+</div>
