@@ -10,6 +10,16 @@
 
 ## 不可破壞的原則
 
+### 2026-09-15 已核准市值修訂分流
+
+使用者要求提出方案後回覆「請繼續，做完一起回報」，核准實作：日常完整重算的維持率算法不變；已發布日期的 `market_cap` 使用正式已接受版本，近期重抓差異列入 `data/reference/market-cap-revisions.json`，不改寫歷史，待查項不得因超過重抓窗口而消失。`margin_market_cap_ratio` 仍由同日正式融資金額與正式市值計算；其他欄位與日期仍須逐日完全一致，禁止用 `--allow-history-rewrite` 處理日常更新。
+
+新抓來源與逐股修訂差異保存在 `data/cache/versions/`（Git 忽略、iCloud 同步）；每次候選、原始重抓彙總與比對保存在 `data/tmp/margin-update-*`。正式兩份 HTML、processed 與兩份彙總快取須通過驗證後一併安裝，安裝失敗復原；若中斷留下 `install-backup/in-progress.json`，先依該目錄備份恢復並核對，不能直接刪除標記繼續。
+
+發布前須用正常瀏覽器對照玩股網「扣除 ETF」同日期上市與櫃買維持率，更新 `data/reference/wantgoo-observations.json` 並執行 `scripts/check_wantgoo_reference.py`。舊日期不得當作最新已查核。參考差距、漲跌方向不一致均須查核／回報，不能用玩股網數字校正公式；無法證實外部口徑一致時須明說。9/14 櫃買方向不同的本次已查核原始輸入一致，未宣稱兩套算法等價。
+
+此分流只容許「保留已發布市值＋新增通過檢查的新日期」，不容許忽略新資料缺失、放寬公式驗證或無證據改寫歷史。9/11 的 424.26 億原始修訂原因仍待查，原值保留；詳見 `data/reference/update-audit-20260915.md`。
+
 1. 2026-08-03 移轉只授權刪除 `移轉紀錄.md` 所列、且已通過引用檢查的融資專用檔。舊專案其餘檔案屬價值篩選／動能流程，不得刪除、移動或覆蓋。
 2. iCloud 的 `stock_data` 是獨立共用原始資料庫，不得搬進 Git、改名或隨專案刪除。
 3. 不得使用或重新引入 calibrated/proxy 長歷史估算。`build_margin_maintenance_proxy_history.py` 只能作歷史稽核參考，不能產生正式結果。

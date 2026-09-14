@@ -35,6 +35,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from tw_margin_rate.finmind import FinMindClient, load_dotenv
 from tw_margin_rate.calculation import market_for_stock
 from tw_margin_rate.paths import discover_stock_data, local_env_path
+from tw_margin_rate.revisions import save_observation
 
 from build_margin_maintenance_history import load_market_reference
 
@@ -154,6 +155,8 @@ def parse_finmind_twse_rows(
     exact_market_snapshot: bool = False,
 ) -> tuple[float, int, int, float]:
     dates = {str(row.get("date", "")) for row in rows}
+    if len({str(row.get("stock_id", "")) for row in rows}) != len(rows):
+        raise RuntimeError(f"FinMind {expected_day} 有重複股票代號")
     if dates != {expected_day}:
         raise RuntimeError(
             f"FinMind {expected_day} 日期不符：{sorted(dates)[:3]}"
@@ -371,7 +374,12 @@ def fetch_tpex_day(day: str) -> tuple[float, int]:
                 timeout=(15, 45),
             )
             response.raise_for_status()
-            return parse_tpex_payload(response.json(), day)
+            payload = response.json()
+            result = parse_tpex_payload(payload, day)
+            save_observation(PROJECT_ROOT / "data/cache/versions/TPExMarketValue" / day,
+                             {"url": TPEX_DAILY_MARKET_VALUE_URL, "date": day,
+                              "fetched_at": datetime.now().astimezone().isoformat(), "data": payload})
+            return result
         except Exception as exc:
             last_error = exc
             if attempt < 2:

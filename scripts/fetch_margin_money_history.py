@@ -24,6 +24,7 @@ import sys
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.finmind import FinMindClient, load_dotenv
+from tw_margin_rate.revisions import save_observation
 from tw_margin_rate.paths import local_env_path
 
 
@@ -127,7 +128,10 @@ def fetch_tpex_day(day: str) -> float:
             )
             response.raise_for_status()
             payload = response.json()
-            return parse_tpex_payload(payload, day)
+            result = parse_tpex_payload(payload, day)
+            save_observation(PROJECT_ROOT / "data/cache/versions/TPExMarginMoney" / day,
+                             {"url": TPEX_URL, "date": day, "data": payload})
+            return result
         except Exception as exc:  # network and malformed upstream payload
             last_error = exc
             if attempt < 2:

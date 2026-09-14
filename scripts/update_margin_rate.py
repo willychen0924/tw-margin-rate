@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import fcntl
+import hashlib
 import json
 import os
 import re
@@ -20,6 +22,8 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from tw_margin_rate.finmind import load_dotenv
 from tw_margin_rate.paths import assert_archive_ready, discover_stock_data, local_env_path
 from tw_margin_rate.publishing import assert_official_origin
+from tw_margin_rate.revisions import retain_published_market_caps, json_bytes, install_outputs
+from check_wantgoo_reference import compare as compare_benchmark
 
 
 def parse_args() -> argparse.Namespace:
@@ -56,6 +60,11 @@ def run(command: list[str], *, env: dict[str, str] | None = None) -> None:
 
 
 def publish(latest_day: str) -> None:
+    benchmark = compare_benchmark(
+        json.loads((PROJECT_ROOT / "data/processed/margin-maintenance-history.json").read_text()),
+        json.loads((PROJECT_ROOT / "data/reference/wantgoo-observations.json").read_text()))
+    if any(v["status"] != "same_date_available" for v in benchmark["markets"].values()):
+        raise RuntimeError("最新日期尚未核對玩股網，請用瀏覽器讀取同日參考值並保存紀錄後發布")
     remote = subprocess.run(
         ["git", "remote", "get-url", "origin"],
         cwd=PROJECT_ROOT,
@@ -74,6 +83,8 @@ def publish(latest_day: str) -> None:
         "data/reference/latest-manifest.json",
         "data/cache/market-margin-money-history.json",
         "data/cache/market-cap-history.json",
+        "data/reference/market-cap-revisions.json",
+        "data/reference/wantgoo-observations.json",
     }
     cache_path = re.compile(
         r"data/cache/(?:TaiwanStockPrice|TaiwanStockMarginPurchaseShortSale|"
@@ -133,32 +144,49 @@ def main() -> None:
     root_html = PROJECT_ROOT / "index.html"
     previous = json.loads(history.read_text(encoding="utf-8"))
     previous_end = previous["metadata"]["end"]
-    margin_money_command = [
-        sys.executable,
-        "scripts/fetch_margin_money_history.py",
-        "--start",
-        args.display_start,
-    ]
+    temp_parent = PROJECT_ROOT / "data/tmp"
+    temp_parent.mkdir(parents=True, exist_ok=True)
+    interrupted = list(temp_parent.glob("margin-update-*/install-backup/in-progress.json"))
+    if interrupted:
+        raise RuntimeError(f"發現未完成的產物安裝，請依保存的備份復原後再更新：{interrupted}")
+    # Keep run evidence on failure as well as success; never delete the rejected candidate.
+    temp_root = Path(tempfile.mkdtemp(prefix="margin-update-", dir=temp_parent))
+    print(f"本次候選與查核紀錄：{temp_root}", flush=True)
+    money = PROJECT_ROOT / "data/cache/market-margin-money-history.json"
+    cap = PROJECT_ROOT / "data/cache/market-cap-history.json"
+    staged_money = temp_root / "market-margin-money-history.json"
+    staged_cap = temp_root / "market-cap-history.json"
+    shutil.copy2(money, staged_money)
+    shutil.copy2(cap, staged_cap)
+    shutil.copy2(history, temp_root / "previous-history.json")
+    prior_cap = json.loads(cap.read_text(encoding="utf-8"))
+    protected = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in (history, html, root_html, money, cap)}
+    margin_money_command = [sys.executable, "scripts/fetch_margin_money_history.py",
+                            "--start", args.display_start, "--output", str(staged_money)]
     if args.end:
         margin_money_command.extend(["--end", args.end])
     run(margin_money_command)
-    market_cap_command = [
-        sys.executable,
-        "scripts/fetch_market_cap_history.py",
-        "--twse-start",
-        args.twse_market_cap_start,
-        "--tpex-start",
-        args.tpex_market_cap_start,
-        "--stock-data",
-        str(stock_data),
-    ]
+    market_cap_command = [sys.executable, "scripts/fetch_market_cap_history.py",
+                          "--twse-start", args.twse_market_cap_start,
+                          "--tpex-start", args.tpex_market_cap_start,
+                          "--stock-data", str(stock_data), "--margin-history", str(staged_money),
+                          "--output", str(staged_cap)]
     if args.end:
         market_cap_command.extend(["--end", args.end])
     run(market_cap_command)
-    temp_parent = PROJECT_ROOT / "data/tmp"
-    temp_parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="margin-update-", dir=temp_parent) as temp:
-        temp_root = Path(temp)
+    refreshed = json.loads(staged_cap.read_text(encoding="utf-8"))
+    shutil.copy2(staged_cap, temp_root / "refreshed-market-cap-history.json")
+    if not args.allow_history_rewrite:
+        ledger = PROJECT_ROOT / "data/reference/market-cap-revisions.json"
+        prior_audit = json.loads(ledger.read_text()) if ledger.exists() else None
+        accepted, audit = retain_published_market_caps(previous, prior_cap, refreshed, prior_audit)
+        staged_cap.write_bytes(json_bytes(accepted))
+    else:
+        audit = {"published_through": previous_end, "mode": "explicit-history-rewrite", "changes": []}
+    staged_audit = temp_root / "market-cap-revisions.json"
+    staged_audit.write_bytes(json_bytes(audit))
+    print(f"保留已發布市值；待查修訂 {len(audit['changes'])} 筆", flush=True)
+    try:
         candidate_history = temp_root / "history.json"
         candidate_html = temp_root / "index.html"
         candidate_root_html = temp_root / "root-index.html"
@@ -176,6 +204,8 @@ def main() -> None:
             args.display_start,
             "--output",
             str(candidate_history),
+            "--margin-money-history", str(staged_money),
+            "--market-cap-history", str(staged_cap),
         ]
         if args.end:
             command.extend(["--end", args.end])
@@ -184,6 +214,8 @@ def main() -> None:
             if not has_token and not args.no_finmind_fetch:
                 print("未設定 FINMIND_TOKEN；只使用 iCloud 與專案補充資料。")
         run(command)
+        run([sys.executable, "scripts/check_wantgoo_reference.py", "--history", str(candidate_history),
+             "--output", str(temp_root / "wantgoo-comparison.json")])
         run(
             [
                 sys.executable,
@@ -237,9 +269,15 @@ def main() -> None:
             [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"],
             env=test_env,
         )
-        os.replace(candidate_history, history)
-        os.replace(candidate_html, html)
-        os.replace(candidate_root_html, root_html)
+        if any(hashlib.sha256(p.read_bytes()).hexdigest() != digest for p, digest in protected.items()):
+            raise RuntimeError("更新期間正式檔案被其他程序或同步修改，停止安裝")
+        install_outputs([(candidate_history, history), (candidate_html, html),
+                         (candidate_root_html, root_html), (staged_money, money), (staged_cap, cap),
+                         (staged_audit, PROJECT_ROOT / "data/reference/market-cap-revisions.json")],
+                        temp_root / "install-backup")
+    except BaseException:
+        print(f"更新未完成；候選與差異已保留於 {temp_root}", flush=True)
+        raise
 
     run(
         [
@@ -271,4 +309,11 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    lock_path = PROJECT_ROOT / "data/tmp/update.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with lock_path.open("a+") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise SystemExit("本機已有更新程序執行中")
+        main()

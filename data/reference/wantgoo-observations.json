@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-09-15T01:02:00+08:00",
+  "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
+  "sources": {
+    "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
+    "tpex": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/otc"
+  },
+  "markets": {
+    "twse": [
+      {"date":"2026-09-07","maintenance":168.33},
+      {"date":"2026-09-08","maintenance":165.85},
+      {"date":"2026-09-09","maintenance":166.98},
+      {"date":"2026-09-10","maintenance":166.20},
+      {"date":"2026-09-11","maintenance":162.32},
+      {"date":"2026-09-14","maintenance":160.68}
+    ],
+    "tpex": [
+      {"date":"2026-09-07","maintenance":162.08},
+      {"date":"2026-09-08","maintenance":157.71},
+      {"date":"2026-09-09","maintenance":160.18},
+      {"date":"2026-09-10","maintenance":159.10},
+      {"date":"2026-09-11","maintenance":154.73},
+      {"date":"2026-09-14","maintenance":159.97}
+    ]
+  }
+}

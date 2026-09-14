@@ -10,3 +10,4 @@ data/cache/TaiwanStockMarketValue/
 data/cache/TaiwanStockTotalMarginPurchaseShortSale/
 data/cache/TWSEMIINDEX/
 data/reference/*.candidate.*
+data/cache/versions/

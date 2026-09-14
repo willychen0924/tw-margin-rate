@@ -12,6 +12,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+from .revisions import save_observation
+
 
 API_URL = "https://api.finmindtrade.com/api/v4/data"
 
@@ -83,6 +85,20 @@ class FinMindClient:
             "fetched_at": datetime.now(timezone.utc).isoformat(),
             "data": rows,
         }
+        versions = self.cache_dir / "versions" / dataset / cache_file.stem
+        if cache_file.exists():
+            with gzip.open(cache_file, "rt", encoding="utf-8") as handle:
+                prior = json.load(handle)
+            # Only source data/query metadata; never preserve arbitrary headers.
+            save_observation(versions, {"query": params, "fetched_at": prior.get("fetched_at"), "data": prior.get("data")})
+        save_observation(versions, envelope)
+        if dataset == "TaiwanStockMarketValue" and cache_file.exists():
+            before = {(r["date"], r["stock_id"]): r for r in prior.get("data", [])}
+            after = {(r["date"], r["stock_id"]): r for r in rows}
+            differences = [{"date": key[0], "stock_id": key[1], "before": before.get(key), "after": after.get(key)}
+                           for key in sorted(before.keys() | after.keys()) if before.get(key) != after.get(key)]
+            if differences:
+                save_observation(versions / "diffs", {"query": params, "fetched_at": envelope["fetched_at"], "changes": differences})
         temp_file = cache_file.with_suffix(cache_file.suffix + ".tmp")
         with gzip.open(temp_file, "wt", encoding="utf-8") as handle:
             json.dump(envelope, handle, ensure_ascii=False, separators=(",", ":"))
