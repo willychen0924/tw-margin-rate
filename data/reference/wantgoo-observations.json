@@ -1,6 +1,14 @@
 {
-  "observed_at": "2026-09-15T01:02:00+08:00",
+  "observed_at": "2026-09-15T23:18:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
+  "latest_verification": {
+    "date": "2026-09-15",
+    "twse": {"ours":158.37,"wantgoo":157.84,"gap_pp":0.53,"ours_change_pp":-2.81,"wantgoo_change_pp":-2.84},
+    "tpex": {"ours":155.22,"wantgoo":160.22,"gap_pp":-5.00,"ours_change_pp":-2.56,"wantgoo_change_pp":0.25},
+    "raw_check": "Independent fresh FinMind queries for 2026-09-14 and 2026-09-15 exactly match iCloud calculation fields: 2329 ordinary-stock price rows and 1857 ordinary-stock margin rows on each day.",
+    "evidence": "data/tmp/margin-update-kkiyojiv/latest-raw-check.json",
+    "conclusion": "TWSE daily change is close. TPEx direction differs and external model equivalence remains unverified; fresh input equality does not establish that either model is correct. Formula unchanged; all published fields through 2026-09-14 reproduced exactly. Prior 2026-09-11 cap revision remains pending and was not applied."
+  },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
     "tpex": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/otc"
@@ -12,7 +20,8 @@
       {"date":"2026-09-09","maintenance":166.98},
       {"date":"2026-09-10","maintenance":166.20},
       {"date":"2026-09-11","maintenance":162.32},
-      {"date":"2026-09-14","maintenance":160.68}
+      {"date":"2026-09-14","maintenance":160.68},
+      {"date":"2026-09-15","maintenance":157.84}
     ],
     "tpex": [
       {"date":"2026-09-07","maintenance":162.08},
@@ -20,7 +29,8 @@
       {"date":"2026-09-09","maintenance":160.18},
       {"date":"2026-09-10","maintenance":159.10},
       {"date":"2026-09-11","maintenance":154.73},
-      {"date":"2026-09-14","maintenance":159.97}
+      {"date":"2026-09-14","maintenance":159.97},
+      {"date":"2026-09-15","maintenance":160.22}
     ]
   }
 }
