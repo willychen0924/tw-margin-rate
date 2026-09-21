@@ -1,13 +1,13 @@
 {
-  "observed_at": "2026-09-18T23:47:00+08:00",
+  "observed_at": "2026-09-21T23:32:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-09-18",
-    "twse": {"ours":167.35,"wantgoo":166.85,"gap_pp":0.50,"ours_change_pp":5.31,"wantgoo_change_pp":5.40},
-    "tpex": {"ours":166.08,"wantgoo":164.80,"gap_pp":1.28,"ours_change_pp":6.54,"wantgoo_change_pp":4.23},
-    "raw_check": "Independent fresh FinMind queries for 2026-09-17 and 2026-09-18 exactly match iCloud calculation fields: 2327 ordinary-stock price rows and 1857 ordinary-stock margin rows on each day.",
-    "evidence": "data/tmp/margin-update-mba4ezt_/latest-raw-check.json",
-    "conclusion": "Both markets rise in both series. TWSE daily change is close, while TPEx differs (+6.54 vs +4.23 pp). External model equivalence remains unverified; fresh input equality does not establish that either model is correct. Formula unchanged; all published fields through 2026-09-17 reproduced exactly. Prior 2026-09-11 cap revision remains pending and was not applied."
+    "date": "2026-09-21",
+    "twse": {"ours":168.90,"wantgoo":168.43,"gap_pp":0.47,"ours_change_pp":1.55,"wantgoo_change_pp":1.58},
+    "tpex": {"ours":165.93,"wantgoo":161.62,"gap_pp":4.31,"ours_change_pp":-0.15,"wantgoo_change_pp":-3.18},
+    "raw_check": "Independent fresh FinMind queries for 2026-09-18 and 2026-09-21 exactly match iCloud calculation fields: respectively 2327 and 2335 ordinary-stock price rows, and 1857 ordinary-stock margin rows on each day.",
+    "evidence": "data/tmp/margin-update-8u1vts2e/latest-raw-check.json",
+    "conclusion": "TWSE rises and TPEx falls in both series. TWSE daily change is close, while TPEx differs (-0.15 vs -3.18 pp). External model equivalence remains unverified; fresh input equality does not establish that either model is correct. Formula unchanged; all published fields through 2026-09-18 reproduced exactly. TWSE cap revisions on 2026-09-11 (+424.26 億元) and 2026-09-18 (+1085.03 億元) remain pending and were not applied."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -24,7 +24,8 @@
       {"date":"2026-09-15","maintenance":157.84},
       {"date":"2026-09-16","maintenance":161.38},
       {"date":"2026-09-17","maintenance":161.45},
-      {"date":"2026-09-18","maintenance":166.85}
+      {"date":"2026-09-18","maintenance":166.85},
+      {"date":"2026-09-21","maintenance":168.43}
     ],
     "tpex": [
       {"date":"2026-09-07","maintenance":162.08},
@@ -36,7 +37,8 @@
       {"date":"2026-09-15","maintenance":160.22},
       {"date":"2026-09-16","maintenance":166.51},
       {"date":"2026-09-17","maintenance":160.57},
-      {"date":"2026-09-18","maintenance":164.80}
+      {"date":"2026-09-18","maintenance":164.80},
+      {"date":"2026-09-21","maintenance":161.62}
     ]
   }
 }
