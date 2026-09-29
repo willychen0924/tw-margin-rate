@@ -1,14 +1,14 @@
 {
-  "observed_at": "2026-09-25T01:16:00+08:00",
+  "observed_at": "2026-09-29T23:55:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-09-24",
+    "date": "2026-09-29",
     "status": "official_inputs_verified_external_excluded_etf_method_unresolved",
-    "twse": {"ours":171.35,"wantgoo":170.87,"gap_pp":0.48,"ours_change_pp":0.52,"wantgoo_change_pp":0.58},
-    "tpex": {"ours":165.37,"wantgoo":157.93,"gap_pp":7.44,"ours_change_pp":0.05,"wantgoo_change_pp":-1.61},
-    "raw_check": "Direct TPEx official comparison: all 802 ordinary-stock financing rows (745 positive positions), five financing fields and valid official closing prices match local inputs; 12 no-trade prices use the approved carry rule. One-day state reproduction gives 165.370626%, matching full-history candidate 165.37%.",
-    "evidence": "data/tmp/margin-update-zlkc162e/official-check.json",
-    "conclusion": "TPEx divergence widened and direction is opposite, so the reference is flagged, not used to adjust the approved formula. Official-financing-money/current-value diagnostic including ETF gives 190.11156%, reproducing WantGoo included-ETF 190.11%; its excluded-ETF 157.93% cannot be reproduced from official ordinary-stock value and its excluded-ETF financing balance. Exact external computation remains unknown. See data/reference/update-audit-20260925.md."
+    "twse": {"ours":169.53,"wantgoo":169.06,"gap_pp":0.47,"ours_change_pp":-1.82,"wantgoo_change_pp":-1.81},
+    "tpex": {"ours":164.79,"wantgoo":160.25,"gap_pp":4.54,"ours_change_pp":-0.58,"wantgoo_change_pp":2.32},
+    "raw_check": "All 802 TPEx ordinary-stock rows (745 positive positions), five financing fields and valid official closes match iCloud. Fourteen no-trade prices follow approved carry policy. Independent one-day reproduction is 164.793109%. Official 6129 has 31 lots on 9/24 but 30 yesterday/today on 9/29 with zero flows; saved and freshly fetched 9/24 both show 31. Origin of this one-lot official boundary adjustment is not established; sensitivity is below published precision and cannot explain the external gap.",
+    "evidence": "data/tmp/margin-update-eo6t23ip/official-check.json",
+    "conclusion": "TPEx gap decreased from 7.44 to 4.54 pp but direction still differs. Official current-value / actual-financing-money including ETF gives 189.297780%, matching WantGoo 189.30%. Its excluded-ETF method remains unknown. WantGoo included-ETF historical values were revised since previous observation (9/24 190.11 to 189.59; 9/23 190.17 to 190.48); preserved audits are not overwritten. No formula or published-history changes. See update-audit-20260929.md."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -29,7 +29,8 @@
       {"date":"2026-09-21","maintenance":168.43},
       {"date":"2026-09-22","maintenance":169.99},
       {"date":"2026-09-23","maintenance":170.29},
-      {"date":"2026-09-24","maintenance":170.87}
+      {"date":"2026-09-24","maintenance":170.87},
+      {"date":"2026-09-29","maintenance":169.06}
     ],
     "tpex": [
       {"date":"2026-09-07","maintenance":162.08},
@@ -45,7 +46,8 @@
       {"date":"2026-09-21","maintenance":161.62},
       {"date":"2026-09-22","maintenance":160.62},
       {"date":"2026-09-23","maintenance":159.54},
-      {"date":"2026-09-24","maintenance":157.93}
+      {"date":"2026-09-24","maintenance":157.93},
+      {"date":"2026-09-29","maintenance":160.25}
     ]
   }
 }
