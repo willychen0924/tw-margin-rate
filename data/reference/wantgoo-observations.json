@@ -1,14 +1,14 @@
 {
-  "observed_at": "2026-10-01T00:23:00+08:00",
+  "observed_at": "2026-10-02T04:54:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-09-30",
+    "date": "2026-10-01",
     "status": "official_inputs_verified_external_excluded_etf_method_unresolved",
-    "twse": {"ours":171.25,"wantgoo":170.81,"gap_pp":0.44,"ours_change_pp":1.72,"wantgoo_change_pp":1.75},
-    "tpex": {"ours":167.44,"wantgoo":161.08,"gap_pp":6.36,"ours_change_pp":2.65,"wantgoo_change_pp":0.83},
-    "raw_check": "On 2026-09-30, fresh TWSE and TPEx official reports matched the iCloud financing fields and valid closes. The TPEx had 802 ordinary-stock rows (745 positive positions), no balance-identity or previous-day discontinuity error. An independent scalar continuation from 9/29 gave 167.441528%, exactly the published 167.44% after rounding. Official TPEx market-cap table summed to 115986.60 hundred-million TWD, matching the accepted value.",
-    "evidence": "data/tmp/margin-update-vgqpoe43/official-check/independent-report.json",
-    "conclusion": "TPEx difference grew from +4.54 to +6.36 percentage points despite both series rising. Local position value rose 2.605%, estimated debt 0.983%; major local contributors are 3105, 6488 and 6182. Official inputs and the model's arithmetic were reproduced, but WantGoo's excluded-ETF numerator, denominator and historical cost method remain unknown; no calibration or formula change. The prior, separately identified 9/21 cash-capital-reduction limitation also remains unresolved. See update-audit-20261001.md."
+    "twse": {"ours":172.47,"wantgoo":172.14,"gap_pp":0.33,"ours_change_pp":1.22,"wantgoo_change_pp":1.33},
+    "tpex": {"ours":167.34,"wantgoo":159.01,"gap_pp":8.33,"ours_change_pp":-0.10,"wantgoo_change_pp":-2.07},
+    "raw_check": "Fresh 2026-10-01 TWSE and TPEx official financing reports and valid closes match iCloud. TPEx has 801 ordinary-stock rows, 745 positive positions, no balance identity or prior-day discontinuity errors, and exact market universe. Independent scalar continuation from 9/30 gives 167.339104%, matching formal 167.34% after rounding. TPEx official individual market-cap table has 888 rows totaling 116465.65 hundred-million TWD, exactly the accepted value. Full 2001 warm-up replay matches all formal history.",
+    "evidence": "data/tmp/margin-update-jaohptxb/official-check/independent-report.json",
+    "conclusion": "TPEx reference gap widened from +6.36 to +8.33 percentage points. Both series fell, ours -0.10 pp and WantGoo -2.07 pp. Local position value rose 1.137% and estimated debt rose 1.199%, reproducing our small decline. Official inputs, universe, balances and scalar arithmetic check out, but WantGoo's excluded-ETF cost and weighting methodology remains unverified. This is not proof of equivalence or a reason to calibrate the formula. The separately identified 9/21 cash-capital-reduction limitation remains unresolved. See update-audit-20261002.md."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -31,7 +31,8 @@
       {"date":"2026-09-23","maintenance":170.29},
       {"date":"2026-09-24","maintenance":170.87},
       {"date":"2026-09-29","maintenance":169.06},
-      {"date":"2026-09-30","maintenance":170.81}
+      {"date":"2026-09-30","maintenance":170.81},
+      {"date":"2026-10-01","maintenance":172.14}
     ],
     "tpex": [
       {"date":"2026-09-07","maintenance":162.08},
@@ -49,7 +50,8 @@
       {"date":"2026-09-23","maintenance":159.54},
       {"date":"2026-09-24","maintenance":157.93},
       {"date":"2026-09-29","maintenance":160.25},
-      {"date":"2026-09-30","maintenance":161.08}
+      {"date":"2026-09-30","maintenance":161.08},
+      {"date":"2026-10-01","maintenance":159.01}
     ]
   }
 }
