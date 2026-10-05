@@ -1,14 +1,26 @@
 {
-  "observed_at": "2026-10-03T00:00:00+08:00",
+  "observed_at": "2026-10-06T01:55:19.987556+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-10-02",
+    "date": "2026-10-05",
     "status": "official_inputs_verified_external_excluded_etf_method_unresolved",
-    "twse": {"ours":174.20,"wantgoo":173.96,"gap_pp":0.24,"ours_change_pp":1.73,"wantgoo_change_pp":1.82},
-    "tpex": {"ours":171.64,"wantgoo":159.53,"gap_pp":12.11,"ours_change_pp":4.30,"wantgoo_change_pp":0.52},
-    "raw_check": "Fresh 2026-10-02 TWSE and TPEx official financing and quote reports match the iCloud financing fields and valid closes. TPEx has 802 ordinary-stock rows, 744 positive positions, no balance-identity or previous-day discontinuity errors, and exact market universe. Independent scalar continuation from 10/1 gives 171.642832%, matching formal 171.64% after rounding. TPEx official individual market-cap table has 889 rows totaling 118730.42 hundred-million TWD, exactly the accepted value. Full 2001 warm-up replay matches all formal history.",
-    "evidence": "data/tmp/margin-update-dlb1ovrw/official-check/independent-report.json",
-    "conclusion": "TPEx reference gap widened from +8.33 to +12.11 percentage points. Both series rose, ours +4.30 pp and WantGoo +0.52 pp. Local position value rose 3.776% and estimated debt rose 1.174%; 3105, 3081, 6488 and 6274 contributed approximately +2.46 pp together to our model's rise. Official inputs, universe, balances and independent arithmetic check out, but WantGoo's excluded-ETF historical cost and weighting methodology remains unverified. These checks explain our model's rise, not the external divergence. No formula calibration. See update-audit-20261003.md."
+    "twse": {
+      "ours": 177.18,
+      "wantgoo": 176.91,
+      "gap_pp": 0.27,
+      "ours_change_pp": 2.98,
+      "wantgoo_change_pp": 2.95
+    },
+    "tpex": {
+      "ours": 173.73,
+      "wantgoo": 160.13,
+      "gap_pp": 13.6,
+      "ours_change_pp": 2.09,
+      "wantgoo_change_pp": 0.6
+    },
+    "raw_check": "Fresh 2026-10-05 TWSE and TPEx official financing reports and valid closes match the iCloud inputs. Independent scalar continuation from 10/2 gives TWSE 177.179688% and TPEx 173.729312%, matching the formal rounded values. Market universes, costs, official financing totals and balance identities agree. Full 2001 warm-up replay reproduces the full history. TPEx official market capitalization totals 120897.78 hundred-million TWD across 889 rows.",
+    "evidence": "data/tmp/margin-update-n4lag7gl/official-check/independent-report.json",
+    "conclusion": "TPEx reference gap widened from +12.11 to +13.60 percentage points. Both rose: ours +2.09 pp and WantGoo +0.60 pp. Official inputs and independent arithmetic agree, but the external cost and weighting methodology remains unverified. No formula calibration or historical rewrite. Official previous-balance discontinuities are retained in the audit. See update-audit-20261006.md."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -16,44 +28,160 @@
   },
   "markets": {
     "twse": [
-      {"date":"2026-09-07","maintenance":168.33},
-      {"date":"2026-09-08","maintenance":165.85},
-      {"date":"2026-09-09","maintenance":166.98},
-      {"date":"2026-09-10","maintenance":166.20},
-      {"date":"2026-09-11","maintenance":162.32},
-      {"date":"2026-09-14","maintenance":160.68},
-      {"date":"2026-09-15","maintenance":157.84},
-      {"date":"2026-09-16","maintenance":161.38},
-      {"date":"2026-09-17","maintenance":161.45},
-      {"date":"2026-09-18","maintenance":166.85},
-      {"date":"2026-09-21","maintenance":168.43},
-      {"date":"2026-09-22","maintenance":169.99},
-      {"date":"2026-09-23","maintenance":170.29},
-      {"date":"2026-09-24","maintenance":170.87},
-      {"date":"2026-09-29","maintenance":169.06},
-      {"date":"2026-09-30","maintenance":170.81},
-      {"date":"2026-10-01","maintenance":172.14},
-      {"date":"2026-10-02","maintenance":173.96}
+      {
+        "date": "2026-09-07",
+        "maintenance": 168.33
+      },
+      {
+        "date": "2026-09-08",
+        "maintenance": 165.85
+      },
+      {
+        "date": "2026-09-09",
+        "maintenance": 166.98
+      },
+      {
+        "date": "2026-09-10",
+        "maintenance": 166.2
+      },
+      {
+        "date": "2026-09-11",
+        "maintenance": 162.32
+      },
+      {
+        "date": "2026-09-14",
+        "maintenance": 160.68
+      },
+      {
+        "date": "2026-09-15",
+        "maintenance": 157.84
+      },
+      {
+        "date": "2026-09-16",
+        "maintenance": 161.38
+      },
+      {
+        "date": "2026-09-17",
+        "maintenance": 161.45
+      },
+      {
+        "date": "2026-09-18",
+        "maintenance": 166.85
+      },
+      {
+        "date": "2026-09-21",
+        "maintenance": 168.43
+      },
+      {
+        "date": "2026-09-22",
+        "maintenance": 169.99
+      },
+      {
+        "date": "2026-09-23",
+        "maintenance": 170.29
+      },
+      {
+        "date": "2026-09-24",
+        "maintenance": 170.87
+      },
+      {
+        "date": "2026-09-29",
+        "maintenance": 169.06
+      },
+      {
+        "date": "2026-09-30",
+        "maintenance": 170.81
+      },
+      {
+        "date": "2026-10-01",
+        "maintenance": 172.14
+      },
+      {
+        "date": "2026-10-02",
+        "maintenance": 173.96
+      },
+      {
+        "date": "2026-10-05",
+        "maintenance": 176.91
+      }
     ],
     "tpex": [
-      {"date":"2026-09-07","maintenance":162.08},
-      {"date":"2026-09-08","maintenance":157.71},
-      {"date":"2026-09-09","maintenance":160.18},
-      {"date":"2026-09-10","maintenance":159.10},
-      {"date":"2026-09-11","maintenance":154.73},
-      {"date":"2026-09-14","maintenance":159.97},
-      {"date":"2026-09-15","maintenance":160.22},
-      {"date":"2026-09-16","maintenance":166.51},
-      {"date":"2026-09-17","maintenance":160.57},
-      {"date":"2026-09-18","maintenance":164.80},
-      {"date":"2026-09-21","maintenance":161.62},
-      {"date":"2026-09-22","maintenance":160.62},
-      {"date":"2026-09-23","maintenance":159.54},
-      {"date":"2026-09-24","maintenance":157.93},
-      {"date":"2026-09-29","maintenance":160.25},
-      {"date":"2026-09-30","maintenance":161.08},
-      {"date":"2026-10-01","maintenance":159.01},
-      {"date":"2026-10-02","maintenance":159.53}
+      {
+        "date": "2026-09-07",
+        "maintenance": 162.08
+      },
+      {
+        "date": "2026-09-08",
+        "maintenance": 157.71
+      },
+      {
+        "date": "2026-09-09",
+        "maintenance": 160.18
+      },
+      {
+        "date": "2026-09-10",
+        "maintenance": 159.1
+      },
+      {
+        "date": "2026-09-11",
+        "maintenance": 154.73
+      },
+      {
+        "date": "2026-09-14",
+        "maintenance": 159.97
+      },
+      {
+        "date": "2026-09-15",
+        "maintenance": 160.22
+      },
+      {
+        "date": "2026-09-16",
+        "maintenance": 166.51
+      },
+      {
+        "date": "2026-09-17",
+        "maintenance": 160.57
+      },
+      {
+        "date": "2026-09-18",
+        "maintenance": 164.8
+      },
+      {
+        "date": "2026-09-21",
+        "maintenance": 161.62
+      },
+      {
+        "date": "2026-09-22",
+        "maintenance": 160.62
+      },
+      {
+        "date": "2026-09-23",
+        "maintenance": 159.54
+      },
+      {
+        "date": "2026-09-24",
+        "maintenance": 157.93
+      },
+      {
+        "date": "2026-09-29",
+        "maintenance": 160.25
+      },
+      {
+        "date": "2026-09-30",
+        "maintenance": 161.08
+      },
+      {
+        "date": "2026-10-01",
+        "maintenance": 159.01
+      },
+      {
+        "date": "2026-10-02",
+        "maintenance": 159.53
+      },
+      {
+        "date": "2026-10-05",
+        "maintenance": 160.13
+      }
     ]
   }
 }
