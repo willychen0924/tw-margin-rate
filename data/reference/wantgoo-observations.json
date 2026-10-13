@@ -1,26 +1,26 @@
 {
-  "observed_at": "2026-10-09T02:48:00+08:00",
+  "observed_at": "2026-10-13T09:03:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-10-08",
+    "date": "2026-10-12",
     "status": "official_inputs_verified_external_excluded_etf_method_unresolved",
     "twse": {
-      "ours": 174.12,
-      "wantgoo": 173.84,
-      "gap_pp": 0.28,
-      "ours_change_pp": -1.48,
-      "wantgoo_change_pp": -1.47
+      "ours": 173.4,
+      "wantgoo": 173.18,
+      "gap_pp": 0.22,
+      "ours_change_pp": -0.72,
+      "wantgoo_change_pp": -0.66
     },
     "tpex": {
-      "ours": 169.61,
-      "wantgoo": 157.1,
-      "gap_pp": 12.51,
-      "ours_change_pp": -2.21,
-      "wantgoo_change_pp": -2.75
+      "ours": 169.17,
+      "wantgoo": 157.52,
+      "gap_pp": 11.65,
+      "ours_change_pp": -0.44,
+      "wantgoo_change_pp": 0.42
     },
-    "raw_check": "Fresh 2026-10-08 TWSE and TPEx official financing and quote reports match all iCloud financing fields, valid closes and market universes. TPEx has 802 ordinary-stock financing rows and 745 positive positions; no balance-identity or input mismatches. Independent scalar continuation from 10/7 gives TWSE 174.118313% and TPEx 169.612718%, matching formal rounded values and the full 2001 warm-up replay. Official TPEx individual market-cap table has 887 rows totaling 118816.58 hundred-million TWD, exactly the formal value. Official previous-balance reports have one-lot cross-day discontinuities for TWSE 2489 and TPEx 3152; their administrative causes are unconfirmed and they cannot explain the 12.51 pp external gap.",
-    "evidence": "data/tmp/margin-update-mwjq62fp/official-check/independent-report.json",
-    "conclusion": "TPEx gap widened from +11.97 to +12.51 percentage points and remains large. Both series fell: ours -2.21 pp and WantGoo -2.75 pp. Fresh official inputs, universe, balances and independent arithmetic agree with the formal model; the one-lot reporting discontinuities cannot explain the gap. These checks explain our result, not WantGoo's historical cost and weighting method, which remains unverified. No formula calibration or historical rewrite. See update-audit-20261009.md."
+    "raw_check": "Fresh 2026-10-12 TWSE and TPEx official financing and quote reports match iCloud financing fields, effective closes and market universes. Independent scalar continuation from 10/8 gives TWSE 173.401933% and TPEx 169.167903%, matching formal rounded values and the full 2001 warm-up replay. TPEx has 802 ordinary-stock financing rows and 744 positive positions, without input, cost or balance-identity mismatches. Official TPEx individual market-cap table has 888 rows totaling 119157.73 hundred-million TWD, exactly the formal value. TWSE 2323 has a 3349-lot cross-day previous-balance gap mostly consistent with its 10/12 cash capital reduction; the remaining roughly 109 lots and cost treatment are unresolved. Sensitivity scenarios change the market rate by less than 0.006 pp, without changing its published two-decimal value.",
+    "evidence": "data/tmp/margin-update-b6_0c6fl/official-check/independent-report.json",
+    "conclusion": "TWSE gap narrowed from +0.28 to +0.22 percentage points; both series fell. TPEx gap narrowed from +12.51 to +11.65 percentage points but direction differs: ours -0.44 pp, WantGoo +0.42 pp. Our TPEx portfolio value declined from 4389.120160 to 4383.430229 hundred-million TWD while estimated debt rose from 2587.730580 to 2591.171342, explaining our -0.44 pp. Largest individual directional contributions include 6187 +0.249, 6223 +0.229, 3374 -0.188, 3491 -0.188 and 3363 -0.156 pp; official inputs and arithmetic match. These checks do not establish WantGoo's historical cost or weighting method, so the directional disagreement remains an external-methodology uncertainty. No formula calibration or historical rewrite. See update-audit-20261013.md."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -115,6 +115,10 @@
       {
         "date": "2026-10-08",
         "maintenance": 173.84
+      },
+      {
+        "date": "2026-10-12",
+        "maintenance": 173.18
       }
     ],
     "tpex": [
@@ -205,6 +209,10 @@
       {
         "date": "2026-10-08",
         "maintenance": 157.1
+      },
+      {
+        "date": "2026-10-12",
+        "maintenance": 157.52
       }
     ]
   }
