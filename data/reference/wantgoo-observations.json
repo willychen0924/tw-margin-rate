@@ -1,26 +1,26 @@
 {
-  "observed_at": "2026-10-14T04:01:00+08:00",
+  "observed_at": "2026-10-15T05:30:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-10-13",
+    "date": "2026-10-14",
     "status": "official_inputs_verified_external_excluded_etf_method_unresolved",
     "twse": {
-      "ours": 167.59,
-      "wantgoo": 167.37,
+      "ours": 169.27,
+      "wantgoo": 169.05,
       "gap_pp": 0.22,
-      "ours_change_pp": -5.81,
-      "wantgoo_change_pp": -5.81
+      "ours_change_pp": 1.68,
+      "wantgoo_change_pp": 1.68
     },
     "tpex": {
-      "ours": 162.26,
-      "wantgoo": 154.35,
-      "gap_pp": 7.91,
-      "ours_change_pp": -6.91,
-      "wantgoo_change_pp": -3.17
+      "ours": 165.69,
+      "wantgoo": 167.23,
+      "gap_pp": -1.54,
+      "ours_change_pp": 3.43,
+      "wantgoo_change_pp": 12.88
     },
-    "raw_check": "Fresh 2026-10-13 TWSE and TPEx official financing and quote reports match iCloud financing fields, valid closes and market universes. Independent scalar continuation from 10/12 gives TWSE 167.587618% and TPEx 162.256800%, matching formal rounded values, each stock cost and the full 2001 warm-up replay. TWSE has 1056 ordinary financing rows and 1008 positive positions; TPEx has 802 rows and 743 positive positions. No input, cost, universe or balance-identity mismatches were found. Official TPEx individual market-cap table has 888 rows totaling 115357.44 hundred-million TWD, exactly the formal value. TWSE 2323 and 2887 have three-lot and one-lot cross-day previous-balance differences; TPEx has none. Administrative causes remain unconfirmed. The previous 2323 capital-reduction limitation remains documented in update-audit-20261013.md.",
-    "evidence": "data/tmp/margin-update-z90xf8_s/official-check/independent-report.json",
-    "conclusion": "TWSE and WantGoo both fell 5.81 percentage points, leaving a +0.22 pp gap. TPEx also fell in both series: ours -6.91 pp and WantGoo -3.17 pp, narrowing the gap from +11.65 to +7.91 pp. Our TPEx portfolio value fell 6.0181%, from 4383.430229 to 4119.632379 hundred-million TWD; estimated debt fell 2.0150%, from 2591.171342 to 2538.958238. Contributions include 3081 -0.722, 6488 -0.600 and 6274 -0.590 pp. Official inputs and independent arithmetic reproduce our decline, but do not establish WantGoo's different historical cost or weighting method. No formula calibration or historical rewrite. See update-audit-20261014.md."
+    "raw_check": "Fresh 2026-10-14 TWSE and TPEx official financing and quote reports match iCloud financing fields, valid closes and market universes. Independent scalar continuation from 10/13 gives TWSE 169.269539% and TPEx 165.685557%, matching formal rounded values, each stock cost and the full 2001 warm-up replay. TWSE has 1056 ordinary financing rows and 1008 positive positions; TPEx has 802 rows and 743 positive positions. No input, cost, universe or balance-identity mismatches were found. Official TPEx individual market-cap table has 888 rows totaling 116984.29 hundred-million TWD, exactly the formal value. TWSE 2323, 3356, 3591, 6176, 6191 and TPEx 3152 each have a one-lot cross-day previous-balance difference. Administrative causes remain unconfirmed. The previous 2323 capital-reduction limitation remains documented in update-audit-20261013.md.",
+    "evidence": "data/tmp/margin-update-shsyvcks/official-check/independent-report.json",
+    "conclusion": "TWSE and WantGoo both rose 1.68 percentage points, leaving a +0.22 pp gap. TPEx rose in both series, but WantGoo jumped 12.88 pp (154.35 to 167.23) while ours rose 3.43 pp (162.26 to 165.69), flipping the gap from +7.91 to -1.54 pp. This is not evidence that the external methodology difference has been resolved. Our TPEx portfolio value rose 3.1182%, from 4119.632379 to 4248.090343 hundred-million TWD; estimated debt rose 0.9842%, from 2538.958238 to 2563.947294. Contributions include 6274 +0.455, 3081 +0.378 and 3374 +0.308 pp. Official inputs and independent arithmetic reproduce our rise, but cannot reconstruct WantGoo's historical cost, weighting or reason for its 12.88 pp jump. No formula calibration or historical rewrite. See update-audit-20261015.md."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -123,6 +123,10 @@
       {
         "date": "2026-10-13",
         "maintenance": 167.37
+      },
+      {
+        "date": "2026-10-14",
+        "maintenance": 169.05
       }
     ],
     "tpex": [
@@ -221,6 +225,10 @@
       {
         "date": "2026-10-13",
         "maintenance": 154.35
+      },
+      {
+        "date": "2026-10-14",
+        "maintenance": 167.23
       }
     ]
   }
