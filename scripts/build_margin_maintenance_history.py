@@ -31,6 +31,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.calculation import market_for_stock
+from tw_margin_rate.market_transfers import REFERENCE as TRANSFER_REFERENCE, load_market_transfers
 from tw_margin_rate.corporate_actions import SplitCursor, load_stock_splits
 from tw_margin_rate.finmind import FinMindClient, load_dotenv
 from tw_margin_rate.portfolio import update_portfolio
@@ -138,11 +139,14 @@ def merge_twse_listing_date(
         listing_dates[stock_id] = listing_date
 
 
-def current_markets_from_stock_info(stock_info: pd.DataFrame) -> dict[str, str]:
+def current_markets_from_stock_info(
+    stock_info: pd.DataFrame, transfers: dict[str, str] | None = None
+) -> dict[str, str]:
     """Resolve mixed current/historical snapshots by data date, never row order.
 
     Duplicate industry/name records are harmless. Conflicting markets on the
-    newest date (or an undated conflicting record) must stop the update.
+    newest date (or an undated conflicting record) must stop the update unless
+    an explicitly reviewed OTC-to-TWSE event resolves dated post-transfer rows.
     Official listing intervals are still applied separately by market_for_stock.
     """
     rows = stock_info[stock_info["type"].isin(["twse", "tpex"])].copy()
@@ -160,6 +164,12 @@ def current_markets_from_stock_info(stock_info: pd.DataFrame) -> dict[str, str]:
         markets = set(newest["type"])
         markets.update(group.loc[group["record_date"].isna(), "type"])
         if len(markets) != 1:
+            transfer_day = (transfers or {}).get(stock_id)
+            if (transfer_day and group["record_date"].notna().all()
+                    and markets == {"twse", "tpex"}
+                    and newest["record_date"].min() >= pd.Timestamp(transfer_day)):
+                result[stock_id] = "twse"
+                continue
             raise ValueError(f"stock_info {stock_id} 最新市場紀錄衝突或日期不明")
         result[stock_id] = markets.pop()
     return result
@@ -175,7 +185,8 @@ def load_market_reference(
     stock_info = pd.read_parquet(
         stock_info_path, columns=["stock_id", "type", "date"]
     )
-    current_market = current_markets_from_stock_info(stock_info)
+    transfers = load_market_transfers()
+    current_market = current_markets_from_stock_info(stock_info, transfers)
 
     with twse_company_info.open(encoding="utf-8") as handle:
         listed_rows = json.load(handle)
@@ -217,6 +228,13 @@ def load_market_reference(
         delisting_date = roc_or_iso_date(row[0])
         if re.fullmatch(r"\d{4}", stock_id) and delisting_date:
             delisting_dates[stock_id] = delisting_date
+    for stock_id, transfer_day in transfers.items():
+        existing = twse_listing_dates.get(stock_id)
+        if existing is not None and existing != transfer_day:
+            raise ValueError(f"{stock_id} 已查證轉板日與上市參考資料衝突")
+        if stock_id in delisting_dates:
+            raise ValueError(f"{stock_id} 已查證轉板事件需重新核對下市區間")
+        twse_listing_dates[stock_id] = transfer_day
     return current_market, twse_listing_dates, delisting_dates
 
 
@@ -638,6 +656,10 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
                 "validation_tolerance_pct"
             ],
             "market_reference": {
+                "verified_transfers": {
+                    "file": TRANSFER_REFERENCE.name,
+                    "sha256": file_sha256(TRANSFER_REFERENCE),
+                },
                 "stock_info": "latest complete iCloud TaiwanStockInfo parquet",
                 "twse_company_info": {
                     "file": args.twse_company_info.name,

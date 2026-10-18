@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "stock_id": "8908",
+      "stock_name": "欣雄",
+      "from_market": "tpex",
+      "to_market": "twse",
+      "effective_date": "2026-10-16",
+      "verified_at": "2026-10-18",
+      "sources": [
+        {
+          "url": "https://openapi.twse.com.tw/v1/opendata/t187ap03_L",
+          "record": {"出表日期": "1151016", "公司代號": "8908", "公司名稱": "欣雄天然氣股份有限公司", "上市日期": "20261016"}
+        },
+        {
+          "url": "https://www.twse.com.tw/rwd/zh/company/newlisting?response=json",
+          "record": {"公司代號": "8908", "公司簡稱": "欣雄", "股票上市買賣日期": "115.10.16", "備註": "櫃轉市"}
+        }
+      ],
+      "note": "2026-10-18 使用者核准官方轉板處理。10/16 TWSE MI_INDEX 有 8908、收盤 40.20，TPEx dailyQuotes 無此股；FinMind 10/17 snapshot 與 10/18 重查仍同日混列 tpex/twse。只處理這個已查證事件，不全面放寬主檔衝突檢查。"
+    }
+  ]
+}

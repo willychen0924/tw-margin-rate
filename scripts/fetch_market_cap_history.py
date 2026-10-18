@@ -37,7 +37,8 @@ from tw_margin_rate.calculation import market_for_stock
 from tw_margin_rate.paths import discover_stock_data, local_env_path
 from tw_margin_rate.revisions import save_observation
 
-from build_margin_maintenance_history import load_market_reference
+from build_margin_maintenance_history import load_market_reference, current_markets_from_stock_info
+from tw_margin_rate.market_transfers import load_market_transfers, transfer_market
 
 
 FINMIND_DATASET = "TaiwanStockMarketValue"
@@ -341,13 +342,18 @@ def load_market_snapshots(
             exact_days.add(day)
 
     loaded: dict[Path, dict[str, str]] = {}
+    transfers = load_market_transfers()
     for path in sorted(set(selected.values())):
-        frame = pd.read_parquet(path, columns=["stock_id", "type"])
+        frame = pd.read_parquet(path, columns=["stock_id", "type", "date"])
         frame = frame.dropna(subset=["stock_id", "type"])
-        loaded[path] = dict(
-            zip(frame["stock_id"].astype(str), frame["type"].astype(str))
-        )
-    return {day: loaded[path] for day, path in selected.items()}, exact_days
+        loaded[path] = current_markets_from_stock_info(frame, transfers)
+    daily = {day: dict(loaded[path]) for day, path in selected.items()}
+    for day, market_map in daily.items():
+        # Explicit official transfer dates override even a same-day stale
+        # FinMind snapshot. Do not mutate the shared archive or another day.
+        for code in transfers:
+            market_map[code] = transfer_market(code, day, transfers)
+    return daily, exact_days
 
 
 def request_session(*, tpex: bool = False) -> requests.Session:

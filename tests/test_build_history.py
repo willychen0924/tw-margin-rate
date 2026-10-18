@@ -29,6 +29,25 @@ from build_margin_maintenance_history import (
 
 
 class StockInfoMarketTests(unittest.TestCase):
+    def test_reviewed_transfer_resolves_only_dated_post_transfer_conflict(self) -> None:
+        transfers = {"8908": "2026-10-16"}
+        rows = [{"stock_id": "8908", "type": m, "date": "2026-10-17"} for m in ("twse", "tpex")]
+        for ordered in (rows, rows[::-1]):
+            self.assertEqual(current_markets_from_stock_info(pd.DataFrame(ordered), transfers), {"8908": "twse"})
+        with self.assertRaises(ValueError):
+            current_markets_from_stock_info(pd.DataFrame(rows))
+        for day in ("2026-10-15", None, "bad-date"):
+            invalid = [dict(r, date=day) for r in rows]
+            with self.assertRaises(ValueError):
+                current_markets_from_stock_info(pd.DataFrame(invalid), transfers)
+        with self.assertRaises(ValueError):
+            current_markets_from_stock_info(pd.DataFrame(rows + [dict(rows[0], date=None)]), transfers)
+
+    def test_reviewed_transfer_does_not_resolve_another_stock(self) -> None:
+        rows = [{"stock_id": "6423", "type": m, "date": "2026-10-17"} for m in ("twse", "tpex")]
+        with self.assertRaises(ValueError):
+            current_markets_from_stock_info(pd.DataFrame(rows), {"8908": "2026-10-16"})
+
     def test_latest_market_wins_regardless_of_row_order(self) -> None:
         rows = [
             {"stock_id": "6423", "type": "twse", "date": "2024-12-04"},
