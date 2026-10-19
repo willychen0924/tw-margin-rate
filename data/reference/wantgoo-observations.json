@@ -1,26 +1,26 @@
 {
-  "observed_at": "2026-10-18T01:27:00+08:00",
+  "observed_at": "2026-10-20T03:40:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-10-16",
-    "status": "user_approved_single_release_external_gap_unresolved",
+    "date": "2026-10-19",
+    "status": "user_approved_current_model_release_external_gap_and_cash_reduction_limitations_retained",
     "twse": {
-      "ours": 161.98,
-      "wantgoo": 161.64,
-      "gap_pp": 0.34,
-      "ours_change_pp": 1.52,
-      "wantgoo_change_pp": 1.49
+      "ours": 159.93,
+      "wantgoo": 159.62,
+      "gap_pp": 0.31,
+      "ours_change_pp": -2.05,
+      "wantgoo_change_pp": -2.02
     },
     "tpex": {
-      "ours": 156.3,
-      "wantgoo": 167.2,
-      "gap_pp": -10.9,
-      "ours_change_pp": 1.05,
-      "wantgoo_change_pp": 13.47
+      "ours": 154.03,
+      "wantgoo": 164.69,
+      "gap_pp": -10.66,
+      "ours_change_pp": -2.27,
+      "wantgoo_change_pp": -2.51
     },
-    "raw_check": "Fresh 10/16 TWSE and TPEx official financing five fields, valid closes, market universes and cost arithmetic match the local candidate. Independent scalar replay from 10/15 gives 161.984126% and 156.297839%; full 2001 replay exactly matches all candidate rows, and all 2265 previously published rows per market remain unchanged. Official TPEx market cap: 887 rows, 111296.61 hundred-million TWD, exactly the candidate. 8908 officially transferred to TWSE on 10/16; it has no 10/16 margin row in either official market. Its prior 51-lot OTC position disappearing contributes only -0.000018 pp, not the 10.90 pp gap. TWSE 2323 has a one-lot official cross-day difference; prior corporate-action limitations remain unresolved.",
-    "evidence": "data/tmp/margin-update-qqod3g64/official-check/independent-report.json",
-    "conclusion": "TPEx financed portfolio value rose 0.3059%, estimated debt fell 0.3667%, reproducing our +1.0481 pp move. WantGoo rose 13.47 pp; its historical costs and weighting are unavailable from the visible table, so the 10.90 pp gap is not explained. Neither the verified transfer nor an input mismatch accounts for it. After receiving the official verification and publication pause report, the user explicitly replied '可以' to releasing this candidate while retaining the unresolved gap. This authorizes this release only, not future bypasses. No formula calibration or history rewrite. See update-audit-20261018.md."
+    "raw_check": "Fresh official TWSE/TPEx financing five fields, valid closes, active universes, balance identities and scalar costs match candidate. Independent continuation gives TWSE 159.933253% and TPEx 154.025969%; full 2001 replay exactly matches all candidate rows. All 2266 previously published rows per market are unchanged. TPEx 892-row official cap sum is 110076.87 hundred-million TWD, matching candidate. Official 10/19 cash reductions confirmed for 4155 (ratio 0.8963157411; refund 1.036842), 6167 (0.98; 0.2), 6173 (0.94; 0.6). Official share conversion alone does not reconcile all cross-day financing-lot changes. Other 10/19 loss reductions 2067, 3625, 3632 have zero financing balance. Existing 2323 limitations remain.",
+    "evidence": "data/tmp/margin-update-u_jdtzy1/official-check/independent-report.json",
+    "conclusion": "TPEx financed value fell 2.7359% and estimated debt fell 1.3013%, reproducing -2.2719 pp. WantGoo fell 2.51 pp, narrowing the level gap from 10.90 to 10.66 pp but not explaining it. Three diagnostic cash-reduction cost scenarios change TPEx by approximately -0.040 to -0.042 pp; these are hypotheses, not validated corrections or bounds. After receiving these findings and the publication pause report, the user explicitly requested publication using verified real data and the established calculation method. This candidate is approved for release with unresolved limitations retained; no formula calibration, new corporate-action adjustment or history rewrite. See update-audit-20261020.md."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -135,6 +135,10 @@
       {
         "date": "2026-10-16",
         "maintenance": 161.64
+      },
+      {
+        "date": "2026-10-19",
+        "maintenance": 159.62
       }
     ],
     "tpex": [
@@ -245,6 +249,10 @@
       {
         "date": "2026-10-16",
         "maintenance": 167.2
+      },
+      {
+        "date": "2026-10-19",
+        "maintenance": 164.69
       }
     ]
   }
