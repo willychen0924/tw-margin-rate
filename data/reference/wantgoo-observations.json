@@ -1,26 +1,26 @@
 {
-  "observed_at": "2026-10-20T03:40:00+08:00",
+  "observed_at": "2026-10-22T04:49:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-10-19",
-    "status": "user_approved_current_model_release_external_gap_and_cash_reduction_limitations_retained",
+    "date": "2026-10-21",
+    "status": "user_approved_20261023_local_browser_validation_passed",
     "twse": {
-      "ours": 159.93,
-      "wantgoo": 159.62,
-      "gap_pp": 0.31,
-      "ours_change_pp": -2.05,
-      "wantgoo_change_pp": -2.02
+      "ours": 161.65,
+      "wantgoo": 161.21,
+      "gap_pp": 0.44,
+      "ours_change_pp": 3.78,
+      "wantgoo_change_pp": 3.72
     },
     "tpex": {
-      "ours": 154.03,
-      "wantgoo": 164.69,
-      "gap_pp": -10.66,
-      "ours_change_pp": -2.27,
-      "wantgoo_change_pp": -2.51
+      "ours": 155.5,
+      "wantgoo": 169.32,
+      "gap_pp": -13.82,
+      "ours_change_pp": 3.89,
+      "wantgoo_change_pp": 3.68
     },
-    "raw_check": "Fresh official TWSE/TPEx financing five fields, valid closes, active universes, balance identities and scalar costs match candidate. Independent continuation gives TWSE 159.933253% and TPEx 154.025969%; full 2001 replay exactly matches all candidate rows. All 2266 previously published rows per market are unchanged. TPEx 892-row official cap sum is 110076.87 hundred-million TWD, matching candidate. Official 10/19 cash reductions confirmed for 4155 (ratio 0.8963157411; refund 1.036842), 6167 (0.98; 0.2), 6173 (0.94; 0.6). Official share conversion alone does not reconcile all cross-day financing-lot changes. Other 10/19 loss reductions 2067, 3625, 3632 have zero financing balance. Existing 2323 limitations remain.",
-    "evidence": "data/tmp/margin-update-u_jdtzy1/official-check/independent-report.json",
-    "conclusion": "TPEx financed value fell 2.7359% and estimated debt fell 1.3013%, reproducing -2.2719 pp. WantGoo fell 2.51 pp, narrowing the level gap from 10.90 to 10.66 pp but not explaining it. Three diagnostic cash-reduction cost scenarios change TPEx by approximately -0.040 to -0.042 pp; these are hypotheses, not validated corrections or bounds. After receiving these findings and the publication pause report, the user explicitly requested publication using verified real data and the established calculation method. This candidate is approved for release with unresolved limitations retained; no formula calibration, new corporate-action adjustment or history rewrite. See update-audit-20261020.md."
+    "raw_check": "Fresh official TWSE/TPEx five financing fields, valid closes, active universes, daily balance identities and scalar costs match 10/20 and 10/21. Independent rates: TWSE 157.8712298975 / 161.6527821633; TPEx 151.6119532718 / 155.5031009583. Full 2001 replay matches entire candidate; all 2267 prior rows per market unchanged. Both official financing amounts and TPEx 892-row market-cap sums match. Small official cross-day lot discontinuities retained, not inferred as splits; prior cash-reduction limitations remain.",
+    "evidence": "data/tmp/margin-update-f41cvbpa/official-check/independent-report.json",
+    "conclusion": "10/20 TPEx model falls 2.42 rounded percentage points while WantGoo rises 0.95, widening gap from 10.66 to 14.03. On 10/21 both rise and gap narrows to 13.82. Official-data attribution reproduces our 10/20 decline: financed value -1.7700%, estimated debt -0.2060%; 10/21 value +2.7439%, debt +0.1730%. External methodology remains unproven; no calibration or historical rewrite. Prior release authorization is single-use. Local browser could not open the existing preview tab due to URL security policy; no bypass attempted. Candidate and audit retained, not committed or pushed. See update-audit-20261022.md. On 2026-10-23 the user explicitly approved this 10/21 candidate by saying 是，請發佈. Data-gap release approval is granted for this batch only; local browser validation remains required before push. Following the user's manual opening of the preview and confirmation 好了, the stale tab was recovered using the same browser's documented fresh-tab procedure. Local desktop and 320px browser QA passed; release authorized, external methodology and cash-reduction limitations remain."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -139,6 +139,14 @@
       {
         "date": "2026-10-19",
         "maintenance": 159.62
+      },
+      {
+        "date": "2026-10-20",
+        "maintenance": 157.49
+      },
+      {
+        "date": "2026-10-21",
+        "maintenance": 161.21
       }
     ],
     "tpex": [
@@ -253,6 +261,14 @@
       {
         "date": "2026-10-19",
         "maintenance": 164.69
+      },
+      {
+        "date": "2026-10-20",
+        "maintenance": 165.64
+      },
+      {
+        "date": "2026-10-21",
+        "maintenance": 169.32
       }
     ]
   }
