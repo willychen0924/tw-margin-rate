@@ -1,26 +1,27 @@
 {
-  "observed_at": "2026-10-22T04:49:00+08:00",
+  "observed_at": "2026-10-28T04:08:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-10-21",
-    "status": "user_approved_20261023_local_browser_validation_passed",
+    "date": "2026-10-27",
+    "status": "user_approved_20261028_local_browser_validation_passed",
     "twse": {
-      "ours": 161.65,
-      "wantgoo": 161.21,
-      "gap_pp": 0.44,
-      "ours_change_pp": 3.78,
-      "wantgoo_change_pp": 3.72
+      "ours": 155.43,
+      "wantgoo": 154.77,
+      "gap_pp": 0.66,
+      "ours_change_pp": -0.93,
+      "wantgoo_change_pp": -0.99
     },
     "tpex": {
-      "ours": 155.5,
-      "wantgoo": 169.32,
-      "gap_pp": -13.82,
-      "ours_change_pp": 3.89,
-      "wantgoo_change_pp": 3.68
+      "ours": 147.96,
+      "wantgoo": null,
+      "gap_pp": null,
+      "ours_change_pp": -0.86,
+      "wantgoo_change_pp": null,
+      "reference_status": "same_date_page_displays_zero_invalid_reference"
     },
-    "raw_check": "Fresh official TWSE/TPEx five financing fields, valid closes, active universes, daily balance identities and scalar costs match 10/20 and 10/21. Independent rates: TWSE 157.8712298975 / 161.6527821633; TPEx 151.6119532718 / 155.5031009583. Full 2001 replay matches entire candidate; all 2267 prior rows per market unchanged. Both official financing amounts and TPEx 892-row market-cap sums match. Small official cross-day lot discontinuities retained, not inferred as splits; prior cash-reduction limitations remain.",
-    "evidence": "data/tmp/margin-update-f41cvbpa/official-check/independent-report.json",
-    "conclusion": "10/20 TPEx model falls 2.42 rounded percentage points while WantGoo rises 0.95, widening gap from 10.66 to 14.03. On 10/21 both rise and gap narrows to 13.82. Official-data attribution reproduces our 10/20 decline: financed value -1.7700%, estimated debt -0.2060%; 10/21 value +2.7439%, debt +0.1730%. External methodology remains unproven; no calibration or historical rewrite. Prior release authorization is single-use. Local browser could not open the existing preview tab due to URL security policy; no bypass attempted. Candidate and audit retained, not committed or pushed. See update-audit-20261022.md. On 2026-10-23 the user explicitly approved this 10/21 candidate by saying 是，請發佈. Data-gap release approval is granted for this batch only; local browser validation remains required before push. Following the user's manual opening of the preview and confirmation 好了, the stale tab was recovered using the same browser's documented fresh-tab procedure. Local desktop and 320px browser QA passed; release authorized, external methodology and cash-reduction limitations remain."
+    "raw_check": "Fresh official TWSE/TPEx financing five fields, valid closes, positive-balance universes, daily balance identities and independently continued costs match both 10/22 and 10/27. Full 2001 replay exactly matches all 2271 candidate dates per market; 2269 previously published rows unchanged. Official financing money and TPEx cap sums match. Three 10/27 loss-reduction events (1516, 6142, 8047) all have zero financing balance before and on the event, hence no current-model effect.",
+    "evidence": "data/tmp/margin-update-3__3bpv2/official-check/independent-report.json",
+    "conclusion": "10/22 TPEx ours 148.82 versus WantGoo 159.15, gap -10.33 pp; both decline, but external methodology remains unproven. 10/27 WantGoo chart and visible table both display 0%, still zero after reload; observed but excluded from valid numeric reference series, not treated as a real -159.15 pp market change. Our 10/27 movement is independently reproduced: financed position value -2.1647%, estimated debt -1.5958%, maintenance -0.8603 pp. Existing cash-reduction limitations and three pending historical market-cap revisions retained. Local desktop/320px QA and 99 Python + 5 JS tests pass. Not committed or pushed; prior single-release approvals do not cover this batch. See update-audit-20261028.md. On 2026-10-28 after receiving these findings and the explicit question whether to publish this batch under the existing model, the user instructed 更新並發布. This grants single-batch release approval through 10/27, not a resolution of external gaps or permission for future dates. All five artifact hashes still match the independent audit; 104 tests passed again before release."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -147,6 +148,14 @@
       {
         "date": "2026-10-21",
         "maintenance": 161.21
+      },
+      {
+        "date": "2026-10-22",
+        "maintenance": 155.76
+      },
+      {
+        "date": "2026-10-27",
+        "maintenance": 154.77
       }
     ],
     "tpex": [
@@ -269,7 +278,24 @@
       {
         "date": "2026-10-21",
         "maintenance": 169.32
+      },
+      {
+        "date": "2026-10-22",
+        "maintenance": 159.15
       }
     ]
-  }
+  },
+  "invalid_observations": [
+    {
+      "date": "2026-10-27",
+      "market": "tpex",
+      "observed_at": "2026-10-28T04:08:00+08:00",
+      "displayed_maintenance": "0%",
+      "financing_amount_excluding_etf": 2091.3,
+      "index": 379.2,
+      "status": "unusable_zero_value_reconfirmed_after_reload",
+      "source": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/otc",
+      "note": "Both chart text and transactionTable show zero. Not included in valid markets.tpex series and not replaced by an older date."
+    }
+  ]
 }
