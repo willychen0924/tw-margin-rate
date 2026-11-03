@@ -1,28 +1,28 @@
 {
-  "observed_at": "2026-11-03T03:30:00+08:00",
+  "observed_at": "2026-11-04T01:59:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-11-02",
+    "date": "2026-11-03",
     "status": "verified_publish_under_standing_authorization_20261029",
     "twse": {
-      "ours": 151.47,
-      "wantgoo": 150.96,
-      "gap_pp": 0.51,
-      "ours_change_pp": -0.01,
-      "wantgoo_change_pp": 0.02,
-      "opposite_direction": true
+      "ours": 142.67,
+      "wantgoo": 142.09,
+      "gap_pp": 0.58,
+      "ours_change_pp": -8.8,
+      "wantgoo_change_pp": -8.87,
+      "opposite_direction": false
     },
     "tpex": {
-      "ours": 146.58,
+      "ours": 136.46,
       "wantgoo": null,
       "gap_pp": null,
-      "ours_change_pp": 0.03,
+      "ours_change_pp": -10.12,
       "wantgoo_change_pp": null,
-      "reference_status": "same_date_page_displays_712.94_percent_unusable"
+      "reference_status": "same_date_page_displays_538.43_percent_unusable"
     },
-    "raw_check": "Fresh official five financing fields, valid closes, active universes, identities and scalar costs match. Independent rates 151.47267940226294 / 146.5823763809276. Second 2001 replay matches all 2275 dates; all 2274 prior rows unchanged. Official financing amounts, TWSE index and TPEx 894-row cap sum match. No 11/02 reduction resumption found; existing limitations retained.",
-    "evidence": "data/tmp/margin-update-o7nqax2v/official-check/independent-report.json",
-    "conclusion": "TWSE gap narrows to 0.51 pp, but rounded changes have opposite directions (-0.01 vs +0.02). Official-input independent replay reproduces our unrounded -0.00283736 pp: position value -0.2000396%, debt -0.1981702%. This verifies our movement, not the external algorithm. TPEx +0.03265286 pp reproduced by value -0.3516882%, debt -0.3738860%; reference 712.94% unusable. Six pending cap findings unchanged, no new historical changes. 99 Python + 5 JS tests and desktop/320px QA passed. Publish under explicit request and standing authorization, retain unresolved external/corporate-action limitations."
+    "raw_check": "Fresh official five financing fields, valid closes, active universes, identities and scalar costs match. Independent rates 142.6655309573889 / 136.45756663345352. Second 2001 replay matches all 2276 dates; all 2275 prior rows unchanged. Official financing amounts, TWSE index and TPEx 894-row cap sum match. No 11/03 reduction resumption found; existing limitations retained.",
+    "evidence": "data/tmp/margin-update-mxnsqwo2/official-check/independent-report.json",
+    "conclusion": "TWSE gap 0.58 pp versus 0.51 previously; both decline (-8.80 vs -8.87 pp). Independent official-input replay reproduces our unrounded -8.80714844 pp: position value -9.0845273%, estimated debt -3.4720569%. TPEx -10.12480975 pp reproduced by value -9.8932268%, debt -3.2075298%; reference 538.43% unusable. Stock contributions sum to each movement, no local missing rows or input mismatches. Six pending cap findings unchanged. 99 Python + 5 JS tests and desktop/320px QA passed. Publish under explicit request and standing authorization, retaining unresolved external/corporate-action limitations without calibration or historical rewrite."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -173,6 +173,10 @@
       {
         "date": "2026-11-02",
         "maintenance": 150.96
+      },
+      {
+        "date": "2026-11-03",
+        "maintenance": 142.09
       }
     ],
     "tpex": [
@@ -357,6 +361,17 @@
       "status": "unusable_extreme_value_reconfirmed_after_reload",
       "source": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/otc",
       "note": "Chart and transactionTable both display 712.94%; table unchanged after reload. Prior four dates still show 1051.47%, 2415.32%, 6255.15%, 0%. Not included in valid series; external cause unresolved, no calibration."
+    },
+    {
+      "date": "2026-11-03",
+      "market": "tpex",
+      "observed_at": "2026-11-04T01:59:00+08:00",
+      "displayed_maintenance": "538.43%",
+      "financing_amount_excluding_etf": 1961.36,
+      "index": 345.52,
+      "status": "unusable_extreme_value_reconfirmed_after_reload",
+      "source": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/otc",
+      "note": "Chart and transactionTable both display 538.43%; table unchanged after reload. Prior five dates remain 712.94%, 1051.47%, 2415.32%, 6255.15%, 0%. Not included in valid series; external cause unresolved, no calibration."
     }
   ]
 }
