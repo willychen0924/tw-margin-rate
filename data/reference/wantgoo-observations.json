@@ -1,28 +1,29 @@
 {
-  "observed_at": "2026-11-04T01:59:00+08:00",
+  "observed_at": "2026-11-05T01:35:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-11-03",
+    "date": "2026-11-04",
     "status": "verified_publish_under_standing_authorization_20261029",
     "twse": {
-      "ours": 142.67,
-      "wantgoo": 142.09,
-      "gap_pp": 0.58,
-      "ours_change_pp": -8.8,
-      "wantgoo_change_pp": -8.87,
+      "ours": 144.0,
+      "wantgoo": 143.56,
+      "gap_pp": 0.44,
+      "ours_change_pp": 1.33,
+      "wantgoo_change_pp": 1.47,
       "opposite_direction": false
     },
     "tpex": {
-      "ours": 136.46,
-      "wantgoo": null,
-      "gap_pp": null,
-      "ours_change_pp": -10.12,
-      "wantgoo_change_pp": null,
-      "reference_status": "same_date_page_displays_538.43_percent_unusable"
+      "ours": 137.41,
+      "wantgoo": 164.63,
+      "gap_pp": -27.22,
+      "ours_change_pp": 0.95,
+      "wantgoo_change_pp": 19.96,
+      "opposite_direction": false,
+      "reference_status": "same_date_readable_but_large_jump_and_algorithm_difference_unresolved"
     },
-    "raw_check": "Fresh official five financing fields, valid closes, active universes, identities and scalar costs match. Independent rates 142.6655309573889 / 136.45756663345352. Second 2001 replay matches all 2276 dates; all 2275 prior rows unchanged. Official financing amounts, TWSE index and TPEx 894-row cap sum match. No 11/03 reduction resumption found; existing limitations retained.",
-    "evidence": "data/tmp/margin-update-mxnsqwo2/official-check/independent-report.json",
-    "conclusion": "TWSE gap 0.58 pp versus 0.51 previously; both decline (-8.80 vs -8.87 pp). Independent official-input replay reproduces our unrounded -8.80714844 pp: position value -9.0845273%, estimated debt -3.4720569%. TPEx -10.12480975 pp reproduced by value -9.8932268%, debt -3.2075298%; reference 538.43% unusable. Stock contributions sum to each movement, no local missing rows or input mismatches. Six pending cap findings unchanged. 99 Python + 5 JS tests and desktop/320px QA passed. Publish under explicit request and standing authorization, retaining unresolved external/corporate-action limitations without calibration or historical rewrite."
+    "raw_check": "Fresh official five financing fields, valid closes, active universes, identities and scalar costs match. Independent rates 144.0018355627658 / 137.40626879981755. Second 2001 replay matches all 2277 dates; all 2276 prior rows unchanged. Official financing amounts, TWSE index and TPEx 894-row cap sum match. No 11/04 reduction resumption found; existing limitations retained.",
+    "evidence": "data/tmp/margin-update-bpurodtz/official-check/independent-report.json",
+    "conclusion": "TWSE gap narrows to 0.44 pp; both rise. TPEx site revised six previously unusable historical rates AND financing amounts; original observations preserved, new values recorded separately. Its latest rise 19.96 pp versus our 0.95 pp expands gap from 8.21 to 27.22 pp. Official-input independent replay reproduces our unrounded +0.94870217 pp: value -1.6295501%, modeled debt -2.3087350%. Stock contributions sum exactly; no local missing rows or input mismatches. This explains our movement, NOT the external jump or algorithm. Six pending cap findings unchanged. 99 Python + 5 JS tests and desktop/320px QA passed. Publish under standing authorization without calibration or historical rewrite; external and corporate-action limitations retained."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -177,6 +178,10 @@
       {
         "date": "2026-11-03",
         "maintenance": 142.09
+      },
+      {
+        "date": "2026-11-04",
+        "maintenance": 143.56
       }
     ],
     "tpex": [
@@ -303,9 +308,54 @@
       {
         "date": "2026-10-22",
         "maintenance": 159.15
+      },
+      {
+        "date": "2026-10-27",
+        "maintenance": 158.2
+      },
+      {
+        "date": "2026-10-28",
+        "maintenance": 166.58
+      },
+      {
+        "date": "2026-10-29",
+        "maintenance": 163.85
+      },
+      {
+        "date": "2026-10-30",
+        "maintenance": 156.03
+      },
+      {
+        "date": "2026-11-02",
+        "maintenance": 155.92
+      },
+      {
+        "date": "2026-11-03",
+        "maintenance": 144.67
+      },
+      {
+        "date": "2026-11-04",
+        "maintenance": 164.63
       }
     ]
   },
+  "reference_revisions": [
+    {
+      "observed_at": "2026-11-05T01:35:00+08:00",
+      "market": "tpex",
+      "source": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/otc",
+      "method": "Visible chart and transactionTable; table reconfirmed after reload",
+      "rows": [
+        {"date":"2026-10-27","previous_displayed_maintenance":0,"maintenance":158.2,"previous_financing_amount":2091.3,"financing_amount":2079.99},
+        {"date":"2026-10-28","previous_displayed_maintenance":6255.15,"maintenance":166.58,"previous_financing_amount":2109,"financing_amount":2099.62},
+        {"date":"2026-10-29","previous_displayed_maintenance":2415.32,"maintenance":163.85,"previous_financing_amount":2095.55,"financing_amount":2087.04},
+        {"date":"2026-10-30","previous_displayed_maintenance":1051.47,"maintenance":156.03,"previous_financing_amount":2048.72,"financing_amount":2040.48},
+        {"date":"2026-11-02","previous_displayed_maintenance":712.94,"maintenance":155.92,"previous_financing_amount":2039.93,"financing_amount":2031.77},
+        {"date":"2026-11-03","previous_displayed_maintenance":538.43,"maintenance":144.67,"previous_financing_amount":1961.36,"financing_amount":1953.32}
+      ],
+      "note": "The external site revised both maintenance and financing amounts. Original invalid observations remain as dated evidence. Newly readable values are references only, not proof of algorithm equivalence or authority to revise our model/history."
+    }
+  ],
   "invalid_observations": [
     {
       "date": "2026-10-27",
