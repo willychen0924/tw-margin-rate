@@ -1,29 +1,29 @@
 {
-  "observed_at": "2026-11-05T01:35:00+08:00",
+  "observed_at": "2026-11-06T00:39:00+08:00",
   "method": "Read visible transactionTable in normal browser; exclude-ETF series; dates verified on page",
   "latest_verification": {
-    "date": "2026-11-04",
+    "date": "2026-11-05",
     "status": "verified_publish_under_standing_authorization_20261029",
     "twse": {
-      "ours": 144.0,
-      "wantgoo": 143.56,
-      "gap_pp": 0.44,
-      "ours_change_pp": 1.33,
-      "wantgoo_change_pp": 1.47,
+      "ours": 135.35,
+      "wantgoo": 134.86,
+      "gap_pp": 0.49,
+      "ours_change_pp": -8.65,
+      "wantgoo_change_pp": -8.7,
       "opposite_direction": false
     },
     "tpex": {
-      "ours": 137.41,
-      "wantgoo": 164.63,
-      "gap_pp": -27.22,
-      "ours_change_pp": 0.95,
-      "wantgoo_change_pp": 19.96,
+      "ours": 128.03,
+      "wantgoo": 161.42,
+      "gap_pp": -33.39,
+      "ours_change_pp": -9.38,
+      "wantgoo_change_pp": -3.21,
       "opposite_direction": false,
-      "reference_status": "same_date_readable_but_large_jump_and_algorithm_difference_unresolved"
+      "reference_status": "same_date_readable_but_widening_algorithm_difference_unresolved"
     },
-    "raw_check": "Fresh official five financing fields, valid closes, active universes, identities and scalar costs match. Independent rates 144.0018355627658 / 137.40626879981755. Second 2001 replay matches all 2277 dates; all 2276 prior rows unchanged. Official financing amounts, TWSE index and TPEx 894-row cap sum match. No 11/04 reduction resumption found; existing limitations retained.",
-    "evidence": "data/tmp/margin-update-bpurodtz/official-check/independent-report.json",
-    "conclusion": "TWSE gap narrows to 0.44 pp; both rise. TPEx site revised six previously unusable historical rates AND financing amounts; original observations preserved, new values recorded separately. Its latest rise 19.96 pp versus our 0.95 pp expands gap from 8.21 to 27.22 pp. Official-input independent replay reproduces our unrounded +0.94870217 pp: value -1.6295501%, modeled debt -2.3087350%. Stock contributions sum exactly; no local missing rows or input mismatches. This explains our movement, NOT the external jump or algorithm. Six pending cap findings unchanged. 99 Python + 5 JS tests and desktop/320px QA passed. Publish under standing authorization without calibration or historical rewrite; external and corporate-action limitations retained."
+    "raw_check": "Fresh official five financing fields, valid closes, active universes, identities and scalar costs match. Independent rates 135.35172290506986 / 128.03382197559188. Second 2001 replay matches all 2278 dates; all 2277 prior rows unchanged. Official financing amounts, TWSE index and TPEx 893-row cap sum match. No 11/05 reduction resumption found. 4534 suspension: zero financed balance both days, no rate effect; sole official cap removal, prior cap 22.08 yi.",
+    "evidence": "data/tmp/margin-update-4n378qii/official-check/independent-report.json",
+    "conclusion": "TWSE gap 0.49 pp versus 0.44; both decline (-8.65 vs -8.70). TPEx both decline (-9.38 vs -3.21), gap expands from 27.22 to 33.39 pp. Fresh official-input scalar replay reproduces our -9.37244682 pp: value -9.6181632%, modeled debt -3.0019508%; stock contributions sum exactly. Own inputs/history/model verified, external methodology and divergent magnitude NOT explained. Previously revised WantGoo historical observations remain unchanged today; original invalid observations retained. Six cap findings unchanged, no historical rewrite. 99 Python + 5 JS and desktop/320px QA passed. Publish under standing authorization, no calibration and all limitations retained."
   },
   "sources": {
     "twse": "https://www.wantgoo.com/stock/margin-trading/exclude-etf/taiex",
@@ -182,6 +182,10 @@
       {
         "date": "2026-11-04",
         "maintenance": 143.56
+      },
+      {
+        "date": "2026-11-05",
+        "maintenance": 134.86
       }
     ],
     "tpex": [
@@ -336,6 +340,10 @@
       {
         "date": "2026-11-04",
         "maintenance": 164.63
+      },
+      {
+        "date": "2026-11-05",
+        "maintenance": 161.42
       }
     ]
   },
