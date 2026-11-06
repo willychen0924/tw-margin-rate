@@ -1,5 +1,16 @@
 import Cocoa
 
+func publisherProjectRoot(bundle: URL, home: URL, readable: (String) -> Bool) -> URL? {
+    let candidates = [
+        bundle.deletingLastPathComponent(),
+        home.appendingPathComponent("Library/Mobile Documents/com~apple~CloudDocs/台股上市櫃融資維持率")
+    ]
+    return candidates.first { root in
+        ["scripts/launch_publisher.sh", "scripts/update_and_publish.py", "AGENTS.md", "計算方式.md"]
+            .allSatisfy { readable(root.appendingPathComponent($0).path) }
+    }
+}
+
 final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var window: NSWindow!
     let titleLabel = NSTextField(labelWithString: "正在準備更新…")
@@ -17,6 +28,7 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var received = ""
     var setupLog: URL!
     var logHandle: FileHandle?
+    var startupError: String?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
@@ -45,12 +57,19 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
         siteButton.frame = NSRect(x: 376, y: 24, width: 100, height: 28); siteButton.bezelStyle = .rounded; siteButton.isEnabled = false
         for child in [titleLabel, detail, elapsed, progress, percentage, reportButton!, siteButton!] as [NSView] { view.addSubview(child) }
         window.center(); window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
-        let root = Bundle.main.bundleURL.deletingLastPathComponent()
         let local = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/tw-margin-rate")
         try? FileManager.default.createDirectory(at: local, withIntermediateDirectories: true)
         setupLog = local.appendingPathComponent("launcher-\(UUID().uuidString).log")
         FileManager.default.createFile(atPath: setupLog.path, contents: nil)
         logHandle = try? FileHandle(forWritingTo: setupLog)
+        guard let root = publisherProjectRoot(bundle: Bundle.main.bundleURL,
+            home: FileManager.default.homeDirectoryForCurrentUser,
+            readable: { FileManager.default.isReadableFile(atPath: $0) }) else {
+            startupError = "找不到完整專案。請確認 iCloud Drive 的「台股上市櫃融資維持率」資料夾已下載至此 Mac，或將 App 放回完整專案資料夾。尚未開始更新或發布。"
+            logHandle?.write(Data((startupError! + "\n").utf8))
+            complete(1)
+            return
+        }
         let task = Process(); task.executableURL = URL(fileURLWithPath: "/bin/zsh")
         task.arguments = [root.appendingPathComponent("scripts/launch_publisher.sh").path] + (CommandLine.arguments.contains("--verify-only") ? ["--verify-only"] : [])
         task.currentDirectoryURL = root
@@ -65,7 +84,12 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
         process = task
         do { try task.run() }
-        catch { detail.stringValue = "無法啟動更新。請將 App 留在專案資料夾內。"; complete(1) }
+        catch {
+            startupError = "無法啟動更新腳本，請查看報告確認檔案權限與 iCloud 下載狀態。"
+            logHandle?.write(Data((error.localizedDescription + "\n").utf8))
+            complete(1)
+            return
+        }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in self?.refresh() }
     }
     func consume(_ data: Data) {
@@ -101,7 +125,7 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
         } else {
             percentage.textColor = .systemRed
             if !titleLabel.stringValue.contains("停止") && !titleLabel.stringValue.contains("部署") { titleLabel.stringValue = "已停止，未確認發布成功" }
-            if report == nil { detail.stringValue = "啟動或環境準備未完成。請查看報告；沒有略過檢查。" }
+            if report == nil { detail.stringValue = startupError ?? "啟動或環境準備未完成。請查看報告；沒有略過檢查。" }
         }
         reportButton.isEnabled = true
         try? logHandle?.close()
