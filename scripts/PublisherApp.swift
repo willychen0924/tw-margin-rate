@@ -5,6 +5,7 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
     let titleLabel = NSTextField(labelWithString: "正在準備更新…")
     let detail = NSTextField(wrappingLabelWithString: "此流程不使用 AI。查核通過後會自動提交 GitHub 並驗證公開網站。")
     let progress = NSProgressIndicator()
+    let percentage = NSTextField(labelWithString: "0%")
     let elapsed = NSTextField(labelWithString: "已執行 0 秒")
     let started = Date()
     var reportButton: NSButton!
@@ -28,15 +29,21 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
         titleLabel.font = .boldSystemFont(ofSize: 17)
         detail.frame = NSRect(x: 24, y: 87, width: 452, height: 116)
         detail.font = .preferredFont(forTextStyle: .body)
-        elapsed.frame = NSRect(x: 46, y: 31, width: 220, height: 20)
+        elapsed.frame = NSRect(x: 24, y: 31, width: 242, height: 20)
         elapsed.font = .systemFont(ofSize: 11); elapsed.textColor = .secondaryLabelColor
-        progress.frame = NSRect(x: 24, y: 33, width: 16, height: 16)
-        progress.style = .spinning; progress.isDisplayedWhenStopped = false; progress.startAnimation(nil)
+        progress.frame = NSRect(x: 24, y: 70, width: 382, height: 12)
+        progress.style = .bar; progress.isIndeterminate = false
+        progress.minValue = 0; progress.maxValue = 100; progress.doubleValue = 0
+        progress.toolTip = "依工作階段推進，非剩餘時間估算；公開網站驗收通過才顯示 100%。"
+        percentage.frame = NSRect(x: 416, y: 65, width: 60, height: 22)
+        percentage.font = .monospacedDigitSystemFont(ofSize: 11, weight: .regular)
+        percentage.alignment = .right
+        percentage.toolTip = progress.toolTip
         reportButton = NSButton(title: "查看報告", target: self, action: #selector(openReport))
         reportButton.frame = NSRect(x: 278, y: 24, width: 90, height: 28); reportButton.bezelStyle = .rounded; reportButton.isEnabled = false
         siteButton = NSButton(title: "開啟網站", target: self, action: #selector(openSite))
         siteButton.frame = NSRect(x: 376, y: 24, width: 100, height: 28); siteButton.bezelStyle = .rounded; siteButton.isEnabled = false
-        for child in [titleLabel, detail, elapsed, progress, reportButton!, siteButton!] as [NSView] { view.addSubview(child) }
+        for child in [titleLabel, detail, elapsed, progress, percentage, reportButton!, siteButton!] as [NSView] { view.addSubview(child) }
         window.center(); window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
         let root = Bundle.main.bundleURL.deletingLastPathComponent()
         let local = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/tw-margin-rate")
@@ -76,17 +83,23 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
         guard let report else { return }
         let json = report.deletingLastPathComponent().appendingPathComponent("result.json")
         if let data = try? Data(contentsOf: json), let state = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-            if !finished { titleLabel.stringValue = state["stage"] as? String ?? "正在更新…" }
+            let value = max(0, min(100, (state["progress_percent"] as? NSNumber)?.doubleValue ?? 0))
+            progress.doubleValue = value
+            percentage.stringValue = "\(Int(value))%"
+            titleLabel.stringValue = finished
+                ? (state["status"] as? String ?? "完成，請查看報告")
+                : (state["stage"] as? String ?? "正在更新…")
             detail.stringValue = "資料日期：\(state["target"] as? String ?? "確認中")\n\(state["message"] as? String ?? "正在查核，請勿同時在另一台 Mac 更新或關閉本程式。")"
         }
     }
     func complete(_ code: Int32) {
-        finished = true; timer?.invalidate(); progress.stopAnimation(nil); progress.isHidden = true
+        finished = true; timer?.invalidate()
         refresh()
         if code == 0 {
             if !titleLabel.stringValue.contains("驗證") && !titleLabel.stringValue.contains("成功") { titleLabel.stringValue = "完成，請查看報告" }
             siteButton.isEnabled = true
         } else {
+            percentage.textColor = .systemRed
             if !titleLabel.stringValue.contains("停止") && !titleLabel.stringValue.contains("部署") { titleLabel.stringValue = "已停止，未確認發布成功" }
             if report == nil { detail.stringValue = "啟動或環境準備未完成。請查看報告；沒有略過檢查。" }
         }

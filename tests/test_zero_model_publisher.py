@@ -117,4 +117,21 @@ class PublisherTests(unittest.TestCase):
         for snippet in ('width: 500, height: 270','boldSystemFont(ofSize: 17)','preferredFont(forTextStyle: .body)','systemFont(ofSize: 11)','x: 24, y: 214, width: 452, height: 26','x: 24, y: 87, width: 452, height: 116','x: 278, y: 24, width: 90, height: 28','x: 376, y: 24, width: 100, height: 28'):
             self.assertIn(snippet,source)
 
+    def test_stage_progress_only_public_success_reaches_100(self):
+        stages=['啟動','前置檢查','候選重算與測試','官方獨立驗算與公司行動','本機網站驗收','安裝、提交及推送','等待部署及公開驗收','公開網站驗收']
+        values=[runner.progress_percent({'stage':s,'status':'執行中'}) for s in stages]
+        self.assertEqual(values,sorted(set(values)))
+        self.assertLess(max(values),100)
+        for status in ('已停止','部署未完成','驗證通過（未發布）'):
+            self.assertLess(runner.progress_percent({'stage':stages[-1],'status':status}),100)
+        for status in ('發布成功','已是最新，公開驗證通過'):
+            self.assertEqual(runner.progress_percent({'stage':stages[-1],'status':status}),100)
+
+    def test_native_progress_bar_remains_visible_on_completion(self):
+        source=(ROOT/'scripts/PublisherApp.swift').read_text()
+        self.assertIn('progress.isIndeterminate = false',source)
+        self.assertIn('progress.maxValue = 100',source)
+        self.assertNotIn('progress.isHidden = true',source)
+        self.assertIn('state["progress_percent"]',source)
+
 if __name__=='__main__': unittest.main()

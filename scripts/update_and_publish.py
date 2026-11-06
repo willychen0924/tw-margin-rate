@@ -114,7 +114,18 @@ def verify_public(sha, html, history, out, timeout=900):
         time.sleep(15)
     raise RuntimeError('部署等待逾時；已推送的版本可能稍後上線，尚不能視為發布成功。請查看報告與 GitHub Actions')
 
+def progress_percent(state):
+    # Milestones, not elapsed-time estimates. Failure never means completion.
+    if state.get('status') in ('發布成功','已是最新，公開驗證通過'):
+        return 100
+    return {'啟動':0,'前置檢查':5,'候選重算與測試':15,
+            '官方獨立驗算與公司行動':50,'本機網站驗收':75,
+            '安裝、提交及推送':85,'等待部署及公開驗收':90,
+            '公開網站驗收':95}.get(state.get('stage'),0)
+
 def write_report(out,state):
+    state['progress_percent']=progress_percent(state)
+    state['progress_basis']='階段進度，非剩餘時間估算；公開驗收通過才達 100%'
     dump(out/'result.json',state)
     lines=['更新並發布結果',f"狀態：{state['status']}",f"階段：{state['stage']}",f"時間：{state['started_at']}",f"資料日期：{state.get('target','未確認')}",f"版本：{state.get('commit','未提交')}",f"已推送：{state.get('pushed',False)}",'',state.get('message',''),'',f'證據目錄：{out}',f'網站：{PUBLIC}', '玩股網：依使用者 2026-11-07 指示，不作日常查核或發布門檻。', '本流程不呼叫任何 AI 模型。']
     if state.get('candidate'): lines += [f"計算與官方查核證據：{state['candidate']}"]
