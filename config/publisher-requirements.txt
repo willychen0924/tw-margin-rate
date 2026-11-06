@@ -1,0 +1,8 @@
+duckdb>=1.5,<2
+lxml>=5,<7
+numpy>=2,<3
+pandas>=2.2,<3
+pyarrow>=20,<26
+requests>=2.32,<3
+xlrd>=2.0,<3
+playwright==1.56.0

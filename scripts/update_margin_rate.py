@@ -8,7 +8,6 @@ import fcntl
 import hashlib
 import json
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -21,9 +20,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tw_margin_rate.finmind import load_dotenv
 from tw_margin_rate.paths import assert_archive_ready, discover_stock_data, local_env_path
-from tw_margin_rate.publishing import assert_official_origin
 from tw_margin_rate.revisions import retain_published_market_caps, json_bytes, install_outputs
-from check_wantgoo_reference import compare as compare_benchmark
 
 
 def parse_args() -> argparse.Namespace:
@@ -51,6 +48,7 @@ def parse_args() -> argparse.Namespace:
         help="Skip the previous-history equality check after an approved correction.",
     )
     parser.add_argument("--publish", action="store_true")
+    parser.add_argument("--candidate-only", action="store_true", help="Build and test without installing outputs")
     return parser.parse_args()
 
 
@@ -60,76 +58,13 @@ def run(command: list[str], *, env: dict[str, str] | None = None) -> None:
 
 
 def publish(latest_day: str) -> None:
-    benchmark = compare_benchmark(
-        json.loads((PROJECT_ROOT / "data/processed/margin-maintenance-history.json").read_text()),
-        json.loads((PROJECT_ROOT / "data/reference/wantgoo-observations.json").read_text()))
-    if any(v["status"] != "same_date_available" for v in benchmark["markets"].values()):
-        raise RuntimeError("最新日期尚未核對玩股網，請用瀏覽器讀取同日參考值並保存紀錄後發布")
-    remote = subprocess.run(
-        ["git", "remote", "get-url", "origin"],
-        cwd=PROJECT_ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-    assert_official_origin(remote)
-    allowed = {
-        "data/processed/margin-maintenance-history.json",
-        "docs/index.html",
-        "index.html",
-        "data/reference/twse-company-info.latest.json",
-        "data/reference/twse-delisted.latest.html",
-        "data/reference/twse-newlisting.latest.json",
-        "data/reference/latest-manifest.json",
-        "data/cache/market-margin-money-history.json",
-        "data/cache/market-cap-history.json",
-        "data/reference/market-cap-revisions.json",
-        "data/reference/wantgoo-observations.json",
-    }
-    cache_path = re.compile(
-        r"data/cache/(?:TaiwanStockPrice|TaiwanStockMarginPurchaseShortSale|"
-        r"TaiwanStockTotalMarginPurchaseShortSale|TaiwanStockMarketValue)/"
-        r"\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}_market_[0-9a-f]{12}\.json\.gz"
-    )
-    status = subprocess.run(
-        ["git", "status", "--porcelain"],
-        cwd=PROJECT_ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.splitlines()
-    unexpected = []
-    changed = []
-    for line in status:
-        path = line[3:]
-        if path not in allowed and not cache_path.fullmatch(path):
-            unexpected.append(line)
-        else:
-            changed.append(path)
-    if unexpected:
-        raise RuntimeError(f"有更新流程以外的未提交變更，停止發布：{unexpected}")
-    changed = sorted(set(changed))
-    if not changed:
-        print("沒有需要發布的新變更")
-        return
-    run(["git", "add", *changed])
-    staged = subprocess.run(
-        ["git", "diff", "--cached", "--quiet"], cwd=PROJECT_ROOT
-    )
-    if staged.returncode == 0:
-        print("沒有可提交的內容")
-        return
-    run(["git", "commit", "-m", f"Update margin rate through {latest_day}"])
-    run(["git", "push", "origin", "HEAD:main"])
-    print(
-        "推送完成；仍須開啟 "
-        f"https://willychen0924.github.io/tw-margin-rate/?v={latest_day.replace('-', '')} "
-        "核對 Pages。"
-    )
+    raise RuntimeError("請使用更新並發布.app 的完整查核發布入口")
 
 
-def main() -> None:
-    args = parse_args()
+def main(args=None):
+    args = args or parse_args()
+    if getattr(args, "publish", False):
+        raise RuntimeError("請使用更新並發布.app；舊 --publish 不包含完整獨立驗算與瀏覽器驗收，已停用")
     stock_data = discover_stock_data(args.stock_data)
     latest = assert_archive_ready(stock_data, args.warmup_start)
     print(f"iCloud archive ready: {latest}")
@@ -214,8 +149,7 @@ def main() -> None:
             if not has_token and not args.no_finmind_fetch:
                 print("未設定 FINMIND_TOKEN；只使用 iCloud 與專案補充資料。")
         run(command)
-        run([sys.executable, "scripts/check_wantgoo_reference.py", "--history", str(candidate_history),
-             "--output", str(temp_root / "wantgoo-comparison.json")])
+        # 2026-11-07: user explicitly removed WantGoo from daily publication gates.
         run(
             [
                 sys.executable,
@@ -271,6 +205,8 @@ def main() -> None:
         )
         if any(hashlib.sha256(p.read_bytes()).hexdigest() != digest for p, digest in protected.items()):
             raise RuntimeError("更新期間正式檔案被其他程序或同步修改，停止安裝")
+        if getattr(args, "candidate_only", False):
+            return temp_root
         install_outputs([(candidate_history, history), (candidate_html, html),
                          (candidate_root_html, root_html), (staged_money, money), (staged_cap, cap),
                          (staged_audit, PROJECT_ROOT / "data/reference/market-cap-revisions.json")],
