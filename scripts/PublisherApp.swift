@@ -5,6 +5,8 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
     let titleLabel = NSTextField(labelWithString: "正在準備更新…")
     let detail = NSTextField(wrappingLabelWithString: "此流程不使用 AI。查核通過後會自動提交 GitHub 並驗證公開網站。")
     let progress = NSProgressIndicator()
+    let elapsed = NSTextField(labelWithString: "已執行 0 秒")
+    let started = Date()
     var reportButton: NSButton!
     var siteButton: NSButton!
     var process: Process?
@@ -17,21 +19,24 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
-        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 250), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
+        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 500, height: 270), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         window.title = "台股融資維持率 · 更新並發布"
         window.delegate = self
+        window.isReleasedWhenClosed = false
         let view = window.contentView!
-        titleLabel.frame = NSRect(x: 28, y: 185, width: 504, height: 32)
-        titleLabel.font = .boldSystemFont(ofSize: 21)
-        detail.frame = NSRect(x: 28, y: 100, width: 504, height: 70)
-        detail.font = .systemFont(ofSize: 14)
-        progress.frame = NSRect(x: 28, y: 83, width: 504, height: 12)
-        progress.style = .bar; progress.isIndeterminate = true; progress.startAnimation(nil)
+        titleLabel.frame = NSRect(x: 24, y: 214, width: 452, height: 26)
+        titleLabel.font = .boldSystemFont(ofSize: 17)
+        detail.frame = NSRect(x: 24, y: 87, width: 452, height: 116)
+        detail.font = .preferredFont(forTextStyle: .body)
+        elapsed.frame = NSRect(x: 46, y: 31, width: 220, height: 20)
+        elapsed.font = .systemFont(ofSize: 11); elapsed.textColor = .secondaryLabelColor
+        progress.frame = NSRect(x: 24, y: 33, width: 16, height: 16)
+        progress.style = .spinning; progress.isDisplayedWhenStopped = false; progress.startAnimation(nil)
         reportButton = NSButton(title: "查看報告", target: self, action: #selector(openReport))
-        reportButton.frame = NSRect(x: 28, y: 25, width: 130, height: 34); reportButton.isEnabled = false
+        reportButton.frame = NSRect(x: 278, y: 24, width: 90, height: 28); reportButton.bezelStyle = .rounded; reportButton.isEnabled = false
         siteButton = NSButton(title: "開啟網站", target: self, action: #selector(openSite))
-        siteButton.frame = NSRect(x: 170, y: 25, width: 130, height: 34); siteButton.isEnabled = false
-        for child in [titleLabel, detail, progress, reportButton!, siteButton!] as [NSView] { view.addSubview(child) }
+        siteButton.frame = NSRect(x: 376, y: 24, width: 100, height: 28); siteButton.bezelStyle = .rounded; siteButton.isEnabled = false
+        for child in [titleLabel, detail, elapsed, progress, reportButton!, siteButton!] as [NSView] { view.addSubview(child) }
         window.center(); window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
         let root = Bundle.main.bundleURL.deletingLastPathComponent()
         let local = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/tw-margin-rate")
@@ -66,6 +71,8 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
     }
     func refresh() {
+        let seconds = Int(Date().timeIntervalSince(started))
+        elapsed.stringValue = "已執行 \(seconds / 60) 分 \(seconds % 60) 秒"
         guard let report else { return }
         let json = report.deletingLastPathComponent().appendingPathComponent("result.json")
         if let data = try? Data(contentsOf: json), let state = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
@@ -90,8 +97,11 @@ final class Publisher: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @objc func openSite() { NSWorkspace.shared.open(URL(string: "https://willychen0924.github.io/tw-margin-rate/")!) }
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         if finished { NSApp.terminate(nil); return true }
-        detail.stringValue = "更新仍在執行，請等待結束。強制關閉可能中斷安裝或部署。"
+        sender.miniaturize(nil)
         return false
+    }
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        window.deminiaturize(nil); window.makeKeyAndOrderFront(nil); return true
     }
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply { finished ? .terminateNow : .terminateCancel }
 }

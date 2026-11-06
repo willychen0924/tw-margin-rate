@@ -23,3 +23,9 @@
 - App universal binary 已編譯，ad-hoc 本機簽章驗證通過；非 Apple 公證散布 App。iCloud 會附加 Finder 外觀屬性，重建時只移除該外觀屬性，不移除 quarantine、不改 Gatekeeper 或其他安全設定。
 
 正式 App 模式的最後端到端結果與公開部署確認繼續保存於 `data/tmp/publish-*/result.json`、`publication-verification.json`，不在此預先宣稱成功。GitHub 初次工具提交不改網站或歷史資料。
+
+## 使用者追加的介面一致性
+
+唯讀參考 `/Users/pump/Desktop/SP Daily Updater.app` 指向專案的 `macos/StockUpdateLauncher/UpdateApp.swift`，未執行其更新程序。採相同 500×270 視窗、24px 邊距、17pt 粗體標題、系統 body 字級、11pt 次文字、16px 旋轉進度、相同底部按鈕位置與比例，新增執行時間。正式程式未硬寫參考專案或使用者家目錄。
+
+首次正常 App 測試已通過計算、獨立驗算與本機瀏覽器，但工具提交本身沒有變更網站，仍等待工具提交的 Pages 工作。為改善此情況，於等待階段安全中止該次無資料變更、未提交／未推送的測試（`publish-b5l23kna`）；修正無變更分支為核對最後實際網站提交的成功部署、目前 HTML 位元及公開瀏覽器。新資料發布仍要求本次新提交的部署成功，不放寬任何新資料發布門檻。另補一項介面規格測試，合計 116 Python + 5 JavaScript。

@@ -118,6 +118,7 @@ def write_report(out,state):
     dump(out/'result.json',state)
     lines=['更新並發布結果',f"狀態：{state['status']}",f"階段：{state['stage']}",f"時間：{state['started_at']}",f"資料日期：{state.get('target','未確認')}",f"版本：{state.get('commit','未提交')}",f"已推送：{state.get('pushed',False)}",'',state.get('message',''),'',f'證據目錄：{out}',f'網站：{PUBLIC}', '玩股網：依使用者 2026-11-07 指示，不作日常查核或發布門檻。', '本流程不呼叫任何 AI 模型。']
     if state.get('candidate'): lines += [f"計算與官方查核證據：{state['candidate']}"]
+    lines += [f"詳細執行紀錄：{out / 'execution.log'}"]
     for market,row in state.get('latest',{}).items():
         lines += [f"{'上市' if market=='twse' else '櫃買'}：維持率 {row['maintenance']}%；指數 {row['index']}；融資餘額 {row['financed_amount']} 億；市值比 {row['margin_market_cap_ratio']}%"]
     (out/'報告.txt').write_text('\n'.join(lines),encoding='utf-8')
@@ -187,7 +188,13 @@ def execute(out,state,verify_only=False):
     same=payload['markets']==json.loads((ROOT/OUTPUTS[0]).read_text())['markets'] and (candidate/'index.html').read_bytes()==(ROOT/'docs/index.html').read_bytes()
     if same:
         state['stage']='公開網站驗收';state['commit']=head
-        verify_public(head,ROOT/'docs/index.html',payload,out)
+        # Tool-only commits need not deploy HTML. Verify the last commit that
+        # actually changed the site, plus byte equality to the current candidate.
+        site_sha=git('log','-1','--format=%H','--','docs/index.html','index.html','.github/workflows/pages.yml')
+        require(bool(site_sha),'找不到網站版本提交')
+        state['site_commit']=site_sha
+        write_report(out,state)
+        verify_public(site_sha,ROOT/'docs/index.html',payload,out)
         state.update(status='已是最新，公開驗證通過',message='資料沒有新增或變更；未產生重複提交。')
         return
     state['stage']='安裝、提交及推送';write_report(out,state)

@@ -112,4 +112,9 @@ class PublisherTests(unittest.TestCase):
         import update_margin_rate
         with self.assertRaisesRegex(RuntimeError,'完整查核'): update_margin_rate.publish('2026-11-06')
 
+    def test_native_layout_matches_sp_daily_updater_spec(self):
+        source=(ROOT/'scripts/PublisherApp.swift').read_text()
+        for snippet in ('width: 500, height: 270','boldSystemFont(ofSize: 17)','preferredFont(forTextStyle: .body)','systemFont(ofSize: 11)','x: 24, y: 214, width: 452, height: 26','x: 24, y: 87, width: 452, height: 116','x: 278, y: 24, width: 90, height: 28','x: 376, y: 24, width: 100, height: 28'):
+            self.assertIn(snippet,source)
+
 if __name__=='__main__': unittest.main()
