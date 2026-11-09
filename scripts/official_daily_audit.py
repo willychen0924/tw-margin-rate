@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT/'scripts'), str(ROOT/'src')]
 import build_margin_maintenance_history as builder
 from fetch_margin_money_history import TpexCertificateAdapter
+from tw_margin_rate.publication_reviews import reviewed
 
 OUT = None
 HISTORY = None
@@ -194,7 +195,8 @@ def validate_report(result):
         # Small officially corroborated administrative adjustments are logged;
         # a large unexplained share discontinuity requires human investigation.
         for code, prior, yesterday in row['discontinuities']:
-            require(abs(yesterday-prior)<=10 and abs(yesterday-prior)<=max(10, prior*.01),
+            reviewed_adjustment = reviewed('balance_adjustments', {'date':row['date'],'market':row['market'],'code':code,'prior':prior,'yesterday':yesterday})
+            require(reviewed_adjustment or (abs(yesterday-prior)<=10 and abs(yesterday-prior)<=max(10, prior*.01)),
                     f'{label} {code} 跨日餘額異常，停止而不推定拆股')
 
 
@@ -216,8 +218,18 @@ def check_actions():
         require('恢復買賣日期' in table.get('fields',[]), 'TPEx 公司行動欄位改變')
         i=table['fields'].index('恢復買賣日期')
         events.extend({'market':'tpex','row':r} for r in table.get('data',[]) if r[i] in compact)
-    save(OUT/'company-action-review.json',{'events_in_window':events,'policy':'Any reduction resumption requires review; no automatic formula changes.'})
-    require(not events, '本次有減資恢復交易事件，須人工查核；未套用或忽略事件')
+    unreviewed = [event for event in events if not reviewed('company_actions', event)]
+    for event in events:
+        if event not in unreviewed:
+            # Review binds the actual holdings and unchanged cost, not just a code.
+            for day in DAYS:
+                portfolio=json.loads((OUT/f'portfolio-{day}.json').read_text())
+                rows=[r for r in portfolio if r['stock_id']==event['row'][0] and r['market']==event['market']]
+                require(len(rows)==1, '已查核公司行動缺少候選持倉')
+                r=rows[0]
+                require(reviewed('portfolios', {'date':day,'market':r['market'],'code':r['stock_id'],'balance':r['MarginPurchaseTodayBalance'],'average_cost':r['average_cost']}), '已查核公司行動的持倉或成本改變，須重新審查')
+    save(OUT/'company-action-review.json',{'events_in_window':events,'unreviewed':unreviewed,'policy':'Exact human-reviewed events only; source checks remain mandatory; no formula changes.'})
+    require(not unreviewed, '本次有減資恢復交易事件，須人工查核；未套用或忽略事件')
 
 
 def audit(candidate, stock_data):

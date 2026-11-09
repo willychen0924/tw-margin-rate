@@ -24,6 +24,7 @@ sys.path.insert(0,str(ROOT/'src'))
 from tw_margin_rate.paths import discover_stock_data, assert_archive_ready, latest_complete_stock_info
 from tw_margin_rate.publishing import assert_official_origin
 from tw_margin_rate.revisions import install_outputs
+from tw_margin_rate.publication_reviews import revisions_reviewed
 from official_daily_audit import audit, require, request_json
 import requests
 
@@ -180,7 +181,7 @@ def execute(out,state,verify_only=False):
         require([r['date'] for r in payload['markets'][market] if r['date']>prior]==expected,'新增期間缺少應有交易日；不可跨過缺漏日發布')
     old_ledger=json.loads((ROOT/'data/reference/market-cap-revisions.json').read_text())
     new_ledger=json.loads((candidate/'market-cap-revisions.json').read_text())
-    require(old_ledger['changes']==new_ledger['changes'],'出現新的歷史市值修訂，已保存候選，須先查證')
+    require(revisions_reviewed(old_ledger['changes'],new_ledger['changes']),'出現新的歷史市值修訂，已保存候選，須先查證')
     state['stage']='官方獨立驗算與公司行動';write_report(out,state)
     print('核對官方逐股資料、獨立成本、公司行動與變動來源…',flush=True)
     audit(candidate,stock)

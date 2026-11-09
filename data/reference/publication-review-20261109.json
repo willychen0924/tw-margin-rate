@@ -1,0 +1,21 @@
+{
+  "policy": "retain_finmind_inputs_and_existing_model_no_history_rewrite",
+  "authorization": "使用者收到市值生效日差異及環泰減資餘額差異回報後指示：以FinMind數據為準，沒問題就直接發佈吧。沿用既定模型及來源，不採官方生效日修正、不改歷史；官方輸入、獨立驗算與其他發布檢查仍須通過。",
+  "limitations": "FinMind 股數與官方上市生效日口徑不同；環泰 627 至 586 張含無法僅以 0.95 換股比例重現的調整，已與官方逐股融資表核對。保留成本模型限制，不聲稱經濟債務處理已釐清。",
+  "market_cap_observations": [
+    {"accepted":1299847.19,"date":"2026-11-06","difference":141.06,"market":"twse","observed":1299988.25,"status":"pending_verification"}
+  ],
+  "company_actions": [
+    {"market":"tpex","row":["4207","環泰","1151029","0.95000000","0.50000000","現金減資","1151109","不適用","不適用","19.74"]},
+    {"market":"tpex","row":["5355","佳總","1151029","0.46652238","0.00000000","彌補虧損","1151109","不適用","不適用","14.55"]},
+    {"market":"tpex","row":["8176","智捷","1151029","0.83401905","0.00000000","彌補虧損","1151109","不適用","不適用","11.62"]}
+  ],
+  "portfolios": [
+    {"date":"2026-11-09","market":"tpex","code":"4207","balance":586,"average_cost":19.6116517995},
+    {"date":"2026-11-09","market":"tpex","code":"5355","balance":0,"average_cost":13.9},
+    {"date":"2026-11-09","market":"tpex","code":"8176","balance":0,"average_cost":10.55}
+  ],
+  "balance_adjustments": [
+    {"date":"2026-11-09","market":"tpex","code":"4207","prior":627,"yesterday":586}
+  ]
+}
