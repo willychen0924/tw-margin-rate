@@ -33,7 +33,10 @@ class MarketTransferTests(unittest.TestCase):
             rows.append({"stock_id": "8908", "type": "tpex", "date": "2026-10-15"})
             pd.DataFrame(rows).to_parquet(folder / "2026-10-16.parquet")
             days = ["2026-10-15", "2026-10-16"]
-            maps, exact = load_market_snapshots(root, days)
+            with patch('tw_margin_rate.local_cache.cache_root', return_value=root/'test-cache'):
+                maps, exact = load_market_snapshots(root, days)
+                cached_maps, cached_exact = load_market_snapshots(root, days)
+                self.assertEqual((maps,exact),(cached_maps,cached_exact))
             self.assertEqual(maps[days[0]]["8908"], "tpex")
             self.assertEqual(maps[days[1]]["8908"], "twse")
             self.assertTrue(is_twse_for_day("8908", days[1], maps[days[1]], {}, {}, exact_market_snapshot=days[1] in exact))

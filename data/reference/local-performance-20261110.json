@@ -1,0 +1,572 @@
+{
+  "date": "2026-11-10",
+  "data_through": "2026-11-09",
+  "baseline_commit": "2cdae62c9d580dfd03260461a716869bda4d04e2",
+  "scope": "launch_publisher.sh --verify-only; excludes commit/push, GitHub deployment and public acceptance",
+  "baseline_seconds": 171.654,
+  "warm_mean_seconds": 70.601,
+  "saved_seconds": 101.053,
+  "saved_percent": 58.87,
+  "rows_per_market": {
+    "twse": 2280,
+    "tpex": 2280
+  },
+  "baseline_evidence_sha256": {
+    "index.html": "9e8c6b4343a2aff5b5552370a7f5f9795e18039d3f20238c75abebc7b08a3f5c",
+    "root-index.html": "9e8c6b4343a2aff5b5552370a7f5f9795e18039d3f20238c75abebc7b08a3f5c",
+    "official-check/seed-state.json": "4ef8fba834cd1b1ddea851ac19fd1b9528ac9b8a02317bbd6b5ced543c001eaf",
+    "official-check/portfolio-2026-11-06.json": "e379963e2d81e548007f0d020080929eeb963090d9132c429fa9e74740522dc9",
+    "official-check/portfolio-2026-11-09.json": "792fbde91c3eaf1a0e6b4005849345c1832afcf0ae78edd5bcdbea5017347e0e",
+    "official-check/official-scalar-portfolio-2026-11-09.json": "96ef1f7b351faf242d1841c569b4fcae1a737978f7b2e045874b5c452f35ba28"
+  },
+  "runs": [
+    {
+      "label": "baseline",
+      "seconds": 171.654,
+      "report": "data/tmp/publish-1le3vtry/result.json",
+      "candidate": "data/tmp/margin-update-_pc7yftp",
+      "python_tests": 121,
+      "javascript_tests": 5,
+      "all_markets_exact_to_baseline": true,
+      "all_evidence_files_byte_exact": true,
+      "second_full_rebuild_exact": true,
+      "formal_outputs_unchanged": true,
+      "stage_events": [
+        {
+          "stage": "前置檢查",
+          "seconds": 1.428
+        },
+        {
+          "stage": "候選重算與測試",
+          "seconds": 5.711
+        },
+        {
+          "stage": "官方獨立驗算與公司行動",
+          "seconds": 118.341
+        },
+        {
+          "stage": "本機網站驗收",
+          "seconds": 164.925
+        }
+      ],
+      "detailed_timings": []
+    },
+    {
+      "label": "final-cold",
+      "seconds": 152.688,
+      "report": "data/tmp/publish-gbvqrtcu/result.json",
+      "candidate": "data/tmp/margin-update-s_slqhd2",
+      "python_tests": 133,
+      "javascript_tests": 5,
+      "all_markets_exact_to_baseline": true,
+      "all_evidence_files_byte_exact": true,
+      "second_full_rebuild_exact": true,
+      "formal_outputs_unchanged": true,
+      "stage_events": [
+        {
+          "stage": "前置檢查",
+          "seconds": 1.645
+        },
+        {
+          "stage": "候選重算與測試",
+          "seconds": 7.009
+        },
+        {
+          "stage": "官方獨立驗算與公司行動",
+          "seconds": 120.28
+        },
+        {
+          "stage": "本機網站驗收",
+          "seconds": 146.495
+        }
+      ],
+      "detailed_timings": [
+        {
+          "step": "fetch_margin_money_history.py",
+          "seconds": 1.9097,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 70.4603,
+          "pid": 20936,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方近期總額下載",
+          "seconds": 0.2412,
+          "pid": 20936,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方週報下載",
+          "seconds": 0.1619,
+          "pid": 20936,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方股票範圍交叉驗證",
+          "seconds": 0.2551,
+          "pid": 20936,
+          "status": "ok"
+        },
+        {
+          "step": "fetch_market_cap_history.py",
+          "seconds": 73.8399,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "歷史檔案整理與內容驗證",
+          "seconds": 14.3778,
+          "pid": 20957,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 34.3076,
+          "pid": 20957,
+          "status": "ok"
+        },
+        {
+          "step": "build_margin_maintenance_history.py",
+          "seconds": 34.871,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "update_margin_maintenance_chart_data.py",
+          "seconds": 0.1475,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "validate_margin_outputs.py",
+          "seconds": 0.1176,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "validate_margin_outputs.py",
+          "seconds": 0.1032,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 0.0617,
+          "pid": 20968,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 0.0068,
+          "pid": 20968,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方週報下載",
+          "seconds": 0.0007,
+          "pid": 20968,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.6845,
+          "pid": 20968,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.0025,
+          "pid": 20968,
+          "status": "ok"
+        },
+        {
+          "step": "-m",
+          "seconds": 1.9403,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "官方逐股來源下載",
+          "seconds": 2.5182,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "歷史檔案整理與內容驗證",
+          "seconds": 5.4136,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 25.2409,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "第二次完整重算及成本狀態擷取",
+          "seconds": 25.2698,
+          "pid": 20917,
+          "status": "ok"
+        },
+        {
+          "step": "官方逐股獨立計算",
+          "seconds": 0.1636,
+          "pid": 20917,
+          "status": "ok"
+        }
+      ]
+    },
+    {
+      "label": "final-warm-1",
+      "seconds": 71.39,
+      "report": "data/tmp/publish-tb0ab2of/result.json",
+      "candidate": "data/tmp/margin-update-ob9o7zxf",
+      "python_tests": 133,
+      "javascript_tests": 5,
+      "all_markets_exact_to_baseline": true,
+      "all_evidence_files_byte_exact": true,
+      "second_full_rebuild_exact": true,
+      "formal_outputs_unchanged": true,
+      "stage_events": [
+        {
+          "stage": "前置檢查",
+          "seconds": 1.664
+        },
+        {
+          "stage": "候選重算與測試",
+          "seconds": 5.989
+        },
+        {
+          "stage": "官方獨立驗算與公司行動",
+          "seconds": 39.55
+        },
+        {
+          "stage": "本機網站驗收",
+          "seconds": 64.975
+        }
+      ],
+      "detailed_timings": [
+        {
+          "step": "fetch_margin_money_history.py",
+          "seconds": 1.7559,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.1879,
+          "pid": 21013,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方近期總額下載",
+          "seconds": 0.2219,
+          "pid": 21013,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方週報下載",
+          "seconds": 0.2309,
+          "pid": 21013,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方股票範圍交叉驗證",
+          "seconds": 0.2534,
+          "pid": 21013,
+          "status": "ok"
+        },
+        {
+          "step": "fetch_market_cap_history.py",
+          "seconds": 3.5203,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "歷史檔案整理與內容驗證",
+          "seconds": 5.4107,
+          "pid": 21015,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 25.2322,
+          "pid": 21015,
+          "status": "ok"
+        },
+        {
+          "step": "build_margin_maintenance_history.py",
+          "seconds": 25.7869,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "update_margin_maintenance_chart_data.py",
+          "seconds": 0.1327,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "validate_margin_outputs.py",
+          "seconds": 0.1161,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "validate_margin_outputs.py",
+          "seconds": 0.1008,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 0.0618,
+          "pid": 21039,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 0.0064,
+          "pid": 21039,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方週報下載",
+          "seconds": 0.0007,
+          "pid": 21039,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.6835,
+          "pid": 21039,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.0019,
+          "pid": 21039,
+          "status": "ok"
+        },
+        {
+          "step": "-m",
+          "seconds": 1.9113,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "官方逐股來源下載",
+          "seconds": 2.3058,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "歷史檔案整理與內容驗證",
+          "seconds": 3.9131,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 23.7054,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "第二次完整重算及成本狀態擷取",
+          "seconds": 23.7342,
+          "pid": 20994,
+          "status": "ok"
+        },
+        {
+          "step": "官方逐股獨立計算",
+          "seconds": 0.1673,
+          "pid": 20994,
+          "status": "ok"
+        }
+      ]
+    },
+    {
+      "label": "final-warm-2",
+      "seconds": 69.812,
+      "report": "data/tmp/publish-m5287zna/result.json",
+      "candidate": "data/tmp/margin-update-s196fnnz",
+      "python_tests": 133,
+      "javascript_tests": 5,
+      "all_markets_exact_to_baseline": true,
+      "all_evidence_files_byte_exact": true,
+      "second_full_rebuild_exact": true,
+      "formal_outputs_unchanged": true,
+      "stage_events": [
+        {
+          "stage": "前置檢查",
+          "seconds": 1.666
+        },
+        {
+          "stage": "候選重算與測試",
+          "seconds": 5.8
+        },
+        {
+          "stage": "官方獨立驗算與公司行動",
+          "seconds": 38.762
+        },
+        {
+          "stage": "本機網站驗收",
+          "seconds": 63.432
+        }
+      ],
+      "detailed_timings": [
+        {
+          "step": "fetch_margin_money_history.py",
+          "seconds": 0.9461,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.1894,
+          "pid": 21171,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方近期總額下載",
+          "seconds": 0.1699,
+          "pid": 21171,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方週報下載",
+          "seconds": 0.278,
+          "pid": 21171,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方股票範圍交叉驗證",
+          "seconds": 0.2482,
+          "pid": 21171,
+          "status": "ok"
+        },
+        {
+          "step": "fetch_market_cap_history.py",
+          "seconds": 3.619,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "歷史檔案整理與內容驗證",
+          "seconds": 5.4017,
+          "pid": 21178,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 25.2088,
+          "pid": 21178,
+          "status": "ok"
+        },
+        {
+          "step": "build_margin_maintenance_history.py",
+          "seconds": 25.77,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "update_margin_maintenance_chart_data.py",
+          "seconds": 0.1405,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "validate_margin_outputs.py",
+          "seconds": 0.1153,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "validate_margin_outputs.py",
+          "seconds": 0.1008,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 0.0624,
+          "pid": 21192,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 0.007,
+          "pid": 21192,
+          "status": "ok"
+        },
+        {
+          "step": "市值：官方週報下載",
+          "seconds": 0.0007,
+          "pid": 21192,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.6781,
+          "pid": 21192,
+          "status": "ok"
+        },
+        {
+          "step": "市值：股票主檔與逐日市場別",
+          "seconds": 0.0019,
+          "pid": 21192,
+          "status": "ok"
+        },
+        {
+          "step": "-m",
+          "seconds": 1.8946,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "官方逐股來源下載",
+          "seconds": 2.2387,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "歷史檔案整理與內容驗證",
+          "seconds": 3.9821,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "完整歷史成本重算（含準備）",
+          "seconds": 23.7685,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "第二次完整重算及成本狀態擷取",
+          "seconds": 23.7979,
+          "pid": 21148,
+          "status": "ok"
+        },
+        {
+          "step": "官方逐股獨立計算",
+          "seconds": 0.1642,
+          "pid": 21148,
+          "status": "ok"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "One original baseline, one final cold run, two final warm runs on the same Mac and unchanged data.",
+    "Not a next-trading-day benchmark; new inputs or parser changes rebuild affected caches.",
+    "Official network latency varies; timings are observations, not a guaranteed duration.",
+    "Nested detailed timings overlap and must not be added.",
+    "Intermediate development runs excluded; optimized-warm-1 stopped on mixed code imports during editing, not counted as a passing run."
+  ]
+}

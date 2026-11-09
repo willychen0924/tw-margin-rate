@@ -36,6 +36,8 @@ from tw_margin_rate.finmind import FinMindClient, load_dotenv
 from tw_margin_rate.calculation import market_for_stock
 from tw_margin_rate.paths import discover_stock_data, local_env_path
 from tw_margin_rate.revisions import save_observation
+from tw_margin_rate.timing import timed
+from tw_margin_rate.local_cache import cached_json, sha256
 
 from build_margin_maintenance_history import load_market_reference, current_markets_from_stock_info
 from tw_margin_rate.market_transfers import load_market_transfers, transfer_market
@@ -316,6 +318,7 @@ def load_expected_days(path: Path, start: str, end: str) -> list[str]:
     return days
 
 
+@timed('市值：股票主檔與逐日市場別')
 def load_market_snapshots(
     stock_data: Path, days: list[str]
 ) -> tuple[dict[str, dict[str, str]], set[str]]:
@@ -343,10 +346,14 @@ def load_market_snapshots(
 
     loaded: dict[Path, dict[str, str]] = {}
     transfers = load_market_transfers()
+    cache_parameters={'parser':sha256(PROJECT_ROOT/'scripts/build_margin_maintenance_history.py'),
+                      'loader':sha256(Path(__file__)), 'transfers':transfers,'pandas':pd.__version__}
     for path in sorted(set(selected.values())):
-        frame = pd.read_parquet(path, columns=["stock_id", "type", "date"])
-        frame = frame.dropna(subset=["stock_id", "type"])
-        loaded[path] = current_markets_from_stock_info(frame, transfers)
+        def parse_snapshot():
+            frame = pd.read_parquet(path, columns=["stock_id", "type", "date"])
+            frame = frame.dropna(subset=["stock_id", "type"])
+            return current_markets_from_stock_info(frame, transfers)
+        loaded[path] = cached_json([path],cache_parameters,parse_snapshot)
     daily = {day: dict(loaded[path]) for day, path in selected.items()}
     for day, market_map in daily.items():
         # Explicit official transfer dates override even a same-day stale
@@ -499,6 +506,7 @@ def parse_date_value(value: object) -> str | None:
     return None
 
 
+@timed('市值：官方週報下載')
 def official_twse_weekly() -> dict[str, float]:
     last_error: Exception | None = None
     for attempt in range(3):
@@ -545,6 +553,7 @@ def official_twse_weekly() -> dict[str, float]:
     return result
 
 
+@timed('市值：官方近期總額下載')
 def official_twse_recent(year: int) -> dict[str, float]:
     response = requests.get(
         TWSE_HOME_VALUES_URL,
@@ -608,6 +617,7 @@ def scope_reconciliation_rows(
     return result
 
 
+@timed('市值：官方股票範圍交叉驗證')
 def official_twse_scope_rows(
     values: dict[str, dict[str, object]],
     days: list[str],

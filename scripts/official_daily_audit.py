@@ -11,6 +11,7 @@ sys.path[:0] = [str(ROOT/'scripts'), str(ROOT/'src')]
 import build_margin_maintenance_history as builder
 from fetch_margin_money_history import TpexCertificateAdapter
 from tw_margin_rate.publication_reviews import reviewed
+from tw_margin_rate.timing import timed, measured
 
 OUT = None
 HISTORY = None
@@ -48,30 +49,28 @@ def number(value):
     except (ValueError, TypeError):
         return None
 
+@timed('第二次完整重算及成本狀態擷取')
 def capture():
     before=hashes()
     captured={}
-    def profile(frame,event,arg):
-        if event=='return' and frame.f_code.co_name=='process_day':
-            day=frame.f_locals.get('day','')
-            if day>=SEED:
-                captured[day]=frame.f_locals['margin'].copy()
-            if day==SEED:
-                save(OUT/'seed-state.json', {'date':day, 'cost':dict(frame.f_locals['average_cost']), 'price':dict(frame.f_locals['last_close'])})
+    def capture_day(day, margin, average_cost, last_close):
+        if day>=SEED:
+            captured[day]=margin.copy()
+        if day==SEED:
+            save(OUT/'seed-state.json', {'date':day, 'cost':dict(average_cost), 'price':dict(last_close)})
     saved_argv = sys.argv[:]
     sys.argv=[sys.argv[0],'--end',DAYS[-1],'--no-finmind-fetch', '--stock-data', str(STOCK_DATA), '--margin-money-history', str(MONEY), '--market-cap-history', str(CAP)]
     args=builder.parse_args()
     sys.argv = saved_argv
     args.stock_data=STOCK_DATA
-    sys.setprofile(profile)
-    try: payload=builder.build_history(args)
-    finally: sys.setprofile(None)
+    payload=builder.build_history(args,on_day=capture_day)
     for day,frame in captured.items():
         frame.to_json(OUT/f'portfolio-{day}.json', orient='records', indent=2)
     save(OUT/'rebuilt-history.json',payload)
     save(OUT/'full-rebuild-check.json',{'same_entire_published_history':payload['markets']==HISTORY['markets'],'formal_before':before,'formal_after':hashes(),'days':DAYS,'seed':SEED})
     print('Full rebuild exact:',payload['markets']==HISTORY['markets'],flush=True)
 
+@timed('官方逐股來源下載')
 def fetch():
     base=OUT/'official';base.mkdir(exist_ok=True)
     jobs=[(market,kind,day) for day in DAYS for market in ('twse','tpex') for kind in ('margin','quotes')]
@@ -99,6 +98,7 @@ def fetch():
         sources=list(pool.map(get,jobs))
     save(OUT/'source-manifest.json',sources)
 
+@timed('官方逐股獨立計算')
 def check():
     seed=json.loads((OUT/'seed-state.json').read_text())
     costs=dict(seed['cost']);prices=dict(seed['price'])
@@ -242,11 +242,15 @@ def audit(candidate, stock_data):
     all_days=[r['date'] for r in HISTORY['markets']['twse']]
     DAYS=[d for d in all_days if d>cutoff] or [all_days[-1]]
     SEED=all_days[all_days.index(DAYS[0])-1]
-    capture()
+    # The downloads do not depend on the replay. Wait for both before checking.
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+        download=pool.submit(fetch)
+        capture()
+        download.result()
     rebuild=json.loads((OUT/'full-rebuild-check.json').read_text())
     require(rebuild['same_entire_published_history'], '第二次全量重算與候選不同')
     require(rebuild['formal_before']==rebuild['formal_after'], '驗算時正式檔案遭改動')
-    fetch();fetch_caps();check_actions();check()
+    fetch_caps();check_actions();check()
     report=json.loads((OUT/'independent-report.json').read_text())
     validate_report(report)
     movements=[]

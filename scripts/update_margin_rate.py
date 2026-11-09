@@ -21,6 +21,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 from tw_margin_rate.finmind import load_dotenv
 from tw_margin_rate.paths import assert_archive_ready, discover_stock_data, local_env_path
 from tw_margin_rate.revisions import retain_published_market_caps, json_bytes, install_outputs
+from tw_margin_rate.timing import measured
 
 
 def parse_args() -> argparse.Namespace:
@@ -54,7 +55,8 @@ def parse_args() -> argparse.Namespace:
 
 def run(command: list[str], *, env: dict[str, str] | None = None) -> None:
     print("+", " ".join(command), flush=True)
-    subprocess.run(command, cwd=PROJECT_ROOT, check=True, env=env)
+    with measured(Path(command[1]).name if len(command)>1 else 'subprocess'):
+        subprocess.run(command, cwd=PROJECT_ROOT, check=True, env=env)
 
 
 def publish(latest_day: str) -> None:

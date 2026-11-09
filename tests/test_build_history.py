@@ -169,6 +169,14 @@ class FullBuilderFixtureTests(unittest.TestCase):
                 patch.object(builder, "file_sha256", return_value="fixture"),
             ):
                 result = builder.build_history(args)
+                observations=[]
+                def observer(day, margin, costs, prices):
+                    observations.append((day,margin.copy(),dict(costs),dict(prices)))
+                observed = builder.build_history(args,on_day=observer)
+                self.assertEqual(result['markets'],observed['markets'])
+                self.assertEqual([r[0] for r in observations],list(dates))
+                self.assertEqual(observations[0][2]['6949'],100)
+                self.assertEqual(observations[-1][2]['6949'],5)
             for market in ("twse", "tpex"):
                 self.assertEqual([r["maintenance"] for r in result["markets"][market]], [166.67, 166.67])
                 self.assertEqual([r["stock_count"] for r in result["markets"][market]], [1, 1])

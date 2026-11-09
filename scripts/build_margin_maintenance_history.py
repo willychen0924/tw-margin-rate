@@ -18,7 +18,9 @@ import gzip
 import hashlib
 import json
 import math
+import os
 import re
+import shutil
 import sys
 import tempfile
 from datetime import date, datetime, timedelta
@@ -35,6 +37,8 @@ from tw_margin_rate.market_transfers import REFERENCE as TRANSFER_REFERENCE, loa
 from tw_margin_rate.corporate_actions import SplitCursor, load_stock_splits
 from tw_margin_rate.finmind import FinMindClient, load_dotenv
 from tw_margin_rate.portfolio import update_portfolio
+from tw_margin_rate.local_cache import prepare_cached, sha256
+from tw_margin_rate.timing import timed
 from tw_margin_rate.paths import (
     discover_stock_data,
     latest_complete_stock_info,
@@ -313,7 +317,7 @@ def sql_path(path: Path) -> str:
     return str(path).replace("'", "''")
 
 
-def prepare_local_history(
+def _prepare_local_history_uncached(
     stock_data: Path, warmup_start: str, end: str
 ) -> tuple[list[Path], dict[str, dict[str, float]], str]:
     """Scan the iCloud parquet archive once and materialize compact yearly joins."""
@@ -405,6 +409,35 @@ def prepare_local_history(
     return yearly_files, index_map, local_margin_cache_boundary(stock_data, end)
 
 
+@timed('歷史檔案整理與內容驗證')
+def prepare_local_history(stock_data: Path, warmup_start: str, end: str):
+    if os.environ.get('TW_MARGIN_DISABLE_LOCAL_CACHE') == '1':
+        return _prepare_local_history_uncached(stock_data, warmup_start, end)
+    run = Path(tempfile.mkdtemp(prefix='margin-prepared-'))
+    files=[]; indexes={}; hits=0; misses=0
+    version={'builder':sha256(Path(__file__)), 'duckdb':duckdb.__version__, 'pandas':pd.__version__}
+    for year in range(int(warmup_start[:4]),int(end[:4])+1):
+        margins=sorted((stock_data/f'raw/chips_margin/{year}').glob('*.parquet'))
+        prices=sorted((stock_data/f'raw/prices/{year}').glob('*.parquet'))
+        if not margins or not prices:continue
+        start=max(warmup_start,f'{year}-01-01');stop=min(end,f'{year}-12-31')
+        destination=run/f'year={year}'
+        def produce(output):
+            prepared, index, _ = _prepare_local_history_uncached(stock_data,start,stop)
+            if len(prepared)!=1:raise RuntimeError('年度整理輸出數量不符')
+            shutil.copyfile(prepared[0],output/'data.parquet')
+            (output/'index.json').write_text(json.dumps(index,sort_keys=True))
+        def source_files():
+            return list((stock_data/f'raw/chips_margin/{year}').glob('*.parquet'))+list((stock_data/f'raw/prices/{year}').glob('*.parquet'))
+        hit=prepare_cached(source_files,{'start':start,'end':stop,**version},destination,produce)
+        hits+=int(hit);misses+=int(not hit)
+        files.append(destination/'data.parquet')
+        indexes.update(json.loads((destination/'index.json').read_text()))
+    if not files or not indexes:raise RuntimeError('The local parquet scan produced no usable data')
+    print(f'歷史整理快取：{hits} 年命中、{misses} 年重新整理（兩次完整成本重算仍保留）',flush=True)
+    return files,indexes,local_margin_cache_boundary(stock_data,end)
+
+
 def collect_cache_sources(
     workspace: Path, local_end: str, warmup_start: str, end: str
 ) -> list[tuple[str, Path, Path]]:
@@ -490,7 +523,8 @@ def load_market_cap_history(
     return result, metadata
 
 
-def build_history(args: argparse.Namespace) -> dict[str, object]:
+@timed('完整歷史成本重算（含準備）')
+def build_history(args: argparse.Namespace, *, on_day=None) -> dict[str, object]:
     split_path = getattr(
         args, "stock_splits", PROJECT_ROOT / "data/reference/verified-stock-splits.json"
     )
@@ -586,6 +620,8 @@ def build_history(args: argparse.Namespace) -> dict[str, object]:
         processed_days += 1
         if processed_days % 250 == 0:
             print(f"processed {processed_days} trading days through {day}", flush=True)
+        if on_day is not None:
+            on_day(day, margin, average_cost, last_close)
 
     for year_directory in sorted({path.parent for path in yearly_files}):
         yearly = pd.concat(

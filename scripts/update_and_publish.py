@@ -25,6 +25,7 @@ from tw_margin_rate.paths import discover_stock_data, assert_archive_ready, late
 from tw_margin_rate.publishing import assert_official_origin
 from tw_margin_rate.revisions import install_outputs
 from tw_margin_rate.publication_reviews import revisions_reviewed
+from tw_margin_rate.timing import measured
 from official_daily_audit import audit, require, request_json
 import requests
 
@@ -125,11 +126,20 @@ def progress_percent(state):
             '公開網站驗收':95}.get(state.get('stage'),0)
 
 def write_report(out,state):
+    now=time.monotonic()
+    timer=state.setdefault('timing',{'started':now,'stage_started':now,'stage':state['stage'],'completed':[]})
+    if timer['stage']!=state['stage']:
+        timer['completed'].append({'stage':timer['stage'],'seconds':round(now-timer['stage_started'],3)})
+        timer['stage']=state['stage'];timer['stage_started']=now
+    state['elapsed_seconds']=round(now-timer['started'],3)
     state['progress_percent']=progress_percent(state)
     state['progress_basis']='階段進度，非剩餘時間估算；公開驗收通過才達 100%'
     dump(out/'result.json',state)
     lines=['更新並發布結果',f"狀態：{state['status']}",f"階段：{state['stage']}",f"時間：{state['started_at']}",f"資料日期：{state.get('target','未確認')}",f"版本：{state.get('commit','未提交')}",f"已推送：{state.get('pushed',False)}",'',state.get('message',''),'',f'證據目錄：{out}',f'網站：{PUBLIC}', '玩股網：依使用者 2026-11-07 指示，不作日常查核或發布門檻。', '本流程不呼叫任何 AI 模型。']
     if state.get('candidate'): lines += [f"計算與官方查核證據：{state['candidate']}"]
+    lines += [f"已執行：{state['elapsed_seconds']:.1f} 秒", '階段計時：']
+    lines += [f"  {row['stage']}：{row['seconds']:.1f} 秒" for row in timer['completed']]
+    lines += [f"  {timer['stage']}：{now-timer['stage_started']:.1f} 秒", f"詳細步驟計時：{out / 'timings.jsonl'}"]
     lines += [f"詳細執行紀錄：{out / 'execution.log'}"]
     for market,row in state.get('latest',{}).items():
         lines += [f"{'上市' if market=='twse' else '櫃買'}：維持率 {row['maintenance']}%；指數 {row['index']}；融資餘額 {row['financed_amount']} 億；市值比 {row['margin_market_cap_ratio']}%"]
@@ -230,6 +240,7 @@ def main():
     parent=ROOT/'data/tmp';parent.mkdir(parents=True,exist_ok=True)
     out=Path(tempfile.mkdtemp(prefix='publish-',dir=parent))
     state={'status':'執行中','stage':'啟動','started_at':datetime.now(ZoneInfo('Asia/Taipei')).isoformat(),'pushed':False}
+    os.environ['TW_MARGIN_TIMING_FILE']=str(out/'timings.jsonl')
     print(f'REPORT:{out / "報告.txt"}',flush=True)
     code=0
     with (out/'execution.log').open('w',encoding='utf-8') as log:
