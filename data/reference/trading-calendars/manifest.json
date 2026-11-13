@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "review_date": "2026-11-13",
+  "years": {
+    "2026": {
+      "file": "twse-2026.json",
+      "sha256": "cbef8075fb02bd160cadbde61f5c4f3d9d90a96dba37211c3657c1023e12bdb7",
+      "source_report": "data/tmp/publish-mtne9bql/result.json",
+      "original_response_sha256": "5284975ab041a431830843de4ce5109827a41e0ffd416dc4be000a40023e87ee",
+      "row_count": 27
+    },
+    "2027": {
+      "file": "twse-2027.json",
+      "sha256": "429c19e9787211b3237c929be60b75c67ab326775848f4915f1672c4d50718cc",
+      "source_report": "data/tmp/publish-u7pqsh_a/result.json",
+      "original_response_sha256": "d83bb9273600534943498f58221c1c44a449dbea3895b97c3f7b9deb5043602f",
+      "row_count": 29
+    }
+  },
+  "basis": "2026 表取自 2026-11-13 02:38 成功發布的官方回應；2027 表取自同日 23:41 停止報告的官方回應。僅補日曆年度保留，不改維持率公式、交易日期歷史或發布門檻。"
+}

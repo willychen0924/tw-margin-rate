@@ -26,6 +26,7 @@ from tw_margin_rate.publishing import assert_official_origin
 from tw_margin_rate.revisions import install_outputs
 from tw_margin_rate.publication_reviews import revisions_reviewed
 from tw_margin_rate.timing import measured
+from tw_margin_rate.trading_calendar import expected_day, load_calendars
 from official_daily_audit import audit, require, request_json
 import requests
 
@@ -43,22 +44,6 @@ def git(*args):
 
 def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 def dump(path,value): path.write_text(json.dumps(value,ensure_ascii=False,indent=2),encoding='utf-8')
-
-def expected_day(now, holidays):
-    """Conservative 18:00 TW cutoff. Unknown calendar year is a stop, not a guess."""
-    parsed={}
-    for row in holidays:
-        text=row['Date'];d=date(int(text[:3])+1911,int(text[3:5]),int(text[5:7]))
-        parsed[d]=row
-    day=now.date() if now.hour>=18 else now.date()-timedelta(days=1)
-    require(any(d.year==day.year for d in parsed),'官方休市表未涵蓋所需年份')
-    for _ in range(30):
-        row=parsed.get(day)
-        explicitly_open=row and ('開始交易' in row['Name'] or '最後交易' in row['Name'])
-        closed=row and not explicitly_open
-        if explicitly_open or (day.weekday()<5 and not closed): return day.isoformat()
-        day-=timedelta(days=1)
-    raise RuntimeError('無法判定最新完整交易日')
 
 def check_archive(stock, target):
     import pandas as pd
@@ -166,9 +151,12 @@ def execute(out,state,verify_only=False):
         if 'data/tmp' in str(p.relative_to(ROOT)) or '.git/' in str(p.relative_to(ROOT)): continue
         require('conflicted copy' not in p.name.lower() and '衝突的拷貝' not in p.name,f'發現同步衝突：{p.name}')
     stock=discover_stock_data()
-    holidays=request_json(requests.Session(),'GET','https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule')
-    dump(out/'official-holidays.json',holidays)
-    target=expected_day(datetime.now(ZoneInfo('Asia/Taipei')),holidays)
+    now=datetime.now(ZoneInfo('Asia/Taipei'))
+    published_end=json.loads((ROOT/OUTPUTS[0]).read_text())['metadata']['end']
+    with requests.Session() as session:
+        holidays=load_calendars(now,published_end,out,
+                               lambda url:request_json(session,'GET',url))
+    target=expected_day(now,holidays)
     state['target']=target
     dump(out/'archive-check.json',check_archive(stock,target))
     source_before=input_signature(stock)

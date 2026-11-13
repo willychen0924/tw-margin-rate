@@ -1,0 +1,195 @@
+{
+  "date": "2026-11-13",
+  "scope": "Official annual calendar rollover fix; calculation, website UI and GitHub deployment configuration unchanged.",
+  "cause": "Live TWSE holiday endpoint switched from ROC 115 (2026) to ROC 116 (2027) during 2026-11-13; queryYear attempts still returned 2027.",
+  "verification_report": "data/tmp/publish-su0gpepu/result.json",
+  "candidate": "data/tmp/margin-update-b8z_geqc",
+  "calendar": {
+    "live_year": 2027,
+    "required_years": [
+      2026
+    ],
+    "selected": [
+      {
+        "year": 2026,
+        "source": "https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule",
+        "captured_at": "2026-11-13T02:38:02.506537+08:00",
+        "rows_sha256": "52535e9af7129d4c8f17469d0499d8191af9a813b9a49606d7324abf27efcdea",
+        "selection": "reviewed-reference"
+      }
+    ],
+    "note": "年度表不代表已證實臨時休市；來源缺日或官方逐股輸入不符仍停止。"
+  },
+  "python_tests": 151,
+  "javascript_tests": 5,
+  "added_calendar_tests": 18,
+  "history_comparison": {
+    "twse": {
+      "prior_end": "2026-11-12",
+      "unchanged_rows": 2283,
+      "new_dates": [
+        "2026-11-13"
+      ]
+    },
+    "tpex": {
+      "prior_end": "2026-11-12",
+      "unchanged_rows": 2283,
+      "new_dates": [
+        "2026-11-13"
+      ]
+    }
+  },
+  "second_full_rebuild_exact": true,
+  "html_mirrors_byte_equal": true,
+  "candidate_html_sha256": "e96a592cf732ed910b58f1595dd2ed8fbaa13dbf57ed2beedb40f818b1b2eb85",
+  "latest": {
+    "twse": {
+      "date": "2026-11-13",
+      "maintenance": 150.38,
+      "index": 43675.12,
+      "financed_balance": 5956271,
+      "financed_amount": 5365.99,
+      "market_cap": 1429753.02,
+      "margin_market_cap_ratio": 0.3753,
+      "stock_count": 1005
+    },
+    "tpex": {
+      "date": "2026-11-13",
+      "maintenance": 145.25,
+      "index": 342.41,
+      "financed_balance": 2043920,
+      "financed_amount": 1720.2,
+      "market_cap": 95770.97,
+      "margin_market_cap_ratio": 1.7962,
+      "stock_count": 744
+    }
+  },
+  "official_independent": {
+    "window": [
+      "2026-11-13",
+      "2026-11-13"
+    ],
+    "days": [
+      {
+        "date": "2026-11-13",
+        "market": "twse",
+        "official_rows": 1060,
+        "positive_stocks": 1005,
+        "missing_local": [],
+        "margin_mismatches": [],
+        "valid_close_mismatches": [],
+        "carried_codes": [
+          "1538",
+          "1589",
+          "1808",
+          "3714"
+        ],
+        "identity_errors": [],
+        "discontinuities": [],
+        "universe_diff": {
+          "official_only": [],
+          "local_only": []
+        },
+        "cost_mismatches": [],
+        "independent_rate": 150.37632206931409,
+        "published_rate": 150.38,
+        "same_rounded_rate": true,
+        "same_balance": true,
+        "official_money": 5365.98938,
+        "published_money": 5365.99,
+        "same_money": true,
+        "official_index": 43675.12,
+        "published_index": 43675.12,
+        "ratio_arithmetic_correct": true,
+        "wantgoo_excluded": null,
+        "gap_pp": null,
+        "value_yi": 8638.3655186,
+        "debt_yi": 5744.49846872718,
+        "diagnostic_money_including_etf_rate": 170.82354069437238
+      },
+      {
+        "date": "2026-11-13",
+        "market": "tpex",
+        "official_rows": 805,
+        "positive_stocks": 744,
+        "missing_local": [],
+        "margin_mismatches": [],
+        "valid_close_mismatches": [],
+        "carried_codes": [
+          "2719",
+          "2724",
+          "2754",
+          "4174",
+          "4406",
+          "4534",
+          "4804",
+          "5301",
+          "5345",
+          "5703",
+          "6629",
+          "6730",
+          "7782",
+          "8923"
+        ],
+        "identity_errors": [],
+        "discontinuities": [
+          [
+            "6173",
+            4979,
+            4974.0
+          ]
+        ],
+        "universe_diff": {
+          "official_only": [],
+          "local_only": []
+        },
+        "cost_mismatches": [],
+        "independent_rate": 145.24624073079931,
+        "published_rate": 145.25,
+        "same_rounded_rate": true,
+        "same_balance": true,
+        "official_money": 1720.19692,
+        "published_money": 1720.2,
+        "same_money": true,
+        "official_index": null,
+        "published_index": 342.41,
+        "ratio_arithmetic_correct": true,
+        "wantgoo_excluded": null,
+        "gap_pp": null,
+        "value_yi": 2855.933946,
+        "debt_yi": 1966.270473941707,
+        "diagnostic_money_including_etf_rate": 167.02138529581833
+      }
+    ],
+    "scope": "Official margin, effective closes, scalar daily costs, market universe and published aggregates; seed from a fresh 2001 full replay.",
+    "formal_hashes": {
+      "data/processed/margin-maintenance-history.json": "b515d39cf6b90c3a498b8a7cb41a97edbe4a16be5ee4ea0d382036b6b2914758",
+      "docs/index.html": "cca9ef2bbf2ceb59fbc7c8ca5fc0842e4e53d05ba28dd9078a18a77e25c6fdd3",
+      "index.html": "cca9ef2bbf2ceb59fbc7c8ca5fc0842e4e53d05ba28dd9078a18a77e25c6fdd3",
+      "data/cache/market-margin-money-history.json": "cda8ae691422beef6cf86463e74a8e9fb63435e5a18a6251377a4cb0265d5356",
+      "data/cache/market-cap-history.json": "cccf40adf5c30736d27832e7ebef3ca8640a84bf0d6c44658b5f3be084b00bc8"
+    }
+  },
+  "local_browser": {
+    "url": "http://127.0.0.1:53622/index.html",
+    "date": "2026-11-13",
+    "widths": [
+      1280,
+      768,
+      390,
+      360,
+      320
+    ],
+    "eight_toggle_reload_memory": true,
+    "all_period_buttons": true,
+    "synchronized_hover": true,
+    "synthetic_touch_longpress_drag": true,
+    "errors": [],
+    "scope": "DOM/geometry/interaction checks and screenshots; not human visual judgment or physical touch testing"
+  },
+  "publication_status": "Pre-publication checks passed. Final publication proof is saved by the normal publisher in its separate publish-* report.",
+  "limitations": [
+    "Annual calendar snapshots do not establish ad-hoc closures; missing daily inputs and official discrepancies still stop.",
+    "Existing model and market-cap revision limitations remain; no new review exception was introduced."
+  ]
+}

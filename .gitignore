@@ -11,3 +11,4 @@ data/cache/TaiwanStockTotalMarginPurchaseShortSale/
 data/cache/TWSEMIINDEX/
 data/reference/*.candidate.*
 data/cache/versions/
+data/cache/trading-calendars/
