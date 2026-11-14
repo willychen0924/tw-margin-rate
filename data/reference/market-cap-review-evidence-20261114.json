@@ -1,0 +1,670 @@
+{
+  "day": "2026-11-13",
+  "old_source": "data/cache/versions/TaiwanStockMarketValue/2026-11-13_2026-11-14_market_29b4b34f00c5.json/c302a9f7c33754cb0ef6a7de7ace9b11baab3973c1b761368651b8cca6d4366f.json.gz",
+  "new_source": "data/cache/versions/TaiwanStockMarketValue/2026-11-13_2026-11-14_market_29b4b34f00c5.json/6e5c8fe0efbeb58508273c2773935c0ad61cd8d4ccc16d0776c5a9dbbb1f4d67.json.gz",
+  "old_fetched_at": "2026-11-13T15:56:02.167818+00:00",
+  "new_fetched_at": "2026-11-14T13:31:32.161752+00:00",
+  "source_row_counts": [
+    2760,
+    2762
+  ],
+  "all_changed_rows": 336,
+  "twse_changed_count": 49,
+  "recomputed_old": [
+    1429753.02,
+    1086,
+    2760,
+    1541154.17
+  ],
+  "recomputed_new": [
+    1429806.26,
+    1086,
+    2762,
+    1541280.51
+  ],
+  "delta_sum_yi": 53.23972922,
+  "relative_change_percent": 0.0037237200590123365,
+  "ratio_old_percent": "0.3753088767736962010403726932",
+  "ratio_new_percent": "0.3752949018421558736216471734",
+  "official_url": "https://www.twse.com.tw/rwd/zh/announcement/LT185?startDate1=20260901&endDate1=20261130&response=json",
+  "changed_stocks": [
+    {
+      "code": "6669",
+      "name": "緯穎",
+      "close": 1635,
+      "before_market_value": 954151251345,
+      "after_market_value": 956113251345,
+      "delta_yi": 19.62,
+      "implied_before_shares": "583578747",
+      "implied_after_shares": "584778747",
+      "implied_delta_shares": "1.20000E+6",
+      "matching_share_delta_events": [
+        {
+          "announced": "115年11月09日",
+          "effective": "115年11月11日",
+          "delta_shares": "1,200,000",
+          "listed_shares_after": "560,199,772"
+        }
+      ]
+    },
+    {
+      "code": "2614",
+      "name": "東森",
+      "close": 12.85,
+      "before_market_value": 4205354556,
+      "after_market_value": 5811604556,
+      "delta_yi": 16.0625,
+      "implied_before_shares": "327264945.9922178988326848249",
+      "implied_after_shares": "452264945.9922178988326848249",
+      "implied_delta_shares": "1.250000E+8",
+      "matching_share_delta_events": [
+        {
+          "announced": "115年11月10日",
+          "effective": "115年11月11日",
+          "delta_shares": "125,000,000",
+          "listed_shares_after": "452,264,946"
+        }
+      ]
+    },
+    {
+      "code": "3711",
+      "name": "日月光投控",
+      "close": 598,
+      "before_market_value": 2685471459502,
+      "after_market_value": 2686382281674,
+      "delta_yi": 9.10822172,
+      "implied_before_shares": "4490754949",
+      "implied_after_shares": "4492278063",
+      "implied_delta_shares": "1523114",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "9933",
+      "name": "中鼎",
+      "close": 51.6,
+      "before_market_value": 49639804649,
+      "after_market_value": 50056391315,
+      "delta_yi": 4.16586666,
+      "implied_before_shares": "962011718.0038759689922480620",
+      "implied_after_shares": "970085103.0038759689922480620",
+      "implied_delta_shares": "8073385",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3045",
+      "name": "台灣大",
+      "close": 131,
+      "before_market_value": 492631481722,
+      "after_market_value": 492931192299,
+      "delta_yi": 2.99710577,
+      "implied_before_shares": "3760545662",
+      "implied_after_shares": "3762833529",
+      "implied_delta_shares": "2287867",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "1459",
+      "name": "聯發",
+      "close": 16.9,
+      "before_market_value": 4545621392,
+      "after_market_value": 4271426091,
+      "delta_yi": -2.74195301,
+      "implied_before_shares": "2.6897168E+8",
+      "implied_after_shares": "252747105.9763313609467455621",
+      "implied_delta_shares": "-16224574.02366863905325443787",
+      "matching_share_delta_events": [
+        {
+          "announced": "115年11月11日",
+          "effective": "115年11月23日",
+          "delta_shares": "-16,224,574",
+          "listed_shares_after": "252,747,106"
+        }
+      ]
+    },
+    {
+      "code": "1604",
+      "name": "聲寶",
+      "close": 22.8,
+      "before_market_value": 8759760000,
+      "after_market_value": 8531760000,
+      "delta_yi": -2.28,
+      "implied_before_shares": "3.8420000E+8",
+      "implied_after_shares": "3.7420000E+8",
+      "implied_delta_shares": "-1.000000E+7",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2305",
+      "name": "全友",
+      "close": 41.4,
+      "before_market_value": 8514358238,
+      "after_market_value": 8392875527,
+      "delta_yi": -1.21482711,
+      "implied_before_shares": "205660827.0048309178743961353",
+      "implied_after_shares": "202726462.0048309178743961353",
+      "implied_delta_shares": "-2934365",
+      "matching_share_delta_events": [
+        {
+          "announced": "115年11月06日",
+          "effective": "115年11月17日",
+          "delta_shares": "-2,934,365",
+          "listed_shares_after": "202,726,462"
+        }
+      ]
+    },
+    {
+      "code": "3037",
+      "name": "欣興",
+      "close": 785,
+      "before_market_value": 1290625575205,
+      "after_market_value": 1290729089230,
+      "delta_yi": 1.03514025,
+      "implied_before_shares": "1644109013",
+      "implied_after_shares": "1644240878",
+      "implied_delta_shares": "131865",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6209",
+      "name": "今國光",
+      "close": 80,
+      "before_market_value": 14875098080,
+      "after_market_value": 14966585600,
+      "delta_yi": 0.9148752,
+      "implied_before_shares": "185938726",
+      "implied_after_shares": "1.8708232E+8",
+      "implied_delta_shares": "1143594",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2351",
+      "name": "順德",
+      "close": 149,
+      "before_market_value": 29472493679,
+      "after_market_value": 29559822430,
+      "delta_yi": 0.87328751,
+      "implied_before_shares": "197801971",
+      "implied_after_shares": "1.9838807E+8",
+      "implied_delta_shares": "586099",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6743",
+      "name": "安普新",
+      "close": 32.55,
+      "before_market_value": 4882500000,
+      "after_market_value": 4801125000,
+      "delta_yi": -0.81375,
+      "implied_before_shares": "1.500000E+8",
+      "implied_after_shares": "1.475000E+8",
+      "implied_delta_shares": "-2.5000E+6",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3717",
+      "name": "聯嘉投控",
+      "close": 22.6,
+      "before_market_value": 5164562577,
+      "after_market_value": 5231840020,
+      "delta_yi": 0.67277443,
+      "implied_before_shares": "228520468.0088495575221238938",
+      "implied_after_shares": "231497346.0176991150442477876",
+      "implied_delta_shares": "2976878.008849557522123893805",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2455",
+      "name": "全新",
+      "close": 392,
+      "before_market_value": 74909037336,
+      "after_market_value": 74971059968,
+      "delta_yi": 0.62022632,
+      "implied_before_shares": "191094483",
+      "implied_after_shares": "191252704",
+      "implied_delta_shares": "158221",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2438",
+      "name": "翔耀",
+      "close": 17.6,
+      "before_market_value": 1253043282,
+      "after_market_value": 1305843282,
+      "delta_yi": 0.528,
+      "implied_before_shares": "71195641.02272727272727272727",
+      "implied_after_shares": "74195641.02272727272727272727",
+      "implied_delta_shares": "3.00000E+6",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3036",
+      "name": "文曄",
+      "close": 186.5,
+      "before_market_value": 251388022012,
+      "after_market_value": 251437256706,
+      "delta_yi": 0.49234694,
+      "implied_before_shares": "1347925051.002680965147453083",
+      "implied_after_shares": "1348189044",
+      "implied_delta_shares": "263992.9973190348525469168901",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6770",
+      "name": "力積電",
+      "close": 57,
+      "before_market_value": 269083026678,
+      "after_market_value": 269124425778,
+      "delta_yi": 0.413991,
+      "implied_before_shares": "4720754854",
+      "implied_after_shares": "4721481154",
+      "implied_delta_shares": "7.2630E+5",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6957",
+      "name": "裕慶-KY",
+      "close": 431,
+      "before_market_value": 25318679947,
+      "after_market_value": 25353100900,
+      "delta_yi": 0.34420953,
+      "implied_before_shares": "58744037",
+      "implied_after_shares": "5.882390E+7",
+      "implied_delta_shares": "79863",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2395",
+      "name": "研華",
+      "close": 608,
+      "before_market_value": 528697935584,
+      "after_market_value": 528727423584,
+      "delta_yi": 0.29488,
+      "implied_before_shares": "869568973",
+      "implied_after_shares": "869617473",
+      "implied_delta_shares": "4.850E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "8112",
+      "name": "至上",
+      "close": 80.8,
+      "before_market_value": 45725670289,
+      "after_market_value": 45753572306,
+      "delta_yi": 0.27902017,
+      "implied_before_shares": "565911761.0024752475247524752",
+      "implied_after_shares": "566257082.9950495049504950495",
+      "implied_delta_shares": "345321.9925742574257425742574",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "9906",
+      "name": "欣巴巴",
+      "close": 35.8,
+      "before_market_value": 3235473616,
+      "after_market_value": 3262930641,
+      "delta_yi": 0.27457025,
+      "implied_before_shares": "90376357.98882681564245810056",
+      "implied_after_shares": "91143313.99441340782122905028",
+      "implied_delta_shares": "766956.0055865921787709497207",
+      "matching_share_delta_events": [
+        {
+          "announced": "115年11月02日",
+          "effective": "115年11月11日",
+          "delta_shares": "766,956",
+          "listed_shares_after": "91,143,314"
+        }
+      ]
+    },
+    {
+      "code": "8021",
+      "name": "尖點",
+      "close": 385,
+      "before_market_value": 58321309585,
+      "after_market_value": 58341449705,
+      "delta_yi": 0.2014012,
+      "implied_before_shares": "151483921",
+      "implied_after_shares": "151536233",
+      "implied_delta_shares": "52312",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3605",
+      "name": "宏致",
+      "close": 127.5,
+      "before_market_value": 23247002070,
+      "after_market_value": 23266343693,
+      "delta_yi": 0.19341623,
+      "implied_before_shares": "182329428",
+      "implied_after_shares": "182481127.0039215686274509804",
+      "implied_delta_shares": "151699.0039215686274509803922",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "8422",
+      "name": "可寧衛*",
+      "close": 23.75,
+      "before_market_value": 32342251464,
+      "after_market_value": 32361173089,
+      "delta_yi": 0.18921625,
+      "implied_before_shares": "1361779009.010526315789473684",
+      "implied_after_shares": "1362575709.010526315789473684",
+      "implied_delta_shares": "7.967E+5",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "4566",
+      "name": "時碩工業",
+      "close": 74.9,
+      "before_market_value": 8291534560,
+      "after_market_value": 8307278466,
+      "delta_yi": 0.15743906,
+      "implied_before_shares": "110701395.9946595460614152203",
+      "implied_after_shares": "110911595.0066755674232309746",
+      "implied_delta_shares": "210199.0120160213618157543391",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "7610",
+      "name": "聯友金屬-創",
+      "close": 1090,
+      "before_market_value": 64243835910,
+      "after_market_value": 64254035040,
+      "delta_yi": 0.1019913,
+      "implied_before_shares": "58939299",
+      "implied_after_shares": "58948656",
+      "implied_delta_shares": "9357",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "7799",
+      "name": "禾榮科",
+      "close": 478,
+      "before_market_value": 76355003000,
+      "after_market_value": 76364563000,
+      "delta_yi": 0.0956,
+      "implied_before_shares": "1.5973850E+8",
+      "implied_after_shares": "1.5975850E+8",
+      "implied_delta_shares": "2.000E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3661",
+      "name": "世芯-KY",
+      "close": 4020,
+      "before_market_value": 347281826280,
+      "after_market_value": 347290670280,
+      "delta_yi": 0.08844,
+      "implied_before_shares": "86388514",
+      "implied_after_shares": "86390714",
+      "implied_delta_shares": "2.20E+3",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6531",
+      "name": "愛普*",
+      "close": 716,
+      "before_market_value": 127459584164,
+      "after_market_value": 127467281880,
+      "delta_yi": 0.07697716,
+      "implied_before_shares": "178016179",
+      "implied_after_shares": "1.7802693E+8",
+      "implied_delta_shares": "10751",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "7722",
+      "name": "LINEPAY",
+      "close": 233.5,
+      "before_market_value": 16735435350,
+      "after_market_value": 16742790600,
+      "delta_yi": 0.0735525,
+      "implied_before_shares": "7.167210E+7",
+      "implied_after_shares": "7.170360E+7",
+      "implied_delta_shares": "3.150E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "1560",
+      "name": "中砂",
+      "close": 726,
+      "before_market_value": 110440591602,
+      "after_market_value": 110447175696,
+      "delta_yi": 0.06584094,
+      "implied_before_shares": "152122027",
+      "implied_after_shares": "152131096",
+      "implied_delta_shares": "9069",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6197",
+      "name": "佳必琪",
+      "close": 238,
+      "before_market_value": 30087378804,
+      "after_market_value": 30093296436,
+      "delta_yi": 0.05917632,
+      "implied_before_shares": "126417558",
+      "implied_after_shares": "126442422",
+      "implied_delta_shares": "24864",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6830",
+      "name": "汎銓",
+      "close": 472.5,
+      "before_market_value": 28735829798,
+      "after_market_value": 28741639185,
+      "delta_yi": 0.05809387,
+      "implied_before_shares": "60816571.00105820105820105820",
+      "implied_after_shares": "60828866",
+      "implied_delta_shares": "12294.99894179894179894179894",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2486",
+      "name": "一詮",
+      "close": 170,
+      "before_market_value": 40932499700,
+      "after_market_value": 40936834700,
+      "delta_yi": 0.04335,
+      "implied_before_shares": "2.4077941E+8",
+      "implied_after_shares": "2.4080491E+8",
+      "implied_delta_shares": "2.550E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3004",
+      "name": "豐達科",
+      "close": 128.5,
+      "before_market_value": 8296969368,
+      "after_market_value": 8300618768,
+      "delta_yi": 0.036494,
+      "implied_before_shares": "64567855.00389105058365758755",
+      "implied_after_shares": "64596255.00389105058365758755",
+      "implied_delta_shares": "2.840E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3416",
+      "name": "融程電",
+      "close": 143.5,
+      "before_market_value": 12216283720,
+      "after_market_value": 12219541457,
+      "delta_yi": 0.03257737,
+      "implied_before_shares": "85130897.00348432055749128920",
+      "implied_after_shares": "85153599.00348432055749128920",
+      "implied_delta_shares": "22702",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3005",
+      "name": "神基",
+      "close": 109.5,
+      "before_market_value": 68422832475,
+      "after_market_value": 68425142925,
+      "delta_yi": 0.0231045,
+      "implied_before_shares": "6.2486605E+8",
+      "implied_after_shares": "6.2488715E+8",
+      "implied_delta_shares": "2.110E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "8028",
+      "name": "昇陽半導體",
+      "close": 203.5,
+      "before_market_value": 37627661803,
+      "after_market_value": 37629892570,
+      "delta_yi": 0.02230767,
+      "implied_before_shares": "184902515.0024570024570024570",
+      "implied_after_shares": "184913477.0024570024570024570",
+      "implied_delta_shares": "10962",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2388",
+      "name": "威盛",
+      "close": 58.2,
+      "before_market_value": 32385211966,
+      "after_market_value": 32386957966,
+      "delta_yi": 0.01746,
+      "implied_before_shares": "556446940.9965635738831615120",
+      "implied_after_shares": "556476940.9965635738831615120",
+      "implied_delta_shares": "3.000E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3716",
+      "name": "中化控股",
+      "close": 32.15,
+      "before_market_value": 4841121634,
+      "after_market_value": 4842525110,
+      "delta_yi": 0.01403476,
+      "implied_before_shares": "150579211.0108864696734059098",
+      "implied_after_shares": "150622865.0077760497667185070",
+      "implied_delta_shares": "43653.99688958009331259720062",
+      "matching_share_delta_events": [
+        {
+          "announced": "115年11月11日",
+          "effective": "115年11月13日",
+          "delta_shares": "43,654",
+          "listed_shares_after": "150,622,865"
+        }
+      ]
+    },
+    {
+      "code": "2467",
+      "name": "志聖",
+      "close": 307,
+      "before_market_value": 49762254438,
+      "after_market_value": 49763489806,
+      "delta_yi": 0.01235368,
+      "implied_before_shares": "162092034",
+      "implied_after_shares": "162096058",
+      "implied_delta_shares": "4024",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "4441",
+      "name": "振大環球",
+      "close": 183.5,
+      "before_market_value": 12546872688,
+      "after_market_value": 12547606688,
+      "delta_yi": 0.00734,
+      "implied_before_shares": "68375328",
+      "implied_after_shares": "68379328",
+      "implied_delta_shares": "4.00E+3",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2312",
+      "name": "金寶",
+      "close": 26.9,
+      "before_market_value": 40552132276,
+      "after_market_value": 40552670276,
+      "delta_yi": 0.00538,
+      "implied_before_shares": "1507514211.003717472118959108",
+      "implied_after_shares": "1507534211.003717472118959108",
+      "implied_delta_shares": "2.000E+4",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "7827",
+      "name": "漢康-KY創",
+      "close": 119.5,
+      "before_market_value": 16837313271,
+      "after_market_value": 16837702482,
+      "delta_yi": 0.00389211,
+      "implied_before_shares": "140898019.0041841004184100418",
+      "implied_after_shares": "140901276",
+      "implied_delta_shares": "3256.995815899581589958158996",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "3033",
+      "name": "威健",
+      "close": 39.3,
+      "before_market_value": 20733405305,
+      "after_market_value": 20733760930,
+      "delta_yi": 0.00355625,
+      "implied_before_shares": "527567565.0127226463104325700",
+      "implied_after_shares": "527576613.9949109414758269720",
+      "implied_delta_shares": "9048.982188295165394402035623",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "2476",
+      "name": "鉅祥",
+      "close": 106.5,
+      "before_market_value": 23483384084,
+      "after_market_value": 23483712743,
+      "delta_yi": 0.00328659,
+      "implied_before_shares": "220501259.0046948356807511737",
+      "implied_after_shares": "220504345.0046948356807511737",
+      "implied_delta_shares": "3086",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "4439",
+      "name": "冠星-KY",
+      "close": 95.5,
+      "before_market_value": 3651004919,
+      "after_market_value": 3651302402,
+      "delta_yi": 0.00297483,
+      "implied_before_shares": "38230418",
+      "implied_after_shares": "38233533.00523560209424083770",
+      "implied_delta_shares": "3115.005235602094240837696335",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "6166",
+      "name": "凌華",
+      "close": 90.5,
+      "before_market_value": 19756987759,
+      "after_market_value": 19757259259,
+      "delta_yi": 0.002715,
+      "implied_before_shares": "218309257.0055248618784530387",
+      "implied_after_shares": "218312257.0055248618784530387",
+      "implied_delta_shares": "3.00E+3",
+      "matching_share_delta_events": []
+    },
+    {
+      "code": "7821",
+      "name": "神數",
+      "close": 31.8,
+      "before_market_value": 3898505100,
+      "after_market_value": 3898632300,
+      "delta_yi": 0.001272,
+      "implied_before_shares": "1.2259450E+8",
+      "implied_after_shares": "1.2259850E+8",
+      "implied_delta_shares": "4.00E+3",
+      "matching_share_delta_events": []
+    }
+  ],
+  "source_file_sha256": {
+    "old_source": "b7f4f60e26243f59e4a5b5e3ee9ad96b1e9a2e0ce4bd61bfa67a471bb59aa4f5",
+    "new_source": "dc5dce98e8d21874bd33ba6e37c36362bf0156531845c958cab475601d8b0f01"
+  },
+  "official_saved_response": "data/tmp/cap-revision-audit-20261114/official-lt185.json",
+  "official_saved_response_sha256": "ea3d6f7ca60c535eab1c60cc5dedc6bcb5a7bde880e06ffc67f25365ea89398b",
+  "decision": "Retain all published history; authorize only the exact 2026-11-13 TWSE +53.24 observation with pending_verification status. No model or market-cap history rewrite.",
+  "limitations": "Source revision confirmed, not proof that all revised share counts were effective on 2026-11-13. TWSE events matching 1459 and 2305 imply 2026-11-23 and 2026-11-17; other companies include unmatched quarterly changes and share-definition differences."
+}

@@ -1,0 +1,76 @@
+{
+  "baseline_commit": "a2eb3cf6a7600a2eb790d7f3b7b6f40ad2da25a9",
+  "approval": "data/reference/publication-review-20261114.json",
+  "validation_report": "data/tmp/publish-ol75ql1a",
+  "candidate": "data/tmp/margin-update-ofw65j6i",
+  "target": "2026-11-13",
+  "python_tests": 156,
+  "javascript_tests": 5,
+  "full_validation_seconds": 70.237,
+  "official_independent_audit": "passed by runner",
+  "history_comparison": {
+    "history.json": {
+      "all_market_rows_equal": true,
+      "rows": {
+        "twse": 2284,
+        "tpex": 2284
+      }
+    },
+    "market-margin-money-history.json": {
+      "all_market_rows_equal": true,
+      "rows": {
+        "twse": 2284,
+        "tpex": 2284
+      }
+    },
+    "market-cap-history.json": {
+      "all_market_rows_equal": true,
+      "rows": {
+        "tpex": 2284,
+        "twse": 2284
+      }
+    }
+  },
+  "output_hashes": {
+    "data/processed/margin-maintenance-history.json": {
+      "before": "d55479777b82bba062cfc5103b93fc207de74029b005d1c1a950fc5aacddbd4f",
+      "validated_candidate": "76a1b57de32d6936946a112d3ba4c6898c538ce8f40e8d9fb74b16147140e6bf"
+    },
+    "docs/index.html": {
+      "before": "e96a592cf732ed910b58f1595dd2ed8fbaa13dbf57ed2beedb40f818b1b2eb85",
+      "validated_candidate": "e96a592cf732ed910b58f1595dd2ed8fbaa13dbf57ed2beedb40f818b1b2eb85"
+    },
+    "index.html": {
+      "before": "e96a592cf732ed910b58f1595dd2ed8fbaa13dbf57ed2beedb40f818b1b2eb85",
+      "validated_candidate": "e96a592cf732ed910b58f1595dd2ed8fbaa13dbf57ed2beedb40f818b1b2eb85"
+    },
+    "data/cache/market-margin-money-history.json": {
+      "before": "8df3f891afe315c5a5b00416525928592aa19ca97ee949c94f93d643c4e45309",
+      "validated_candidate": "664fa61b4c63536c4690a68193fd5de60a60466991da37e65209995754956ac5"
+    },
+    "data/cache/market-cap-history.json": {
+      "before": "9951904a113f2195e48a1514406fc116ace29ddb317213de3bd99cc06503dcec",
+      "validated_candidate": "9e673b37198d90965c370befd271252ae4b47d24786f4b3424a5818664a3b0b6"
+    },
+    "data/reference/market-cap-revisions.json": {
+      "before": "ca9b9dcadea345b48f8757788abc925c40c893d0e56b58e896da1bd0b90d9e23",
+      "validated_candidate": "384345cef5ac7e39a8e4df05ba0a69ef95b9df4ec39420b1917ab57db60aa60a"
+    }
+  },
+  "new_observations": [
+    {
+      "accepted": 1429753.02,
+      "date": "2026-11-13",
+      "difference": 53.24,
+      "market": "twse",
+      "observed": 1429806.26,
+      "status": "pending_verification"
+    }
+  ],
+  "pending_observation_count": {
+    "before": 7,
+    "after": 8
+  },
+  "installation_note": "All six validated outputs will be installed together using the existing rollback-protected installer. Only generation/audit metadata and the exact pending observation change; all market rows and both HTML files are unchanged. No changes to publication workflow, formula or UI.",
+  "status": "local_checks_passed_before_installation_and_publication"
+}

@@ -1,0 +1,11 @@
+{
+  "policy": "retain_finmind_inputs_and_existing_model_no_history_rewrite",
+  "authorized_on": "2026-11-14",
+  "authorization": "照此處理，保留原歷史數字，只核准這筆 53.24 億的差異紀錄，其他查核全部保留，測試確認後更新並發布，做完一起回報。",
+  "scope": "僅核准下列市場、日期、原值、新觀測值、差額及待查狀態完全相符的觀測紀錄通過發布檢查；不接受新觀測值取代已發布市值，不改融資市值比、維持率、任何歷史數字或模型。",
+  "limitations": "FinMind 重抓資料中 49 檔上市普通股市值合計增加 53.24 億。已確認來源修訂，但不是全部股數變更均已證實於 11/13 生效；1459 與 2305 對應官方生效日分別為 11/23 與 11/17。保留股數口徑及生效日限制，觀測狀態仍為 pending_verification，不宣稱修訂值正確或原因全解。其他新修訂、公司行動、官方輸入不符、歷史變動與全部檢查仍停止。",
+  "evidence": "data/reference/market-cap-review-evidence-20261114.json",
+  "market_cap_observations": [
+    {"accepted":1429753.02,"date":"2026-11-13","difference":53.24,"market":"twse","observed":1429806.26,"status":"pending_verification"}
+  ]
+}
