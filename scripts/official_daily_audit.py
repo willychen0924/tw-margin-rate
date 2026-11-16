@@ -210,21 +210,26 @@ def check_actions():
     save(OUT/'official/tpex-capital-reductions.json',tp)
     require(tw.get('stat')=='OK' or '沒有符合條件' in tw.get('stat',''), 'TWSE 公司行動回應不明')
     require(bool(tp.get('tables')) and any(t.get('data') for t in tp['tables']), 'TPEx 公司行動表缺失')
+    if tw.get('data'):
+        require(tw.get('fields',[])[:2]==['恢復買賣日期','股票代號'], 'TWSE 公司行動代號欄位改變')
     events=[]
     for r in tw.get('data',[]):
         events.append({'market':'twse','row':r})
     compact={str(int(d[:4])-1911)+d[5:7]+d[8:10] for d in DAYS}
     for table in tp['tables']:
-        require('恢復買賣日期' in table.get('fields',[]), 'TPEx 公司行動欄位改變')
+        fields=table.get('fields') or []
+        require(fields[:1]==['代號'] and '恢復買賣日期' in fields, 'TPEx 公司行動欄位改變')
         i=table['fields'].index('恢復買賣日期')
         events.extend({'market':'tpex','row':r} for r in table.get('data',[]) if r[i] in compact)
     unreviewed = [event for event in events if not reviewed('company_actions', event)]
     for event in events:
         if event not in unreviewed:
             # Review binds the actual holdings and unchanged cost, not just a code.
+            # TWSE starts with the resumption date; TPEx starts with the code.
+            code=event['row'][1 if event['market']=='twse' else 0]
             for day in DAYS:
                 portfolio=json.loads((OUT/f'portfolio-{day}.json').read_text())
-                rows=[r for r in portfolio if r['stock_id']==event['row'][0] and r['market']==event['market']]
+                rows=[r for r in portfolio if r['stock_id']==code and r['market']==event['market']]
                 require(len(rows)==1, '已查核公司行動缺少候選持倉')
                 r=rows[0]
                 require(reviewed('portfolios', {'date':day,'market':r['market'],'code':r['stock_id'],'balance':r['MarginPurchaseTodayBalance'],'average_cost':r['average_cost']}), '已查核公司行動的持倉或成本改變，須重新審查')

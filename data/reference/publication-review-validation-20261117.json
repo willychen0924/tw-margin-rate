@@ -1,0 +1,240 @@
+{
+  "status": "all_local_checks_passed_before_publication",
+  "baseline_commit": "6708f89b0497563269a95ac9dfcb92a18670962c",
+  "target": "2026-11-16",
+  "verification_report": "data/tmp/publish-mr4ody43",
+  "candidate": "data/tmp/margin-update-hrwhlvkc",
+  "elapsed_seconds": 77.465,
+  "python_tests": 166,
+  "javascript_tests": 5,
+  "history_comparison": {
+    "twse": {
+      "preserved_rows": 2284,
+      "new_dates": [
+        "2026-11-16"
+      ]
+    },
+    "tpex": {
+      "preserved_rows": 2284,
+      "new_dates": [
+        "2026-11-16"
+      ]
+    }
+  },
+  "candidate_matches_pre_fix_model_results_exactly": true,
+  "two_full_replays_equal": true,
+  "original_outputs_unchanged_during_validation": true,
+  "existing_market_cap_revision_observations_unchanged": true,
+  "company_actions": {
+    "events_in_window": [
+      {
+        "market": "twse",
+        "row": [
+          "115/11/16",
+          "3714",
+          "富采",
+          "56.70",
+          "96.15",
+          "105.50",
+          "86.60",
+          "96.20",
+          "--",
+          "退還股款",
+          "3714  ,20261104"
+        ]
+      },
+      {
+        "market": "tpex",
+        "row": [
+          "4534",
+          "慶騰",
+          "1151105",
+          "0.79260032",
+          "0.00000000",
+          "彌補虧損",
+          "1151116",
+          "不適用",
+          "不適用",
+          "32.11"
+        ]
+      }
+    ],
+    "unreviewed": [],
+    "policy": "Exact human-reviewed events only; source checks remain mandatory; no formula changes."
+  },
+  "independent_daily_checks": [
+    {
+      "date": "2026-11-16",
+      "market": "twse",
+      "official_rows": 1060,
+      "positive_stocks": 1005,
+      "missing_local": [],
+      "margin_mismatches": [],
+      "valid_close_mismatches": [],
+      "carried_codes": [
+        "1538",
+        "1589",
+        "1808",
+        "3593",
+        "6641"
+      ],
+      "identity_errors": [],
+      "discontinuities": [
+        [
+          "3714",
+          20369,
+          10705
+        ]
+      ],
+      "universe_diff": {
+        "official_only": [],
+        "local_only": []
+      },
+      "cost_mismatches": [],
+      "independent_rate": 139.73798383128107,
+      "published_rate": 139.74,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "official_money": 5244.97993,
+      "published_money": 5244.98,
+      "same_money": true,
+      "official_index": 41040.08,
+      "published_index": 41040.08,
+      "ratio_arithmetic_correct": true,
+      "wantgoo_excluded": null,
+      "gap_pp": null,
+      "value_yi": 7810.8614746,
+      "debt_yi": 5589.648040171236,
+      "diagnostic_money_including_etf_rate": 158.46507524576933
+    },
+    {
+      "date": "2026-11-16",
+      "market": "tpex",
+      "official_rows": 806,
+      "positive_stocks": 743,
+      "missing_local": [],
+      "margin_mismatches": [],
+      "valid_close_mismatches": [],
+      "carried_codes": [
+        "2064",
+        "3064",
+        "3226",
+        "3259",
+        "4305",
+        "4804",
+        "5345",
+        "5523",
+        "5601",
+        "5703",
+        "8424",
+        "8923",
+        "9960"
+      ],
+      "identity_errors": [],
+      "discontinuities": [
+        [
+          "3152",
+          570,
+          569
+        ],
+        [
+          "6173",
+          5052,
+          5050
+        ]
+      ],
+      "universe_diff": {
+        "official_only": [],
+        "local_only": []
+      },
+      "cost_mismatches": [],
+      "independent_rate": 134.37681766614696,
+      "published_rate": 134.38,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "official_money": 1677.3305,
+      "published_money": 1677.33,
+      "same_money": true,
+      "official_index": null,
+      "published_index": 319.12,
+      "ratio_arithmetic_correct": true,
+      "wantgoo_excluded": null,
+      "gap_pp": null,
+      "value_yi": 2574.3549980000003,
+      "debt_yi": 1915.7731539645972,
+      "diagnostic_money_including_etf_rate": 154.4659929512997
+    }
+  ],
+  "local_browser": {
+    "url": "http://127.0.0.1:59771/index.html",
+    "date": "2026-11-16",
+    "widths": [
+      1280,
+      768,
+      390,
+      360,
+      320
+    ],
+    "eight_toggle_reload_memory": true,
+    "all_period_buttons": true,
+    "synchronized_hover": true,
+    "synthetic_touch_longpress_drag": true,
+    "errors": [],
+    "scope": "DOM/geometry/interaction checks and screenshots; not human visual judgment or physical touch testing"
+  },
+  "latest": {
+    "twse": {
+      "date": "2026-11-16",
+      "maintenance": 139.74,
+      "index": 41040.08,
+      "financed_balance": 5872172,
+      "financed_amount": 5244.98,
+      "market_cap": 1343859.07,
+      "margin_market_cap_ratio": 0.3903,
+      "stock_count": 1005
+    },
+    "tpex": {
+      "date": "2026-11-16",
+      "maintenance": 134.38,
+      "index": 319.12,
+      "financed_balance": 2011182,
+      "financed_amount": 1677.33,
+      "market_cap": 89384.91,
+      "margin_market_cap_ratio": 1.8765,
+      "stock_count": 743
+    }
+  },
+  "source_hashes": [
+    {
+      "file": "tpex-capital-reductions.json",
+      "sha256": "6d11e7d52df58d6479093fa1308c92f4d5d8e29055ea8d34ec8999dd8a9de02d"
+    },
+    {
+      "file": "tpex-margin-2026-11-16.json",
+      "sha256": "b2e9c0dd7eeccbe3b1d88ab422f2c2ae173781d961edcbf8ad758bac5ece376b"
+    },
+    {
+      "file": "tpex-market-value-2026-11-16.json",
+      "sha256": "4c2a30905e4e63e365b255b9a5778a1d77a65702678792234ab662f79e07716d"
+    },
+    {
+      "file": "tpex-quotes-2026-11-16.json",
+      "sha256": "de82f62e615326ddaaefc89b6bd644c23d05f062e5c216bdd7f02fc581de8e5b"
+    },
+    {
+      "file": "twse-capital-reductions.json",
+      "sha256": "9c6223bce195a8a4ad1b109abd7eaaebc952e285a52d86c77aff46053a5032cc"
+    },
+    {
+      "file": "twse-margin-2026-11-16.json",
+      "sha256": "8076ed933388d12620b531d253ed0b2511441e27b54ecc99265a2ae7b9a6457f"
+    },
+    {
+      "file": "twse-quotes-2026-11-16.json",
+      "sha256": "b93db0eb9557b0ff4ca79f4ec3c983404cb4e087db637fb8785d093448e7e32f"
+    }
+  ],
+  "candidate_history_sha256": "907f8e4789074e3e8e1c519f47731ae6db6e81b44b075e822ca089037b1dec2c",
+  "candidate_html_sha256": "67ee683342cdf4f56adb81e8abc491f721f30b888cf1707b2c16ad3cbd5a877e",
+  "limitations": "Only the two reviewed actions and exact 3714 balance transition are authorized; prior economic debt/share-adjustment limitations remain, no scenario correction was applied."
+}

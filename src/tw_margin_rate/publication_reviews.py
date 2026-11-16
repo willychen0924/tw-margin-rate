@@ -4,6 +4,7 @@ from pathlib import Path
 
 REVIEW_FILE = Path(__file__).resolve().parents[2] / 'data/reference/publication-review-20261109.json'
 MARKET_CAP_REVIEW_FILE = REVIEW_FILE.with_name('publication-review-20261114.json')
+CAPITAL_ACTION_REVIEW_FILE = REVIEW_FILE.with_name('publication-review-20261117.json')
 
 def reviewed(kind, value):
     # Explicit files and scopes: a market-cap-only approval must never authorize
@@ -11,6 +12,7 @@ def reviewed(kind, value):
     sources = (
         (REVIEW_FILE, ('company_actions', 'balance_adjustments', 'portfolios', 'market_cap_observations')),
         (MARKET_CAP_REVIEW_FILE, ('market_cap_observations',)),
+        (CAPITAL_ACTION_REVIEW_FILE, ('company_actions', 'balance_adjustments', 'portfolios')),
     )
     for path, kinds in sources:
         if kind not in kinds or not path.exists():
