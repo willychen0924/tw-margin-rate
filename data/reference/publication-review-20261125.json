@@ -1,0 +1,148 @@
+{
+  "policy": "retain_finmind_inputs_and_existing_model_no_history_rewrite",
+  "authorized_on": "2026-11-25",
+  "authorization": "使用者答覆「是」，同意僅核准潤隆本筆事件及本批 14 筆官方跨日餘額，沿用既定模型與原歷史，保留全部其他查核，完整測試後發布。",
+  "limitations": "潤隆的 25.4 張差額不能單憑換股率解釋，退款如何影響實際融資債務未經證實；11/24 其他 13 筆可在官方表重現，但各檔具體調帳原因未經證實。未套用成本情境，未核准任何歷史修訂。",
+  "evidence": "data/reference/capital-action-review-evidence-20261125.json",
+  "company_actions": [
+    {
+      "market": "twse",
+      "row": [
+        "115/11/23",
+        "1808",
+        "潤隆",
+        "31.00",
+        "36.25",
+        "39.85",
+        "32.65",
+        "36.25",
+        "--",
+        "退還股款",
+        "1808  ,20261111"
+      ]
+    }
+  ],
+  "portfolios": [
+    {
+      "date": "2026-11-20",
+      "market": "twse",
+      "code": "1808",
+      "balance": 3828,
+      "average_cost": 33.5354842234
+    },
+    {
+      "date": "2026-11-23",
+      "market": "twse",
+      "code": "1808",
+      "balance": 2988,
+      "average_cost": 33.5610002592
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "1808",
+      "balance": 3000,
+      "average_cost": 33.6248845859
+    }
+  ],
+  "balance_adjustments": [
+    {
+      "date": "2026-11-23",
+      "market": "twse",
+      "code": "1808",
+      "prior": 3828,
+      "yesterday": 3037
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "1802",
+      "prior": 78255,
+      "yesterday": 78195
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2303",
+      "prior": 106103,
+      "yesterday": 106089
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2329",
+      "prior": 9732,
+      "yesterday": 9720
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2409",
+      "prior": 226184,
+      "yesterday": 226144
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2428",
+      "prior": 1748,
+      "yesterday": 1643
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2441",
+      "prior": 6645,
+      "yesterday": 6631
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "6197",
+      "prior": 4523,
+      "yesterday": 4502
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "8215",
+      "prior": 2814,
+      "yesterday": 2799
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "3479",
+      "prior": 2775,
+      "yesterday": 2760
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "6021",
+      "prior": 487,
+      "yesterday": 467
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "6174",
+      "prior": 824,
+      "yesterday": 813
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "6290",
+      "prior": 9822,
+      "yesterday": 9799
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "8043",
+      "prior": 3028,
+      "yesterday": 3014
+    }
+  ]
+}

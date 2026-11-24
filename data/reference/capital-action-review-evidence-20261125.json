@@ -1,0 +1,522 @@
+{
+  "status": "pre_authorization_diagnostic_evidence",
+  "target": "2026-11-24",
+  "baseline_commit": "3713dc3f7551440e2508ace82184347dc9ee3f4e",
+  "published_through": "2026-11-19",
+  "issuer_facts": {
+    "code": "1808",
+    "reduction_rate": 0.2,
+    "new_shares_per_old_share": 0.8,
+    "refund_per_old_share_ntd": 2,
+    "last_trading": "2026-11-11",
+    "suspended_from": "2026-11-12",
+    "suspended_through": "2026-11-20",
+    "resume_date": "2026-11-23",
+    "refund_payment_date": "2026-11-27",
+    "issuer_source": "https://www.runlong.com.tw/stakeholder.php?data_type=information&page_type=infor",
+    "filing_title": "公告本公司現金減資換發股票作業計畫及減資換票基準日等相關事宜",
+    "filing_date": "2026-09-15",
+    "reference_price_check": {
+      "previous_close": 31,
+      "formula": "(31 - 2) / 0.8",
+      "result": 36.25
+    },
+    "expected_converted_previous_balance": 3062.4,
+    "official_yesterday_balance": 3037,
+    "residual_lots_not_explained_by_exchange_ratio": 25.4
+  },
+  "company_actions": [
+    {
+      "market": "twse",
+      "row": [
+        "115/11/23",
+        "1808",
+        "潤隆",
+        "31.00",
+        "36.25",
+        "39.85",
+        "32.65",
+        "36.25",
+        "--",
+        "退還股款",
+        "1808  ,20261111"
+      ]
+    }
+  ],
+  "portfolios": {
+    "2026-11-19": {
+      "date": "2026-11-19",
+      "stock_id": "1808",
+      "MarginPurchaseBuy": 0,
+      "MarginPurchaseCashRepayment": 8,
+      "MarginPurchaseSell": 0,
+      "MarginPurchaseTodayBalance": 3828,
+      "MarginPurchaseYesterdayBalance": 3836,
+      "close": 31,
+      "average_cost": 33.5354842234,
+      "market_value": 118668,
+      "estimated_debt": 77024.3001643139,
+      "market": "twse"
+    },
+    "2026-11-20": {
+      "date": "2026-11-20",
+      "stock_id": "1808",
+      "MarginPurchaseBuy": 0,
+      "MarginPurchaseCashRepayment": 0,
+      "MarginPurchaseSell": 0,
+      "MarginPurchaseTodayBalance": 3828,
+      "MarginPurchaseYesterdayBalance": 3828,
+      "close": 31,
+      "average_cost": 33.5354842234,
+      "market_value": 118668,
+      "estimated_debt": 77024.3001643139,
+      "market": "twse"
+    },
+    "2026-11-23": {
+      "date": "2026-11-23",
+      "stock_id": "1808",
+      "MarginPurchaseBuy": 58,
+      "MarginPurchaseCashRepayment": 2,
+      "MarginPurchaseSell": 105,
+      "MarginPurchaseTodayBalance": 2988,
+      "MarginPurchaseYesterdayBalance": 3037,
+      "close": 34.85,
+      "average_cost": 33.5610002592,
+      "market_value": 104131.8,
+      "estimated_debt": 60168.1612647439,
+      "market": "twse"
+    },
+    "2026-11-24": {
+      "date": "2026-11-24",
+      "stock_id": "1808",
+      "MarginPurchaseBuy": 77,
+      "MarginPurchaseCashRepayment": 1,
+      "MarginPurchaseSell": 63,
+      "MarginPurchaseTodayBalance": 3000,
+      "MarginPurchaseYesterdayBalance": 2987,
+      "close": 36.05,
+      "average_cost": 33.6248845859,
+      "market_value": 108150,
+      "estimated_debt": 60524.792254634,
+      "market": "twse"
+    }
+  },
+  "official_balance_details": [
+    {
+      "date": "2026-11-23",
+      "market": "twse",
+      "code": "1808",
+      "name": "潤隆",
+      "prior": 3828,
+      "yesterday": 3037,
+      "difference_lots": -791,
+      "official_margin_fields": [
+        "1808",
+        "潤隆",
+        "58",
+        "105",
+        "2",
+        "3,037",
+        "2,988"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "1802",
+      "name": "台玻",
+      "prior": 78255,
+      "yesterday": 78195,
+      "difference_lots": -60,
+      "official_margin_fields": [
+        "1802",
+        "台玻",
+        "381",
+        "1,203",
+        "15",
+        "78,195",
+        "77,358"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2303",
+      "name": "聯電",
+      "prior": 106103,
+      "yesterday": 106089,
+      "difference_lots": -14,
+      "official_margin_fields": [
+        "2303",
+        "聯電",
+        "8,553",
+        "959",
+        "39",
+        "106,089",
+        "113,644"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2329",
+      "name": "華泰",
+      "prior": 9732,
+      "yesterday": 9720,
+      "difference_lots": -12,
+      "official_margin_fields": [
+        "2329",
+        "華泰",
+        "20",
+        "38",
+        "1",
+        "9,720",
+        "9,701"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2409",
+      "name": "友達",
+      "prior": 226184,
+      "yesterday": 226144,
+      "difference_lots": -40,
+      "official_margin_fields": [
+        "2409",
+        "友達",
+        "3,620",
+        "3,115",
+        "93",
+        "226,144",
+        "226,556"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2428",
+      "name": "興勤",
+      "prior": 1748,
+      "yesterday": 1643,
+      "difference_lots": -105,
+      "official_margin_fields": [
+        "2428",
+        "興勤",
+        "274",
+        "15",
+        "0",
+        "1,643",
+        "1,902"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "2441",
+      "name": "超豐",
+      "prior": 6645,
+      "yesterday": 6631,
+      "difference_lots": -14,
+      "official_margin_fields": [
+        "2441",
+        "超豐",
+        "747",
+        "163",
+        "2",
+        "6,631",
+        "7,213"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "6197",
+      "name": "佳必琪",
+      "prior": 4523,
+      "yesterday": 4502,
+      "difference_lots": -21,
+      "official_margin_fields": [
+        "6197",
+        "佳必琪",
+        "26",
+        "11",
+        "1",
+        "4,502",
+        "4,516"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "code": "8215",
+      "name": "明基材",
+      "prior": 2814,
+      "yesterday": 2799,
+      "difference_lots": -15,
+      "official_margin_fields": [
+        "8215",
+        "明基材",
+        "69",
+        "27",
+        "0",
+        "2,799",
+        "2,841"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "3479",
+      "name": "安勤",
+      "prior": 2775,
+      "yesterday": 2760,
+      "difference_lots": -15,
+      "official_margin_fields": [
+        "3479",
+        "安勤",
+        "2,760",
+        "41",
+        "47",
+        "0",
+        "2,754"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "6021",
+      "name": "美好證",
+      "prior": 487,
+      "yesterday": 467,
+      "difference_lots": -20,
+      "official_margin_fields": [
+        "6021",
+        "美好證",
+        "467",
+        "11",
+        "2",
+        "0",
+        "476"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "6174",
+      "name": "安碁",
+      "prior": 824,
+      "yesterday": 813,
+      "difference_lots": -11,
+      "official_margin_fields": [
+        "6174",
+        "安碁",
+        "813",
+        "11",
+        "13",
+        "0",
+        "811"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "6290",
+      "name": "良維",
+      "prior": 9822,
+      "yesterday": 9799,
+      "difference_lots": -23,
+      "official_margin_fields": [
+        "6290",
+        "良維",
+        "9,799",
+        "13",
+        "28",
+        "0",
+        "9,784"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "code": "8043",
+      "name": "蜜望實",
+      "prior": 3028,
+      "yesterday": 3014,
+      "difference_lots": -14,
+      "official_margin_fields": [
+        "8043",
+        "蜜望實",
+        "3,014",
+        "3",
+        "19",
+        "5",
+        "2,993"
+      ]
+    }
+  ],
+  "official_refetch_checks": [
+    {
+      "market": "twse",
+      "date": "2026-11-20",
+      "raw_sha256": "3663c516f31cd083d4a5ddcab6956b76439c09913ba1afa2a5cbaddc1f063b83",
+      "canonical_sha256": "2c7260bd4ebd763257844aa6edaca8231b761942ccd3c76ac14020aa6b96cede",
+      "refetched_json_exactly_equal": true
+    },
+    {
+      "market": "twse",
+      "date": "2026-11-23",
+      "raw_sha256": "c3dcf239646c106c24585acd378cb58e85fe8ff16b66e86dab862ca8a8c65e91",
+      "canonical_sha256": "db40c5642bf5d093a7d816f9e778369bbeaa9db128cf6e53c6e023b937641d74",
+      "refetched_json_exactly_equal": true
+    },
+    {
+      "market": "twse",
+      "date": "2026-11-24",
+      "raw_sha256": "d74d16376ba09880de7bfa79b5c04fbd57be25ccbd8f81ef3570a19a76e2214e",
+      "canonical_sha256": "747c6ff2ba939ec0dcc74c3319ad2c4cb90a40302c8e5bb376bafe737cf8eff0",
+      "refetched_json_exactly_equal": true
+    },
+    {
+      "market": "tpex",
+      "date": "2026-11-23",
+      "raw_sha256": "fca8732a9ec6248212e520070cee5731add662325dc7ba6dad2f06a0358a0a0a",
+      "canonical_sha256": "0953cc04bf035fc812f8fe84ba3213606de7208c7d155f38c401a066f4069d98",
+      "refetched_json_exactly_equal": true
+    },
+    {
+      "market": "tpex",
+      "date": "2026-11-24",
+      "raw_sha256": "6a50a1e9003698f65ee1f042ffcd55e1a415b66231d1d5dfe0a0c5e7bc931cc6",
+      "canonical_sha256": "6b35986671d913d6bbb6019840f8453c45fbd8f0f28e9c9aff15be7a5c8774f4",
+      "refetched_json_exactly_equal": true
+    }
+  ],
+  "independent_checks": [
+    {
+      "date": "2026-11-20",
+      "market": "twse",
+      "independent_rate": 120.22120803701458,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "same_money": true
+    },
+    {
+      "date": "2026-11-20",
+      "market": "tpex",
+      "independent_rate": 109.88975676536576,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "same_money": true
+    },
+    {
+      "date": "2026-11-23",
+      "market": "twse",
+      "independent_rate": 127.33187477697416,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "same_money": true
+    },
+    {
+      "date": "2026-11-23",
+      "market": "tpex",
+      "independent_rate": 115.62662340674066,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "same_money": true
+    },
+    {
+      "date": "2026-11-24",
+      "market": "twse",
+      "independent_rate": 139.52585101249045,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "same_money": true
+    },
+    {
+      "date": "2026-11-24",
+      "market": "tpex",
+      "independent_rate": 126.64205413376021,
+      "same_rounded_rate": true,
+      "same_balance": true,
+      "same_money": true
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "existing_model",
+      "date": "2026-11-23",
+      "stock_cost": 33.56100025922423,
+      "market_rate": 127.33187477697416,
+      "difference_pp": 0,
+      "applied": false
+    },
+    {
+      "scenario": "existing_model",
+      "date": "2026-11-24",
+      "stock_cost": 33.62488458590414,
+      "market_rate": 139.52585101249042,
+      "difference_pp": -2.842170943040401e-14,
+      "applied": false
+    },
+    {
+      "scenario": "unit_conversion_only",
+      "date": "2026-11-23",
+      "stock_cost": 41.78213218480672,
+      "market_rate": 127.32785000320435,
+      "difference_pp": -0.004024773769813805,
+      "applied": false
+    },
+    {
+      "scenario": "unit_conversion_only",
+      "date": "2026-11-24",
+      "stock_cost": 41.635007458730016,
+      "market_rate": 139.52158284825745,
+      "difference_pp": -0.004268164232996696,
+      "applied": false
+    },
+    {
+      "scenario": "refund_deducted_from_cost",
+      "date": "2026-11-23",
+      "stock_cost": 39.330659627912475,
+      "market_rate": 127.3290501303473,
+      "difference_pp": -0.002824646626862659,
+      "applied": false
+    },
+    {
+      "scenario": "refund_deducted_from_cost",
+      "date": "2026-11-24",
+      "stock_cost": 39.24645603079606,
+      "market_rate": 139.52285555169357,
+      "difference_pp": -0.0029954607968818436,
+      "applied": false
+    },
+    {
+      "scenario": "refund_deducted_from_estimated_debt",
+      "date": "2026-11-23",
+      "stock_cost": 37.696344589982985,
+      "market_rate": 127.329850227678,
+      "difference_pp": -0.002024549296166356,
+      "applied": false
+    },
+    {
+      "scenario": "refund_deducted_from_estimated_debt",
+      "date": "2026-11-24",
+      "stock_cost": 37.65408841217342,
+      "market_rate": 139.52370403355053,
+      "difference_pp": -0.0021469789399191086,
+      "applied": false
+    }
+  ],
+  "limitations": [
+    "No actual broker-level debt information was obtained. Scenarios are sensitivity illustrations only and do not establish the correct debt treatment.",
+    "Refund payment is scheduled for 2026-11-27. Deduction-at-resumption scenarios do not establish cash repayment on 2026-11-23.",
+    "TWSE report notes explain that the next trading day prior balance may incorporate subsequent accounting adjustments. This is general guidance, not proof of the specific cause of each of these 13 adjustments.",
+    "All 13 additional adjustments are present in the official reports and FinMind inputs; individual underlying causes remain unverified."
+  ],
+  "official_notes_url": "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?response=html",
+  "prior_history_unchanged": {
+    "twse": true,
+    "tpex": true
+  }
+}
