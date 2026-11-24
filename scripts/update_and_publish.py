@@ -28,6 +28,7 @@ from tw_margin_rate.publication_reviews import revisions_reviewed
 from tw_margin_rate.timing import measured
 from tw_margin_rate.trading_calendar import expected_day, load_calendars
 from official_daily_audit import audit, require, request_json
+import pages_deployment as pages
 import requests
 
 PUBLIC='https://willychen0924.github.io/tw-margin-rate/'
@@ -79,22 +80,52 @@ def preview(directory):
     try: yield f'http://127.0.0.1:{server.server_port}/index.html'
     finally: server.shutdown();server.server_close();thread.join()
 
-def verify_public(sha, html, history, out, timeout=900):
+def verify_public(sha, html, history, out, timeout=900, state=None):
     from browser_acceptance import verify
     deadline=time.monotonic()+timeout
     session=requests.Session()
+    retry_id=None
+    checked_failure=None
     while time.monotonic()<deadline:
         try:
-            runs=request_json(session,'GET','https://api.github.com/repos/willychen0924/tw-margin-rate/actions/runs',params={'head_sha':sha,'per_page':20})
+            def get(url, **kwargs): return request_json(session,'GET',url,**kwargs)
+            runs=get(pages.API+'/actions/runs',params={'head_sha':sha,'per_page':100})
             matching=[r for r in runs.get('workflow_runs',[]) if r['head_sha']==sha]
+            require(runs.get('total_count',len(matching))==len(matching),'GitHub 工作清單不完整，停止公開驗收')
             bad=[r for r in matching if r['status']=='completed' and r['conclusion'] not in ('success','skipped')]
-            require(not bad,'GitHub 部署失敗，已推送但未確認上線')
-            response=session.get(PUBLIC,params={'verify':sha,'t':time.time()},timeout=30)
-            if matching and all(r['status']=='completed' and r['conclusion'] in ('success','skipped') for r in matching) and response.status_code==200 and response.content==html.read_bytes():
-                result=verify(PUBLIC+'?verify='+sha,history,out/'public-browser')
-                proof={'sha':sha,'http':200,'html_sha256':digest(html),'runs':[{'id':r['id'],'conclusion':r['conclusion']} for r in matching],'browser':result}
-                dump(out/'publication-verification.json',proof)
-                return proof
+            if bad:
+                require(len(bad)==1, pages.NOT_READY)
+                failed=bad[0]
+                if retry_id is None:
+                    if checked_failure != (failed['id'],failed.get('run_attempt'),failed['conclusion']):
+                        pages.check_retry_evidence(get,failed,sha)
+                        checked_failure=(failed['id'],failed['run_attempt'],failed['conclusion'])
+                    # Let any parallel Pages build finish before the retry.
+                    if all(r['status']=='completed' for r in matching):
+                        current=get(f"{pages.API}/actions/runs/{failed['id']}")
+                        require(current.get('id')==failed['id'] and pages.is_site_run(current,sha),pages.NOT_READY)
+                        if (current.get('status'),current.get('conclusion'),current.get('run_attempt'))==('completed','failure',1):
+                            retry_id=failed['id']
+                            dump(out/'deployment-retry.json',{'sha':sha,'run_id':retry_id,'reason':'uploaded_pages_artifact_not_found','limit':1})
+                            pages.request_rerun(sha,retry_id,out.parent/'pages-retry-requests',git)
+                            if state is not None:
+                                state.update(deployment_retry_run=retry_id,message='正在等候同一版本的第 2 次部署（最多重試一次），尚未確認上線。')
+                                write_report(out,state)
+                            deadline=time.monotonic()+timeout
+                else:
+                    # The API may briefly still list the failed first attempt.
+                    require(failed['id']==retry_id and failed.get('run_attempt')==1,
+                            'GitHub 部署重試仍失敗或另一工作失敗，不再重試；未確認上線。')
+            elif (any(pages.is_site_run(r,sha) and r['conclusion']=='success' and
+                      (retry_id is None or (r['id']==retry_id and r.get('run_attempt')==2)) for r in matching)
+                  and all(r['status']=='completed' and r['conclusion'] in ('success','skipped') for r in matching)):
+                url=PUBLIC+f'?verify={sha}&t={time.time_ns()}'
+                response=session.get(url,timeout=30)
+                if response.status_code==200 and response.content==html.read_bytes():
+                    result=verify(url,history,out/'public-browser')
+                    proof={'sha':sha,'http':200,'html_sha256':digest(html),'runs':[{'id':r['id'],'conclusion':r['conclusion'],'attempt':r.get('run_attempt')} for r in matching],'browser':result,'retry_run_id':retry_id}
+                    dump(out/'publication-verification.json',proof)
+                    return proof
         except requests.RequestException:
             pass
         print('等待 GitHub Pages 部署與公開內容一致…',flush=True)
@@ -204,7 +235,7 @@ def execute(out,state,verify_only=False):
         require(bool(site_sha),'找不到網站版本提交')
         state['site_commit']=site_sha
         write_report(out,state)
-        verify_public(site_sha,ROOT/'docs/index.html',payload,out)
+        verify_public(site_sha,ROOT/'docs/index.html',payload,out,state=state)
         state.update(status='已是最新，公開驗證通過',message='資料沒有新增或變更；未產生重複提交。')
         return
     state['stage']='安裝、提交及推送';write_report(out,state)
@@ -220,7 +251,7 @@ def execute(out,state,verify_only=False):
     state['push_attempted']=True;write_report(out,state)
     git('push','origin','HEAD:main');state['pushed']=True
     state['stage']='等待部署及公開驗收';write_report(out,state)
-    verify_public(sha,ROOT/'docs/index.html',payload,out)
+    verify_public(sha,ROOT/'docs/index.html',payload,out,state=state)
     state.update(status='發布成功',message='官方驗算、歷史、測試、本機與公開瀏覽器全部通過。')
 
 def main():
@@ -243,7 +274,7 @@ def main():
         except BaseException as exc:
             code=1
             # Avoid exception URLs/headers/token echoes in user-visible reports.
-            state['status']='部署未完成' if state.get('push_attempted') or state.get('pushed') else '已停止'
+            state['status']='部署未完成' if state.get('push_attempted') or state.get('pushed') or state['stage']=='公開網站驗收' else '已停止'
             state['message']=str(exc) if isinstance(exc,RuntimeError) else f'{type(exc).__name__}：步驟未通過，請檢查本次報告；未略過檢查。'
         finally:
             sys.stdout.flush();sys.stderr.flush();os.dup2(saved,1);os.dup2(saved_err,2);os.close(saved);os.close(saved_err)

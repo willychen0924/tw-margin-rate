@@ -14,6 +14,11 @@ sys.path.insert(0,str(ROOT/'scripts'))
 import update_and_publish as runner
 import official_daily_audit as audit
 
+def site_success():
+    repo={'full_name':'willychen0924/tw-margin-rate'}
+    return {'id':1,'head_sha':'abc','status':'completed','conclusion':'success',
+            'path':'.github/workflows/pages.yml','event':'push','head_branch':'main',
+            'repository':repo,'head_repository':repo,'run_attempt':1}
 
 class PublisherTests(unittest.TestCase):
     def test_friday_after_cutoff_and_weekend(self):
@@ -92,7 +97,7 @@ class PublisherTests(unittest.TestCase):
 
     def test_public_wrong_bytes_never_success(self):
         from unittest.mock import Mock
-        runs={'workflow_runs':[{'id':1,'head_sha':'abc','status':'completed','conclusion':'success'}]}
+        runs={'workflow_runs':[site_success()]}
         response=Mock(status_code=200,content=b'old version')
         with tempfile.TemporaryDirectory() as d,patch.object(runner,'request_json',return_value=runs),patch('requests.Session.get',return_value=response),patch.object(runner.time,'monotonic',side_effect=[0,0,2]),patch.object(runner.time,'sleep'),patch('browser_acceptance.verify') as browser:
             p=Path(d)/'index.html';p.write_bytes(b'new version')
@@ -101,7 +106,7 @@ class PublisherTests(unittest.TestCase):
 
     def test_public_success_requires_run_bytes_and_browser(self):
         from unittest.mock import Mock
-        runs={'workflow_runs':[{'id':1,'head_sha':'abc','status':'completed','conclusion':'success'}]}
+        runs={'workflow_runs':[site_success()]}
         response=Mock(status_code=200,content=b'verified')
         with tempfile.TemporaryDirectory() as d,patch.object(runner,'request_json',return_value=runs),patch('requests.Session.get',return_value=response),patch('browser_acceptance.verify',return_value={'passed':True}) as browser:
             p=Path(d)/'index.html';p.write_bytes(b'verified')
